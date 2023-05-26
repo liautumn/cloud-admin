@@ -32,6 +32,9 @@ import I18n from "@/languages/index";
 import pinia from "@/stores";
 // errorHandler
 import errorHandler from "@/utils/errorHandler";
+// Vue3Lottie
+import Vue3Lottie from "vue3-lottie";
+import "vue3-lottie/dist/style.css";
 
 const app = createApp(App);
 
@@ -42,4 +45,4 @@ Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key as keyof typeof Icons]);
 });
 
-app.use(ElementPlus).use(directives).use(router).use(I18n).use(pinia).mount("#app");
+app.use(Vue3Lottie).use(ElementPlus).use(directives).use(router).use(I18n).use(pinia).mount("#app");
