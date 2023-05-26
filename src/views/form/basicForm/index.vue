@@ -4,6 +4,7 @@
       <el-form-item label="Activity name :">
         <el-input v-model="formData.name" />
       </el-form-item>
+
       <el-form-item label="Activity zone :">
         <el-select v-model="formData.region" placeholder="please select your zone">
           <el-option label="Zone one" value="shanghai" />

@@ -149,7 +149,15 @@ const clearSelection = () => tableRef.value!.clearSelection();
 onMounted(() => props.requestAuto && getTableList());
 
 // 监听页面 initParam 改化，重新获取表格数据
-watch(() => props.initParam, getTableList, { deep: true });
+watch(
+  () => props.initParam,
+  (newval, oldval) => {
+    // getTableList();
+    console.log("新", newval);
+    console.log("旧", oldval);
+  },
+  { deep: true }
+);
 
 // 接收 columns 并设置为响应式
 const tableColumns = ref<ColumnProps[]>(props.columns);
