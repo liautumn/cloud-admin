@@ -4,7 +4,7 @@
     <el-header>
       <div class="header-lf">
         <div class="logo flx-center">
-          <img class="logo-img" src="@/assets/images/logo.svg" alt="logo" />
+          <img class="logo-img" src="@/assets/images/new_logo.png" alt="logo" />
           <span class="logo-text">cloud-admin</span>
         </div>
         <ToolBarLeft />

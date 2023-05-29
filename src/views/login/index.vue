@@ -7,7 +7,7 @@
       </div>
       <div class="login-form">
         <div class="login-logo">
-          <img class="login-icon" src="@/assets/images/logo.svg" alt="" />
+          <img class="login-icon" src="@/assets/images/new_logo.png" alt="" />
           <h2 class="logo-text">cloud-admin</h2>
         </div>
         <LoginForm />

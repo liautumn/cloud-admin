@@ -3,7 +3,7 @@
   <el-container class="layout">
     <el-header>
       <div class="logo flx-center">
-        <img class="logo-img" src="@/assets/images/logo.svg" alt="logo" />
+        <img class="logo-img" src="@/assets/images/new_logo.png" alt="logo" />
         <span class="logo-text">cloud-admin</span>
       </div>
       <el-menu mode="horizontal" :default-active="activeMenu" :router="false" :unique-opened="true">
