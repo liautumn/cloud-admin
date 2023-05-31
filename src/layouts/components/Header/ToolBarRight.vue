@@ -8,7 +8,7 @@
       <Message id="message" />
       <Fullscreen id="fullscreen" />
     </div>
-    <span class="username">{{ username }}</span>
+    <span class="nickName">{{ nickName }}</span>
     <Avatar />
   </div>
 </template>
@@ -25,7 +25,7 @@ import Fullscreen from "./components/Fullscreen.vue";
 import Avatar from "./components/Avatar.vue";
 
 const userStore = useUserStore();
-const username = computed(() => userStore.userInfo.name);
+const nickName = computed(() => userStore.userInfo.nickName);
 </script>
 
 <style scoped lang="scss">
@@ -41,7 +41,7 @@ const username = computed(() => userStore.userInfo.name);
       margin-left: 21px;
     }
   }
-  .username {
+  .nickName {
     margin: 0 20px;
     font-size: 15px;
   }

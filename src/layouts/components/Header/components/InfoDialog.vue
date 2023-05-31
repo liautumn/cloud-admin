@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="dialogVisible" title="个人信息" width="500px" draggable>
-    <span>This is userInfo</span>
+    <span>{{ userStore.userInfo }}</span>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
@@ -12,6 +12,9 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useUserStore } from "@/stores/modules/user";
+
+const userStore = useUserStore();
 
 const dialogVisible = ref(false);
 const openDialog = () => {

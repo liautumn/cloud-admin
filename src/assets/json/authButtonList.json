@@ -1,5 +1,5 @@
 {
-  "code": 200,
+  "code": 0,
   "data": {
     "useProTable": ["add", "batchAdd", "export", "batchDelete", "status"],
     "authButton": ["add", "edit", "delete", "import", "export"]

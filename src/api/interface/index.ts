@@ -1,4 +1,6 @@
 // 请求响应参数（不包含data）
+import {UserState} from "@/stores/interface";
+
 export interface Result {
   code: string;
   msg: string;
@@ -33,12 +35,10 @@ export namespace Upload {
 // 登录模块
 export namespace Login {
   export interface ReqLoginForm {
-    username: string;
+    userName: string;
     password: string;
   }
-  export interface ResLogin {
-    access_token: string;
-  }
+  export type ResLogin = UserState;
   export interface ResAuthButtons {
     [key: string]: string[];
   }
@@ -47,13 +47,28 @@ export namespace Login {
 // 用户管理模块
 export namespace User {
   export interface ReqUserParams extends ReqPage {
-    username: string;
-    gender: number;
-    idCard: string;
+    // username: string;
+    // gender: number;
+    // idCard: string;
+    // email: string;
+    // address: string;
+    // createTime: string[];
+    // status: number;
+
+    userId: number;
+    deptId: number;
+    userName: string;
+    nickName: string;
+    userType: string;
     email: string;
-    address: string;
-    createTime: string[];
-    status: number;
+    phonenumber: string;
+    sex: string;
+    avatar: string;
+    status: string;
+    loginIp: string;
+    loginDate: string;
+    createTime: string;
+    remark: string;
   }
   export interface ResUserList {
     id: string;

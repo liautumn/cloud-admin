@@ -38,7 +38,7 @@ const options = ref({
     {
       formItem: {
         label: "用户名",
-        prop: "username",
+        prop: "userName",
         labelWidth: "80px",
         required: true
       },
