@@ -34,5 +34,5 @@ export const useUserStore = defineStore({
       this.userInfo = userInfo;
     }
   },
-  persist: piniaPersistConfig("autumn-token")
+  persist: piniaPersistConfig("autumn-user")
 });

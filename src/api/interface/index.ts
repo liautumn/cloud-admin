@@ -1,5 +1,5 @@
 // 请求响应参数（不包含data）
-import {UserState} from "@/stores/interface";
+import { UserState } from "@/stores/interface";
 
 export interface Result {
   code: string;

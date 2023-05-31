@@ -22,7 +22,6 @@ export default {
     fullScreen: "Full Screen",
     exitFullScreen: "Exit Full Screen",
     personalData: "Personal Data",
-    changePassword: "Change Password",
     logout: "Logout"
   }
 };

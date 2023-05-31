@@ -8,9 +8,6 @@
         <el-dropdown-item @click="openDialog('infoRef')">
           <el-icon><User /></el-icon>{{ $t("header.personalData") }}
         </el-dropdown-item>
-        <el-dropdown-item @click="openDialog('passwordRef')">
-          <el-icon><Edit /></el-icon>{{ $t("header.changePassword") }}
-        </el-dropdown-item>
         <el-dropdown-item @click="logout" divided>
           <el-icon><SwitchButton /></el-icon>{{ $t("header.logout") }}
         </el-dropdown-item>
@@ -19,8 +16,6 @@
   </el-dropdown>
   <!-- infoDialog -->
   <InfoDialog ref="infoRef"></InfoDialog>
-  <!-- passwordDialog -->
-  <PasswordDialog ref="passwordRef"></PasswordDialog>
 </template>
 
 <script setup lang="ts">
@@ -31,7 +26,6 @@ import { logoutApi } from "@/api/modules/login";
 import { useUserStore } from "@/stores/modules/user";
 import { ElMessageBox, ElMessage } from "element-plus";
 import InfoDialog from "./InfoDialog.vue";
-import PasswordDialog from "./PasswordDialog.vue";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -57,10 +51,8 @@ const logout = () => {
 
 // 打开修改密码和个人信息弹窗
 const infoRef = ref<InstanceType<typeof InfoDialog> | null>(null);
-const passwordRef = ref<InstanceType<typeof PasswordDialog> | null>(null);
 const openDialog = (ref: string) => {
   if (ref == "infoRef") infoRef.value?.openDialog();
-  if (ref == "passwordRef") passwordRef.value?.openDialog();
 };
 </script>
 
