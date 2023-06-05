@@ -1,5 +1,5 @@
 // 请求响应参数（不包含data）
-import { UserState } from "@/stores/interface";
+import {UserState} from "@/stores/interface";
 
 export interface Result {
   code: string;
@@ -38,7 +38,9 @@ export namespace Login {
     userName: string;
     password: string;
   }
+
   export type ResLogin = UserState;
+
   export interface ResAuthButtons {
     [key: string]: string[];
   }
@@ -70,6 +72,7 @@ export namespace User {
     createTime: string;
     remark: string;
   }
+
   export interface ResUserList {
     id: string;
     username: string;
@@ -84,22 +87,42 @@ export namespace User {
     photo: any[];
     children?: ResUserList[];
   }
+
   export interface ResStatus {
     userLabel: string;
     userValue: number;
   }
+
   export interface ResGender {
     genderLabel: string;
     genderValue: number;
   }
+
   export interface ResDepartment {
     id: string;
     name: string;
     children?: ResDepartment[];
   }
+
   export interface ResRole {
     id: string;
     name: string;
     children?: ResDepartment[];
+  }
+}
+
+// 用户管理模块
+export namespace Menu {
+  export interface ReqMenuParams extends ReqPage {
+    title: string;
+  }
+
+  export interface ResMenuList {
+    list: {
+      path: string;
+      name: string;
+      children?: ReqMenuParams[];
+    };
+    total: number;
   }
 }
