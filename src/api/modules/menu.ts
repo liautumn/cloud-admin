@@ -3,6 +3,6 @@ import http from "@/api";
 import { Menu, ResPage } from "@/api/interface";
 
 // 获取菜单列表
-export const getMenuListApi = () => {
-  return http.get<ResPage<Menu.Result>>(SYSTEM + `/menu/select`, { pageNum: 0, pageSize: 10 }, { noLoading: true });
+export const getMenuListApi = (data: object) => {
+  return http.get<ResPage<Menu.Result>>(SYSTEM + `/menu/select`, data, { noLoading: true });
 };

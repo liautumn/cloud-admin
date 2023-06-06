@@ -77,8 +77,8 @@
       <Pagination
         v-if="pagination"
         :pageable="pageable"
-        :handle-size-change="handleSizeChange"
-        :handle-current-change="handleCurrentChange"
+        :handle-size-change="handleSizeChange2"
+        :handle-current-change="handleCurrentChange2"
       />
     </slot>
   </div>
@@ -129,6 +129,17 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   searchCol: () => ({ xs: 1, sm: 2, md: 2, lg: 3, xl: 4 })
 });
 
+const emit = defineEmits(["qhpagenum", "qhpagenumer", "searchdata"]);
+const handleSizeChange2 = (val: number) => {
+  emit("qhpagenum", val);
+};
+const handleCurrentChange2 = (val: number) => {
+  emit("qhpagenumer", val);
+};
+const search = () => {
+  emit("searchdata", searchParam.value);
+};
+
 // 是否显示搜索模块
 const isShowSearch = ref(true);
 
@@ -139,7 +150,7 @@ const tableRef = ref<InstanceType<typeof ElTable>>();
 const { selectionChange, selectedList, selectedListIds, isSelected } = useSelection(props.rowKey);
 
 // 表格操作 Hooks
-const { tableData, pageable, searchParam, searchInitParam, getTableList, search, reset, handleSizeChange, handleCurrentChange } =
+const { tableData, pageable, searchParam, searchInitParam, getTableList, reset, handleSizeChange, handleCurrentChange } =
   useTable(props.requestApi, props.initParam, props.pagination, props.dataCallback, props.requestError);
 
 // 清空选中数据列表
