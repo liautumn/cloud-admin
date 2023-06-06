@@ -111,17 +111,18 @@ export namespace User {
   }
 }
 
-// 用户管理模块
+// 菜单管理模块
 export namespace Menu {
-  export interface ReqMenuParams extends ReqPage {
+  export interface Request extends ReqPage {
     title: string;
   }
 
-  export interface ResMenuList {
+  export interface Result {
     list: {
-      path: string;
-      name: string;
-      children?: ReqMenuParams[];
+      id: string;
+      icon: string;
+      title: string;
+      children?: Result[];
     };
     total: number;
   }
