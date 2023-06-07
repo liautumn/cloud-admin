@@ -45,7 +45,6 @@ const props = withDefaults(defineProps<SelectIconProps>(), {
   clearable: true,
   placeholder: "请选择图标"
 });
-
 // 重新接收一下，防止打包后 clearable 报错
 const valueIcon = ref(props.iconValue);
 
@@ -81,6 +80,10 @@ const iconsList = computed((): { [key: string]: any } => {
   }
   return result;
 });
+const resFileList = () => {
+  valueIcon.value = "";
+};
+defineExpose({ resFileList }); //子组件必须将方法抛出去
 </script>
 
 <style scoped lang="scss">

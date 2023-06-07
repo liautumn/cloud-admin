@@ -31,33 +31,41 @@
     </ProTable>
 
     <!-- 添加框 -->
-    <el-dialog v-model="addeaditmodeval.active" title="添加菜单" width="40%" draggable :modal="false">
+    <el-dialog
+      v-model="addeaditmodeval.active"
+      :close-on-click-modal="false"
+      @close="closemenudialog"
+      title="添加菜单"
+      width="40%"
+      draggable
+      :modal="false"
+    >
       <el-form
         ref="ruleFormRef"
         :model="ruleForm"
-        status-icon
         :rules="rules"
         label-width="120px"
         class="demo-form-inline"
-        label-position="left"
+        label-position="right"
       >
-        <el-form-item label="菜单名称:" prop="pass" label-width="80">
-          <el-input v-model="ruleForm.pass" />
+        <el-form-item label="菜单名称:" prop="title" label-width="80">
+          <el-input v-model="ruleForm.title" clearable />
         </el-form-item>
-        <el-form-item label="name:" prop="checkPass" label-width="80">
-          <el-input v-model="ruleForm.checkPass" />
+        <el-form-item label="name:" prop="name" label-width="80">
+          <el-input v-model="ruleForm.name" clearable />
         </el-form-item>
-        <el-form-item label="路由地址:" prop="pass" label-width="80">
-          <el-input v-model="ruleForm.pass" />
+        <el-form-item label="路由地址:" prop="path" label-width="80">
+          <el-input v-model="ruleForm.path" clearable />
         </el-form-item>
-        <el-form-item label="重定向:" prop="checkPass" label-width="80">
-          <el-input v-model="ruleForm.checkPass" />
+        <el-form-item label="重定向:" prop="redirect" label-width="80">
+          <el-input v-model="ruleForm.redirect" clearable />
         </el-form-item>
-        <el-form-item label="菜单目录:" prop="age" label-width="80">
-          <el-input v-model.number="ruleForm.age" />
+        <el-form-item label="菜单目录:" prop="parentId" label-width="80">
+          <el-input v-model="ruleForm.parentId" clearable />
         </el-form-item>
-        <el-form-item label="菜单图标:" prop="age" label-width="80">
-          <el-input v-model.number="ruleForm.age" />
+        <el-form-item label="菜单图标:" prop="icon" label-width="80">
+          <!-- <el-input v-model="ruleForm.icon" clearable /> -->
+          <SelectIcon ref="SelectIconer" v-model:icon-value="ruleForm.icon" style="width: 95%" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -75,9 +83,9 @@ import { onMounted, ref, reactive } from "vue";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { Delete, EditPen, CirclePlus } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
-import { getMenuListApi } from "@/api/modules/menu";
-import type { FormInstance, FormRules } from "element-plus";
-
+import { getMenuListApi, getmenuinsertApi } from "@/api/modules/menu";
+import { FormInstance, FormRules, ElMessage } from "element-plus";
+import SelectIcon from "@/components/SelectIcon/index.vue";
 const proTable = ref(null);
 
 onMounted(() => {
@@ -144,49 +152,14 @@ const columns: ColumnProps[] = [
 ];
 // 表单
 const ruleFormRef = ref<FormInstance>();
-
-const checkAge = (rule: any, value: any, callback: any) => {
-  if (!value) {
-    return callback(new Error("Please input the age"));
-  }
-  setTimeout(() => {
-    if (!Number.isInteger(value)) {
-      callback(new Error("Please input digits"));
-    } else {
-      if (value < 18) {
-        callback(new Error("Age must be greater than 18"));
-      } else {
-        callback();
-      }
-    }
-  }, 1000);
-};
-
 const validatePass = (rule: any, value: any, callback: any) => {
   if (value === "") {
-    callback(new Error("Please input the password"));
-  } else {
-    if (ruleForm.checkPass !== "") {
-      if (!ruleFormRef.value) return;
-      ruleFormRef.value.validateField("checkPass", () => null);
-    }
-    callback();
-  }
-};
-const validatePass2 = (rule: any, value: any, callback: any) => {
-  if (value === "") {
-    callback(new Error("Please input the password again"));
-  } else if (value !== ruleForm.pass) {
-    callback(new Error("Two inputs don't match!"));
+    callback(new Error("请填写完整！"));
   } else {
     callback();
   }
 };
-
-const ruleForm = reactive({
-  pass: "",
-  checkPass: "",
-  age: "",
+const ruleFormfn = () => ({
   parentId: 0, //父级
   path: "", //路径
   name: "", //name
@@ -203,27 +176,53 @@ const ruleForm = reactive({
   query: "string"
 });
 
-const rules = reactive<FormRules>({
-  pass: [{ validator: validatePass, trigger: "blur" }],
-  checkPass: [{ validator: validatePass2, trigger: "blur" }],
-  age: [{ validator: checkAge, trigger: "blur" }]
-});
+const ruleForm = reactive(ruleFormfn());
 
+const rules = reactive<FormRules>({
+  parentId: [{ validator: validatePass, trigger: "blur" }],
+  path: [{ validator: validatePass, trigger: "blur" }],
+  name: [{ validator: validatePass, trigger: "blur" }],
+  redirect: [{ validator: validatePass, trigger: "blur" }],
+  icon: [{ validator: validatePass, trigger: "blur" }],
+  title: [{ validator: validatePass, trigger: "blur" }]
+});
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate(valid => {
     if (valid) {
       console.log("submit!");
+      // console.log(ruleForm);
+      addnode();
     } else {
       console.log("error submit!");
       return false;
     }
   });
 };
-
+//清空
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
+};
+
+//添加菜单
+const addnode = async () => {
+  const data = await getmenuinsertApi(ruleForm);
+  if ((data.msg = "成功")) {
+    ElMessage({
+      message: "添加成功!",
+      type: "success"
+    });
+  }
+  // console.log(data);
+  addeaditmodeval.active = false;
+  getTreeFilter();
+};
+
+const SelectIconer = ref();
+const closemenudialog = () => {
+  SelectIconer.value.resFileList(); //调用子组件的方法
+  Object.assign(ruleForm, ruleFormfn());
 };
 </script>
 <style scoped>
