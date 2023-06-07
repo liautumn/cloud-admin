@@ -19,8 +19,7 @@
       <!-- 菜单图标 -->
       <template #icon="scope">
         <el-icon :size="18">
-          {{ scope.row.icon }}
-          <!--          <component :is="scope.row.icon"></component>-->
+          <component :is="scope.row.icon"></component>
         </el-icon>
       </template>
       <!-- 菜单操作 -->
