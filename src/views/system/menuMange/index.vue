@@ -24,8 +24,8 @@
         </el-icon>
       </template>
       <!-- 菜单操作 -->
-      <template #operation>
-        <el-button type="primary" link :icon="EditPen">编辑</el-button>
+      <template #operation="scope">
+        <el-button type="primary" link @click="edmode(scope.row)" :icon="EditPen">编辑</el-button>
         <el-button type="primary" link :icon="Delete">删除</el-button>
       </template>
     </ProTable>
@@ -98,13 +98,17 @@ const addeaditmodeval = reactive({
   title: "新增",
   active: false
 });
-
+//编辑
+const edmode = (item: any) => {
+  console.log(item);
+  addeaditmodeval.title = "编辑";
+  addeaditmodeval.active = true;
+};
 // 新增
 const addmode = () => {
   addeaditmodeval.title = "新增";
   addeaditmodeval.active = true;
 };
-
 const menuData = ref([]);
 const a = ref(0);
 
