@@ -1,5 +1,5 @@
 import { Login } from "@/api/interface/index";
-import { SYSTEM } from "@/api/config/servicePort";
+import { AUTH, SYSTEM } from "@/api/config/servicePort";
 import authButtonList from "@/assets/json/authButtonList.json";
 import http from "@/api";
 
@@ -8,7 +8,7 @@ import http from "@/api";
  */
 // 用户登录
 export const loginApi = (params: Login.ReqLoginForm) => {
-  return http.post<Login.ResLogin>(SYSTEM + `/login`, params, { noLoading: true });
+  return http.post<Login.ResLogin>(AUTH + `/login`, params, { noLoading: true });
 };
 
 // 获取菜单列表
@@ -25,5 +25,5 @@ export const getAuthButtonListApi = () => {
 
 // 用户退出登录
 export const logoutApi = () => {
-  return http.post(SYSTEM + `/logout`);
+  return http.post(AUTH + `/logout`);
 };
