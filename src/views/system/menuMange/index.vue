@@ -1,17 +1,30 @@
 <template>
-  <div class="table-box">
+  <div>
     <ProTable
       ref="proTable"
       title="菜单列表"
       row-key="id"
+      highlight-current-row
+      :show-summary="true"
       :indent="30"
       :columns="columns"
-      :data="menuData"
+      :request-api="selectMenu"
       :pagination="true"
-      @qhpagenum="getpagenum"
-      @qhpagenumer="getpagenumer"
-      @searchdata="getsearchdata"
+      @row-click="rowClick"
+      :data-callback="dataCallback"
     >
+      <!--      <ProTable-->
+      <!--      ref="proTable"-->
+      <!--      title="菜单列表"-->
+      <!--      row-key="id"-->
+      <!--      :indent="30"-->
+      <!--      :columns="columns"-->
+      <!--      :request-api="selectMenu"-->
+      <!--      :pagination="true"-->
+      <!--      @qhpagenum="getpagenum"-->
+      <!--      @qhpagenumer="getpagenumer"-->
+      <!--      @searchdata="getsearchdata"-->
+      <!--    >-->
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
         <el-button type="primary" @click="openDialog('add', null)" :icon="CirclePlus">新增菜单</el-button>
@@ -35,7 +48,8 @@
 </template>
 
 <script setup lang="ts" name="menuMange">
-import { onMounted, ref, reactive } from "vue";
+// import { onMounted, ref, reactive } from "vue";
+import { ref } from "vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { Delete, EditPen, CirclePlus } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
@@ -45,42 +59,49 @@ import { ElMessage } from "element-plus";
 
 const proTable = ref<ProTableInstance>();
 
-onMounted(() => {
-  getTableList();
-});
+// onMounted(() => {
+//   getTableList();
+// });
 
-const menuData = ref([]);
-const a = ref(0);
+// const menuData = ref([]);
+// const totalNum = ref(0);
 
-const state = reactive({
-  pageNum: 1,
-  pageSize: 10
-});
+// const state = reactive({
+//   pageNum: 1,
+//   pageSize: 10
+// });
 //切换页码
-const getpagenum = (e: any) => {
-  state.pageSize = e;
-  getTableList();
-};
+// const getpagenum = (e: any) => {
+//   state.pageSize = e;
+//   getTableList();
+// };
 //切换页码
-const getpagenumer = (e: any) => {
-  state.pageNum = e;
-  getTableList();
-};
+// const getpagenumer = (e: any) => {
+//   state.pageNum = e;
+//   getTableList();
+// };
 
 //搜索
-const getsearchdata = (e: any) => {
-  const keys = Object.keys(e);
-  keys.forEach(i => {
-    Reflect.set(state, i, e[i]);
-  });
-  getTableList();
-};
-const getTableList = async () => {
-  const {
-    data: { list, total }
-  } = await selectMenu(state);
-  menuData.value = list;
-  a.value = total;
+// const getsearchdata = (e: any) => {
+//   const keys = Object.keys(e);
+//   keys.forEach(i => {
+//     Reflect.set(state, i, e[i]);
+//   });
+//   getTableList();
+// };
+// const getTableList = async () => {
+//   const {
+//     data: { list, total }
+//   } = await selectMenu(state);
+//   menuData.value = list;
+//   totalNum.value = total;
+// };
+
+// 单击行
+const rowClick = (row: any, column: any) => {
+  if (column.property == "radio" || column.property == "operation") return;
+  console.log(row);
+  ElMessage.success("当前行被点击了！");
 };
 
 // 表格配置项
@@ -99,6 +120,15 @@ const deleteBtn = async (row: any) => {
     message: "删除成功!",
     type: "success"
   });
+};
+
+const dataCallback = (data: any) => {
+  return {
+    list: data.list,
+    total: data.total,
+    pageNum: data.pageNum,
+    pageSize: data.pageSize
+  };
 };
 
 // 打开 dialog(新增、查看、编辑)

@@ -2,8 +2,9 @@
   <div class="table-box">
     <!-- 添加框 -->
     <el-dialog
-      v-model="dialog.dialogFlag"
-      :close-on-click-modal="false"
+      v-model="dialogFlag"
+      :close-on-click-modal="true"
+      :destroy-on-close="true"
       @close="close"
       :title="dialogProps.title"
       width="40%"
@@ -19,24 +20,44 @@
         label-position="right"
         :disabled="dialogProps.disabled"
       >
-        <el-form-item label="菜单名称:" prop="title" label-width="100">
-          <el-input v-model="dialogProps.row!.title" clearable />
-        </el-form-item>
-        <el-form-item label="name:" prop="name" label-width="100">
-          <el-input v-model="dialogProps.row!.name" clearable />
-        </el-form-item>
-        <el-form-item label="路由地址:" prop="path" label-width="100">
-          <el-input v-model="dialogProps.row!.path" clearable />
-        </el-form-item>
-        <el-form-item label="重定向:" prop="redirect" label-width="100">
-          <el-input v-model="dialogProps.row!.redirect" clearable />
-        </el-form-item>
-        <el-form-item label="菜单目录:" prop="parentId" label-width="100">
-          <el-input v-model="dialogProps.row!.parentId" clearable />
-        </el-form-item>
-        <el-form-item label="菜单图标:" prop="icon" label-width="100">
-          <SelectIcon v-model:icon-value="dialogProps.row!.icon" style="width: 100%" />
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="菜单名称:" prop="title" label-width="100">
+              <el-input v-model="dialogProps.row!.title" placeholder="菜单名称" clearable />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="name:" prop="name" label-width="100">
+              <el-input v-model="dialogProps.row!.name" placeholder="name" clearable />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="路由地址:" prop="path" label-width="100">
+              <el-input v-model="dialogProps.row!.path" placeholder="路由地址" clearable />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="重定向:" prop="redirect" label-width="100">
+              <el-input v-model="dialogProps.row!.redirect" placeholder="重定向" clearable />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="菜单目录:" prop="parentId" label-width="100">
+              <el-input v-model="dialogProps.row!.parentId" placeholder="菜单目录" clearable />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="菜单图标:" prop="icon" label-width="100">
+              <SelectIcon
+                title="菜单图标"
+                placeholder="请选择图标"
+                v-model:icon-value="dialogProps.row!.icon"
+                v-model="dialogProps.row!.icon"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <span class="dialog-footer" v-if="!dialogProps.disabled">
@@ -55,9 +76,7 @@ import { ref, reactive } from "vue";
 
 const formRef = ref<FormInstance>();
 
-const dialog = ref({
-  dialogFlag: false
-});
+const dialogFlag = ref(false);
 
 interface DialogProps {
   type: string;
@@ -118,12 +137,12 @@ const submit = () => {
 
 const open = (params: DialogProps) => {
   dialogProps.value = params;
-  dialog.value.dialogFlag = true;
+  dialogFlag.value = true;
 };
 
 const close = () => {
   formRef.value?.resetFields();
-  dialog.value.dialogFlag = false;
+  dialogFlag.value = false;
 };
 
 defineExpose({
