@@ -4,7 +4,7 @@ import { Menu, ResPage } from "@/api/interface";
 
 // 获取菜单列表
 export const selectMenu = (data: any) => {
-  return http.get<ResPage<Menu.Result>>(SYSTEM + `/menu/select`, data, { noLoading: true });
+  return http.post<ResPage<Menu.Result>>(SYSTEM + `/menu/select`, data, { noLoading: true });
 };
 
 // 添加菜单
