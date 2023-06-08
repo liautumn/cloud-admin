@@ -7,47 +7,50 @@
       :destroy-on-close="true"
       @close="close"
       :title="dialogProps.title"
-      width="40%"
+      width="55%"
       draggable
       :modal="false"
     >
       <el-form
         ref="formRef"
+        label-width="100px"
         :model="dialogProps.row"
         :rules="rules"
-        label-width="120px"
         class="demo-form-inline"
         label-position="right"
         :disabled="dialogProps.disabled"
       >
         <el-row>
           <el-col :span="12">
-            <el-form-item label="菜单名称:" prop="title" label-width="100">
+            <el-form-item label="菜单名称:" prop="title">
               <el-input v-model="dialogProps.row!.title" placeholder="菜单名称" clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="name:" prop="name" label-width="100">
-              <el-input v-model="dialogProps.row!.name" placeholder="name" clearable />
+            <el-form-item label="name:" prop="name">
+              <!--              <el-input v-model="dialogProps.row!.name" placeholder="name" clearable />-->
+              <el-select v-model="dialogProps.row!.name" placeholder="name" clearable>
+                <el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="路由地址:" prop="path" label-width="100">
+            <el-form-item label="路由地址:" prop="path">
               <el-input v-model="dialogProps.row!.path" placeholder="路由地址" clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="重定向:" prop="redirect" label-width="100">
+            <el-form-item label="重定向:" prop="redirect">
               <el-input v-model="dialogProps.row!.redirect" placeholder="重定向" clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="菜单目录:" prop="parentId" label-width="100">
+            <el-form-item label="菜单目录:" prop="parentId">
               <el-input v-model="dialogProps.row!.parentId" placeholder="菜单目录" clearable />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="菜单图标:" prop="icon" label-width="100">
+            <el-form-item label="菜单图标:" prop="icon">
               <SelectIcon
                 title="菜单图标"
                 placeholder="请选择图标"
@@ -75,9 +78,34 @@ import SelectIcon from "@/components/SelectIcon/index.vue";
 import { ref, reactive } from "vue";
 
 const formRef = ref<FormInstance>();
-
 const dialogFlag = ref(false);
 
+const selectData = [
+  {
+    label: "选项一",
+    value: "1"
+  },
+  {
+    label: "选项二",
+    value: "2"
+  },
+  {
+    label: "选项三",
+    value: "3"
+  }
+];
+
+//表单字段规则
+const rules = reactive<FormRules>({
+  parentId: [{ required: true, message: "不能为空", trigger: "blur" }],
+  path: [{ required: true, message: "不能为空", trigger: "blur" }],
+  name: [{ required: true, message: "不能为空", trigger: "blur" }],
+  redirect: [{ required: true, message: "不能为空", trigger: "blur" }],
+  icon: [{ required: true, message: "不能为空", trigger: "blur" }],
+  title: [{ required: true, message: "不能为空", trigger: "blur" }]
+});
+
+//定义表单需要的参数
 interface DialogProps {
   type: string;
   title: string;
@@ -88,6 +116,7 @@ interface DialogProps {
   getTableList?: () => void;
 }
 
+//声明参数
 const dialogProps = ref<DialogProps>({
   type: "",
   title: "",
@@ -96,28 +125,24 @@ const dialogProps = ref<DialogProps>({
   row: {}
 });
 
-const validatePass = (rule: any, value: any, callback: any) => {
-  if (value === "") {
-    callback(new Error("请填写完整！"));
-  } else {
-    callback();
-  }
+//打开dialog并传入表单数据等参数
+const open = (params: DialogProps) => {
+  dialogProps.value = params;
+  dialogFlag.value = true;
 };
 
-const rules = reactive<FormRules>({
-  parentId: [{ required: true, validator: validatePass, trigger: "blur" }],
-  path: [{ required: true, validator: validatePass, trigger: "blur" }],
-  name: [{ required: true, validator: validatePass, trigger: "blur" }],
-  redirect: [{ required: true, validator: validatePass, trigger: "blur" }],
-  icon: [{ required: true, validator: validatePass, trigger: "blur" }],
-  title: [{ required: true, validator: validatePass, trigger: "blur" }]
-});
+//关闭dialog
+const close = () => {
+  formRef.value?.resetFields();
+  dialogFlag.value = false;
+};
 
-//清空
+//重置
 const reset = () => {
   formRef.value?.resetFields();
 };
 
+//提交
 const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
@@ -133,16 +158,6 @@ const submit = () => {
       });
     }
   });
-};
-
-const open = (params: DialogProps) => {
-  dialogProps.value = params;
-  dialogFlag.value = true;
-};
-
-const close = () => {
-  formRef.value?.resetFields();
-  dialogFlag.value = false;
 };
 
 defineExpose({

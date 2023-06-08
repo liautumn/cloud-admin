@@ -3,12 +3,12 @@
 <template>
   <!-- 查询表单 card -->
   <SearchForm
-    v-show="isShowSearch"
     :search="search"
     :reset="reset"
     :columns="searchColumns"
     :search-param="searchParam"
     :search-col="searchCol"
+    v-show="isShowSearch"
   />
 
   <!-- 表格内容 card -->
@@ -16,14 +16,14 @@
     <!-- 表格头部 操作按钮 -->
     <div class="table-header">
       <div class="header-button-lf">
-        <slot name="tableHeader" :selected-list-ids="selectedListIds" :selected-list="selectedList" :is-selected="isSelected" />
+        <slot name="tableHeader" :selectedListIds="selectedListIds" :selectedList="selectedList" :isSelected="isSelected" />
       </div>
-      <div v-if="toolButton" class="header-button-ri">
+      <div class="header-button-ri" v-if="toolButton">
         <slot name="toolButton">
           <el-button :icon="Refresh" circle @click="getTableList" />
-          <el-button v-if="columns.length" :icon="Printer" circle @click="print" />
-          <el-button v-if="columns.length" :icon="Operation" circle @click="openColSetting" />
-          <el-button v-if="searchColumns.length" :icon="Search" circle @click="isShowSearch = !isShowSearch" />
+          <el-button :icon="Printer" circle v-if="columns.length" @click="print" />
+          <el-button :icon="Operation" circle v-if="columns.length" @click="openColSetting" />
+          <el-button :icon="Search" circle v-if="searchColumns.length" @click="isShowSearch = !isShowSearch" />
         </slot>
       </div>
     </div>
@@ -41,14 +41,14 @@
       <template v-for="item in tableColumns" :key="item">
         <!-- selection || index || expand -->
         <el-table-column
-          v-if="item.type && ['selection', 'index', 'expand'].includes(item.type)"
           v-bind="item"
           :align="item.align ?? 'center'"
           :reserve-selection="item.type == 'selection'"
+          v-if="item.type && ['selection', 'index', 'expand'].includes(item.type)"
         >
-          <template v-if="item.type == 'expand'" #default="scope">
+          <template #default="scope" v-if="item.type == 'expand'">
             <component :is="item.render" v-bind="scope" v-if="item.render"> </component>
-            <slot v-else :name="item.type" v-bind="scope"></slot>
+            <slot :name="item.type" v-bind="scope" v-else></slot>
           </template>
         </el-table-column>
         <!-- other -->
@@ -77,8 +77,8 @@
       <Pagination
         v-if="pagination"
         :pageable="pageable"
-        :handle-size-change="handleSizeChange"
-        :handle-current-change="handleCurrentChange"
+        :handle-size-change="handleSizeChange2"
+        :handle-current-change="handleCurrentChange2"
       />
     </slot>
   </div>
@@ -129,6 +129,17 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   searchCol: () => ({ xs: 1, sm: 2, md: 2, lg: 3, xl: 4 })
 });
 
+const emit = defineEmits(["qhpagenum", "qhpagenumer", "searchdata"]);
+const handleSizeChange2 = (val: number) => {
+  emit("qhpagenum", val);
+};
+const handleCurrentChange2 = (val: number) => {
+  emit("qhpagenumer", val);
+};
+const search = () => {
+  emit("searchdata", searchParam.value);
+};
+
 // 是否显示搜索模块
 const isShowSearch = ref(true);
 
@@ -139,7 +150,7 @@ const tableRef = ref<InstanceType<typeof ElTable>>();
 const { selectionChange, selectedList, selectedListIds, isSelected } = useSelection(props.rowKey);
 
 // 表格操作 Hooks
-const { tableData, pageable, searchParam, searchInitParam, getTableList, search, reset, handleSizeChange, handleCurrentChange } =
+const { tableData, pageable, searchParam, searchInitParam, getTableList, reset, handleSizeChange, handleCurrentChange } =
   useTable(props.requestApi, props.initParam, props.pagination, props.dataCallback, props.requestError);
 
 // 清空选中数据列表
@@ -149,7 +160,15 @@ const clearSelection = () => tableRef.value!.clearSelection();
 onMounted(() => props.requestAuto && getTableList());
 
 // 监听页面 initParam 改化，重新获取表格数据
-watch(() => props.initParam, getTableList, { deep: true });
+watch(
+  () => props.initParam,
+  (newval, oldval) => {
+    // getTableList();
+    console.log("新", newval);
+    console.log("旧", oldval);
+  },
+  { deep: true }
+);
 
 // 接收 columns 并设置为响应式
 const tableColumns = ref<ColumnProps[]>(props.columns);
@@ -190,7 +209,7 @@ const searchColumns = flatColumns.value.filter(item => item.search?.el || item.s
 
 // 设置搜索表单排序默认值 && 设置搜索表单项的默认值
 searchColumns.forEach((column, index) => {
-  column.search!.order = column.search!.order ?? index + 2;
+  column.search!.order = column.search!.order ?? index2 + 2;
   if (column.search?.defaultValue !== undefined && column.search?.defaultValue !== null) {
     searchInitParam.value[column.search.key ?? handleProp(column.prop!)] = column.search?.defaultValue;
     searchParam.value[column.search.key ?? handleProp(column.prop!)] = column.search?.defaultValue;
