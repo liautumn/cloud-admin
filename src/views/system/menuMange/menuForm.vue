@@ -29,7 +29,7 @@
           <el-col :span="12">
             <el-form-item label="name:" prop="name">
               <!--              <el-input v-model="dialogProps.row!.name" placeholder="name" clearable />-->
-              <el-select v-model="dialogProps.row!.name" placeholder="name" clearable>
+              <el-select v-model="dialogProps.row!.name" placeholder="name" style="width: 100%" clearable>
                 <el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>

@@ -82,17 +82,20 @@ const columns: ColumnProps[] = [
   {
     prop: "name",
     label: "菜单 name",
-    // 字典数据
+    sortable: true,
+    tag: true,
     enum: selectData,
-    // 字典请求不带参数
-    // enum: getUserGender,
-    // 字典请求携带参数
-    // enum: () => getUserGender({ id: 1 }),
-    search: { el: "select", props: { filterable: true } },
+    search: {
+      el: "select",
+      props: {
+        filterable: true,
+        clearable: true
+      }
+    },
     fieldNames: { label: "label", value: "value" }
   },
   { prop: "path", label: "菜单路径", width: 300, search: { el: "input" } },
-  { prop: "operation", label: "操作", width: 250, fixed: "right" }
+  { prop: "operation", label: "操作", width: 250 }
 ];
 
 //删除按钮
