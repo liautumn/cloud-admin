@@ -1,75 +1,66 @@
 <template>
-  <div class="table-box">
-    <!-- 添加框 -->
-    <el-dialog
-      v-model="dialogFlag"
-      :close-on-click-modal="true"
-      :destroy-on-close="true"
-      @close="close"
-      :title="dialogProps.title"
-      width="55%"
-      draggable
-      :modal="false"
+  <el-dialog
+    v-model="dialogFlag"
+    :close-on-click-modal="true"
+    :destroy-on-close="true"
+    @close="close"
+    :title="dialogProps.title"
+    width="55%"
+    draggable
+    :modal="false"
+  >
+    <el-form
+      ref="formRef"
+      label-width="100px"
+      label-suffix=" :"
+      :model="dialogProps.row"
+      :rules="rules"
+      class="demo-form-inline"
+      label-position="right"
+      :disabled="dialogProps.disabled"
     >
-      <el-form
-        ref="formRef"
-        label-width="100px"
-        :model="dialogProps.row"
-        :rules="rules"
-        class="demo-form-inline"
-        label-position="right"
-        :disabled="dialogProps.disabled"
-      >
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="菜单名称:" prop="title">
-              <el-input v-model="dialogProps.row!.title" placeholder="菜单名称" clearable />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="name:" prop="name">
-              <!--              <el-input v-model="dialogProps.row!.name" placeholder="name" clearable />-->
-              <el-select v-model="dialogProps.row!.name" placeholder="name" style="width: 100%" clearable>
-                <el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="路由地址:" prop="path">
-              <el-input v-model="dialogProps.row!.path" placeholder="路由地址" clearable />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="重定向:" prop="redirect">
-              <el-input v-model="dialogProps.row!.redirect" placeholder="重定向" clearable />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="菜单目录:" prop="parentId">
-              <el-input v-model="dialogProps.row!.parentId" placeholder="菜单目录" clearable />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="菜单图标:" prop="icon">
-              <SelectIcon
-                title="菜单图标"
-                placeholder="请选择图标"
-                v-model:icon-value="dialogProps.row!.icon"
-                v-model="dialogProps.row!.icon"
-                style="width: 100%"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer" v-if="!dialogProps.disabled">
-          <el-button @click="reset">重置</el-button>
-          <el-button type="primary" @click="submit"> 提交 </el-button>
-        </span>
-      </template>
-    </el-dialog>
-  </div>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="菜单名称" prop="title">
+            <el-input v-model="dialogProps.row!.title" placeholder="菜单名称" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="name" prop="name">
+            <el-input v-model="dialogProps.row!.name" placeholder="name" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="路由地址" prop="path">
+            <el-input v-model="dialogProps.row!.path" placeholder="路由地址" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="重定向" prop="redirect">
+            <el-input v-model="dialogProps.row!.redirect" placeholder="重定向" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="菜单目录" prop="parentId">
+            <el-select v-model="dialogProps.row!.parentId" placeholder="菜单目录" style="width: 100%" clearable>
+              <el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="菜单图标" prop="icon">
+            <SelectIcon title="菜单图标" placeholder="请选择图标" v-model:icon-value="dialogProps.row!.icon" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer" v-if="!dialogProps.disabled">
+        <el-button @click="reset">重置</el-button>
+        <el-button type="primary" @click="submit"> 提交 </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts" name="menuForm">

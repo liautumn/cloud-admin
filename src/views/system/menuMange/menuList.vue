@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-box">
     <ProTable
       ref="proTable"
       title="菜单列表"
@@ -83,14 +83,10 @@ const columns: ColumnProps[] = [
     prop: "name",
     label: "菜单 name",
     sortable: true,
-    tag: true,
     enum: selectData,
+    tag: true,
     search: {
-      el: "select",
-      props: {
-        filterable: true,
-        clearable: true
-      }
+      el: "select"
     },
     fieldNames: { label: "label", value: "value" }
   },
