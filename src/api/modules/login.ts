@@ -25,5 +25,5 @@ export const getAuthButtonListApi = () => {
 
 // 用户退出登录
 export const logoutApi = () => {
-  return http.get(AUTH + `/logout`);
+  return http.post(AUTH + `/logout`);
 };

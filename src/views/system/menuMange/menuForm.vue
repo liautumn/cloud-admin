@@ -42,7 +42,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="菜单目录" prop="parentId">
-            <el-select v-model="dialogProps.row!.parentId" placeholder="菜单目录" style="width: 100%" clearable>
+            <el-select v-model="dialogProps.row!.parentId" placeholder="菜单目录" filterable="true" style="width: 100%" clearable>
               <el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
