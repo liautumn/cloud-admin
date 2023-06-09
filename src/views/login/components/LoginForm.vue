@@ -79,7 +79,7 @@ const login = (formEl: FormInstance | undefined) => {
       router.push(HOME_URL);
       ElNotification({
         title: getTimeState(),
-        message: "欢迎登录 cloud-admin",
+        message: "欢迎登录 " + userStore.userInfo.nickName,
         type: "success",
         duration: 3000
       });

@@ -59,21 +59,6 @@ const dataCallback = (data: any) => {
   };
 };
 
-const selectData = [
-  {
-    label: "选项一",
-    value: "1"
-  },
-  {
-    label: "选项二",
-    value: "2"
-  },
-  {
-    label: "选项三",
-    value: "3"
-  }
-];
-
 // 表格配置项
 const columns: ColumnProps[] = [
   { type: "index", label: "#" },
@@ -81,14 +66,7 @@ const columns: ColumnProps[] = [
   { prop: "icon", label: "菜单图标" },
   {
     prop: "name",
-    label: "菜单 name",
-    sortable: true,
-    enum: selectData,
-    tag: true,
-    search: {
-      el: "select"
-    },
-    fieldNames: { label: "label", value: "value" }
+    label: "菜单 name"
   },
   { prop: "path", label: "菜单路径", width: 300, search: { el: "input" } },
   { prop: "operation", label: "操作", width: 250 }
@@ -96,7 +74,9 @@ const columns: ColumnProps[] = [
 
 //删除按钮
 const deleteBtn = async (row: any) => {
+  console.log(row);
   await deleteMenu(row.id);
+  proTable.value?.getTableList();
   ElMessage({
     message: "删除成功!",
     type: "success"
