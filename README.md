@@ -54,7 +54,7 @@ pnpm install
 
 ```text
 pnpm dev
-pnpm serve
+pnpm mock
 ```
 
 - **Build：**
