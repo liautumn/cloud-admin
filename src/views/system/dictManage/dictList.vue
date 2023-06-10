@@ -2,11 +2,11 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      title="菜单列表"
+      title="菜单管理"
       row-key="id"
       highlight-current-row
       :columns="columns"
-      :request-api="selectMenu"
+      :request-api="selectDict"
       :pagination="true"
       :data-callback="dataCallback"
     >
@@ -22,8 +22,7 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
-        <el-button type="primary" link @click="openDialog('addRow', scope.row)" :icon="CirclePlus">新增</el-button>
+        <el-button type="primary" link @click="toDictDataPage(scope.row)" :icon="MoreFilled">配置</el-button>
         <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
         <el-button type="primary" link @click="deleteBtn(scope.row)" :icon="Delete">删除</el-button>
       </template>
@@ -33,13 +32,13 @@
   </div>
 </template>
 
-<script setup lang="ts" name="menuMange">
+<script setup lang="ts" name="dictMange">
 import { ref } from "vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { Delete, EditPen, CirclePlus } from "@element-plus/icons-vue";
+import { Delete, EditPen, CirclePlus, MoreFilled } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
-import { selectMenu, insertMenu, updateMenu, deleteMenu } from "@/api/modules/menu";
-import MenuForm from "./menuForm.vue";
+import { selectDict, insertDict, updateDict, deleteDict } from "@/api/modules/dict";
+import MenuForm from "./dictForm.vue";
 import { ElMessage } from "element-plus";
 
 const proTable = ref<ProTableInstance>();
@@ -56,19 +55,16 @@ const dataCallback = (data: any) => {
 // 表格配置项
 const columns: ColumnProps[] = [
   { type: "index", width: 60, label: "序号" },
-  { prop: "title", label: "菜单名称", search: { el: "input" } },
-  { prop: "icon", label: "菜单图标" },
-  {
-    prop: "name",
-    label: "菜单 name"
-  },
-  { prop: "path", label: "菜单路径", width: 300, search: { el: "input" } },
+  { prop: "dictName", label: "字典名称", search: { el: "input" } },
+  { prop: "dictType", label: "字典类型", search: { el: "input" } },
+  { prop: "status", label: "是否停用" },
+  { prop: "remark", label: "备注" },
   { prop: "operation", label: "操作", width: 300 }
 ];
 
 //删除按钮
 const deleteBtn = async (row: any) => {
-  await deleteMenu(row.id);
+  await deleteDict(row.id);
   proTable.value?.getTableList();
   ElMessage({
     message: "删除成功!",
@@ -85,9 +81,13 @@ const openDialog = (type: string, row: any) => {
     row: { ...row },
     isView: type === "view",
     disabled: type === "view",
-    api: type === "add" ? insertMenu : type === "update" ? updateMenu : undefined,
+    api: type === "add" ? insertDict : type === "update" ? updateDict : undefined,
     getTableList: proTable.value?.getTableList
   };
   dialogRef.value?.open(params);
+};
+
+const toDictDataPage = (row: any) => {
+  alert(row.id);
 };
 </script>

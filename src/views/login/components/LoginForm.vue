@@ -1,7 +1,7 @@
 <template>
   <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="large">
     <el-form-item prop="userName">
-      <el-input v-model="loginForm.userName" placeholder="用户名：admin / user">
+      <el-input v-model="loginForm.userName" placeholder="用户名：admin">
         <template #prefix>
           <el-icon class="el-input__icon"><user /></el-icon>
         </template>
@@ -13,6 +13,9 @@
           <el-icon class="el-input__icon"><lock /></el-icon>
         </template>
       </el-input>
+    </el-form-item>
+    <el-form-item label="记住我: " prop="isRemember">
+      <el-switch v-model="loginForm.isRemember" inline-prompt active-text="Y" inactive-text="N" />
     </el-form-item>
   </el-form>
   <div class="login-btn">
@@ -53,7 +56,8 @@ const loginRules = reactive({
 const loading = ref(false);
 const loginForm = reactive<Login.ReqLoginForm>({
   userName: "",
-  password: ""
+  password: "",
+  isRemember: false
 });
 
 // login

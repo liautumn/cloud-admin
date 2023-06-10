@@ -37,6 +37,7 @@ export namespace Login {
   export interface ReqLoginForm {
     userName: string;
     password: string;
+    isRemember: boolean;
   }
 
   export type ResLogin = UserState;
