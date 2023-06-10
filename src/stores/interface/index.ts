@@ -27,8 +27,8 @@ export interface GlobalState {
 export interface UserState {
   token: string;
   userInfo: {
-    userId: number;
-    deptId: number;
+    id: string;
+    deptId: string;
     userName: string;
     nickName: string;
     userType: string;

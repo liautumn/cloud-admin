@@ -79,9 +79,9 @@ const login = (formEl: FormInstance | undefined) => {
       router.push(HOME_URL);
       ElNotification({
         title: getTimeState(),
-        message: "欢迎登录 " + userStore.userInfo.nickName,
+        message: "欢迎登录: " + userStore.userInfo.nickName,
         type: "success",
-        duration: 3000
+        duration: 2000
       });
     } finally {
       loading.value = false;

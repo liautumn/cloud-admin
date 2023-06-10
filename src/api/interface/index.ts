@@ -57,8 +57,8 @@ export namespace User {
     // createTime: string[];
     // status: number;
 
-    userId: number;
-    deptId: number;
+    id: string;
+    deptId: string;
     userName: string;
     nickName: string;
     userType: string;
@@ -120,8 +120,6 @@ export namespace Menu {
   export interface Result {
     list: {
       id: string;
-      icon: string;
-      title: string;
       children?: Result[];
     };
     total: number;

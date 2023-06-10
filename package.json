@@ -19,11 +19,11 @@
     "url": "https://github.com/HalseySpicy/Geeker-Admin/issues"
   },
   "scripts": {
-    "dev": "vite",
-    "serve": "vite",
+    "dev": "vite --mode development",
+    "mock": "vite --mode mock",
     "build:dev": "vue-tsc && vite build --mode development",
     "build:test": "vue-tsc && vite build --mode test",
-    "build:pro": "vue-tsc && vite build --mode production",
+    "build:prod": "vue-tsc && vite build --mode production",
     "type:check": "vue-tsc --noEmit --skipLibCheck",
     "preview": "npm run build:dev && vite preview",
     "lint:eslint": "eslint --fix --ext .js,.ts,.vue ./src",
