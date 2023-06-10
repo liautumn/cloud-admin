@@ -50,28 +50,13 @@ export namespace Login {
 // 用户管理模块
 export namespace User {
   export interface ReqUserParams extends ReqPage {
-    // username: string;
-    // gender: number;
-    // idCard: string;
-    // email: string;
-    // address: string;
-    // createTime: string[];
-    // status: number;
-
-    id: string;
-    deptId: string;
-    userName: string;
-    nickName: string;
-    userType: string;
+    username: string;
+    gender: number;
+    idCard: string;
     email: string;
-    phonenumber: string;
-    sex: string;
-    avatar: string;
-    status: string;
-    loginIp: string;
-    loginDate: string;
-    createTime: string;
-    remark: string;
+    address: string;
+    createTime: string[];
+    status: number;
   }
 
   export interface ResUserList {
@@ -109,20 +94,5 @@ export namespace User {
     id: string;
     name: string;
     children?: ResDepartment[];
-  }
-}
-
-// 菜单管理模块
-export namespace Menu {
-  export interface Request extends ReqPage {
-    title: string;
-  }
-
-  export interface Result {
-    list: {
-      id: string;
-      children?: Result[];
-    };
-    total: number;
   }
 }

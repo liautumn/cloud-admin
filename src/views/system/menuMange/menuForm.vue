@@ -63,6 +63,21 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item label="权限标识" prop="perms">
+            <el-input v-model="dialogProps.row!.perms" placeholder="权限标识" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="路由参数" prop="query">
+            <el-input v-model="dialogProps.row!.query" placeholder="路由参数" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="显示顺序" prop="orderNum">
+            <el-input-number v-model="dialogProps.row!.orderNum" :min="1" style="width: 100%"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item label="是否为外链" prop="isLink">
             <el-radio-group v-model="dialogProps.row!.isLink">
               <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
@@ -98,11 +113,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="显示顺序" prop="orderNum">
-            <el-input-number v-model="dialogProps.row!.orderNum" :min="1" style="width: 100%"></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item label="菜单类型" prop="menuType">
             <el-radio-group v-model="dialogProps.row!.menuType">
               <el-radio v-for="item in menuTypeData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
@@ -116,19 +126,14 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="权限标识" prop="perms">
-            <el-input v-model="dialogProps.row!.perms" placeholder="权限标识" clearable />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="路由参数" prop="query">
-            <el-input v-model="dialogProps.row!.query" placeholder="路由参数" clearable />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" autosize v-model="dialogProps.row!.remark" placeholder="备注" />
+            <el-input
+              type="textarea"
+              v-model="dialogProps.row!.remark"
+              :autosize="{ minRows: 2, maxRows: 8 }"
+              placeholder="备注"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -146,6 +151,7 @@
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import SelectIcon from "@/components/SelectIcon/index.vue";
 import { ref, reactive } from "vue";
+import { Menu } from "@/api/interface/menu";
 
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
@@ -201,7 +207,7 @@ interface DialogProps {
   title: string;
   disabled: boolean;
   isView: boolean;
-  row: Partial<any>;
+  row: Partial<Menu.ResMenuList>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }

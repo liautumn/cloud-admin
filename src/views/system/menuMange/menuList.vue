@@ -12,7 +12,7 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" @click="openDialog('add', null)" :icon="CirclePlus">新增菜单</el-button>
+        <el-button type="primary" @click="openDialog('add', formDefaultData)" :icon="CirclePlus">新增菜单</el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -41,6 +41,7 @@ import ProTable from "@/components/ProTable/index.vue";
 import { selectMenu, insertMenu, updateMenu, deleteMenu } from "@/api/modules/menu";
 import MenuForm from "./menuForm.vue";
 import { ElMessage } from "element-plus";
+import { Menu } from "@/api/interface/menu";
 
 const proTable = ref<ProTableInstance>();
 
@@ -54,20 +55,42 @@ const dataCallback = (data: any) => {
 };
 
 // 表格配置项
-const columns: ColumnProps[] = [
+const columns: ColumnProps<Menu.ResMenuList>[] = [
   { type: "index", width: 60, label: "序号" },
   { prop: "title", label: "菜单名称", search: { el: "input" } },
   { prop: "icon", label: "菜单图标" },
-  {
-    prop: "name",
-    label: "菜单 name"
-  },
+  { prop: "name", label: "菜单 name" },
   { prop: "path", label: "菜单路径", width: 300, search: { el: "input" } },
   { prop: "operation", label: "操作", width: 300 }
 ];
 
+// 表单默认数据
+const formDefaultData = ref<Menu.ResMenuList>({
+  id: "",
+  title: "",
+  name: "",
+  path: "",
+  component: "",
+  redirect: "",
+  parentId: "",
+  icon: "",
+  activeMenu: "",
+  perms: "",
+  orderNum: "",
+  query: "",
+  isLink: "1",
+  isHide: "1",
+  isFull: "1",
+  isAffix: "1",
+  isKeepAlive: "1",
+  menuType: "",
+  status: "1",
+  remark: "",
+  children: []
+});
+
 //删除按钮
-const deleteBtn = async (row: any) => {
+const deleteBtn = async (row: Menu.ResMenuList) => {
   await deleteMenu(row.id);
   proTable.value?.getTableList();
   ElMessage({
@@ -78,7 +101,7 @@ const deleteBtn = async (row: any) => {
 
 // 打开 dialog(新增、查看、编辑)
 const dialogRef = ref<InstanceType<typeof MenuForm> | null>(null);
-const openDialog = (type: string, row: any) => {
+const openDialog = (type: string, row: Partial<Menu.ResMenuList> = {}) => {
   const params = {
     type,
     title: type === "add" ? "新增" : type === "delete" ? "删除" : type === "update" ? "修改" : type === "view" ? "查看" : "",

@@ -1,23 +1,24 @@
 import { SYSTEM } from "@/api/config/servicePort";
 import http from "@/api";
-import { Menu, ResPage } from "@/api/interface";
+import { ResPage } from "@/api/interface";
+import { Menu } from "@/api/interface/menu";
 
 // 获取菜单列表
-export const selectMenu = (data: any) => {
-  return http.post<ResPage<Menu.Result>>(SYSTEM + `/menu/select`, data, { noLoading: true });
+export const selectMenu = (params: Menu.ReqMenuParams) => {
+  return http.post<ResPage<Menu.ResMenuList>>(SYSTEM + `/menu/select`, params, { noLoading: true });
 };
 
 // 添加菜单
-export const insertMenu = (data: any) => {
-  return http.post(SYSTEM + `/menu/insert`, data, { noLoading: true });
+export const insertMenu = (params: FormData) => {
+  return http.post(SYSTEM + `/menu/insert`, params, { noLoading: true });
 };
 
 // 修改菜单
-export const updateMenu = (data: any) => {
-  return http.post(SYSTEM + `/menu/update`, data, { noLoading: true });
+export const updateMenu = (params: FormData) => {
+  return http.post(SYSTEM + `/menu/update`, params, { noLoading: true });
 };
 
 // 删除菜单
-export const deleteMenu = (data: string) => {
-  return http.get(SYSTEM + `/menu/delete?ids=` + data, { noLoading: true });
+export const deleteMenu = (params: string) => {
+  return http.get(SYSTEM + `/menu/delete?ids=` + params, { noLoading: true });
 };
