@@ -2,7 +2,7 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      title="菜单管理"
+      title="字典管理"
       row-key="id"
       highlight-current-row
       :columns="columns"
@@ -12,7 +12,7 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" @click="openDialog('add', null)" :icon="CirclePlus">新增菜单</el-button>
+        <el-button type="primary" @click="openDialog('add', null)" :icon="CirclePlus">新增字典</el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -28,7 +28,8 @@
       </template>
     </ProTable>
 
-    <MenuForm ref="dialogRef" />
+    <DictForm ref="dialogRef" />
+    <DictDataForm ref="dictDataRef" />
   </div>
 </template>
 
@@ -38,7 +39,8 @@ import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { Delete, EditPen, CirclePlus, MoreFilled } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { selectDict, insertDict, updateDict, deleteDict } from "@/api/modules/dict";
-import MenuForm from "./dictForm.vue";
+import DictForm from "./dictForm.vue";
+import DictDataForm from "./dictDataList.vue";
 import { ElMessage } from "element-plus";
 
 const proTable = ref<ProTableInstance>();
@@ -73,7 +75,7 @@ const deleteBtn = async (row: any) => {
 };
 
 // 打开 dialog(新增、查看、编辑)
-const dialogRef = ref<InstanceType<typeof MenuForm> | null>(null);
+const dialogRef = ref<InstanceType<typeof DictForm> | null>(null);
 const openDialog = (type: string, row: any) => {
   const params = {
     type,
@@ -87,7 +89,13 @@ const openDialog = (type: string, row: any) => {
   dialogRef.value?.open(params);
 };
 
+// 打开 dialog(配置)
+const dictDataRef = ref<InstanceType<typeof DictDataForm> | null>(null);
 const toDictDataPage = (row: any) => {
-  alert(row.id);
+  const params = {
+    id: row.id,
+    title: row.dictName
+  };
+  dictDataRef.value?.open(params);
 };
 </script>
