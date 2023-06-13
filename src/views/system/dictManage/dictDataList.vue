@@ -17,10 +17,10 @@
         row-key="id"
         highlight-current-row
         :columns="columns"
-        :request-api="selectDict"
+        :request-api="selectDictData"
         :pagination="true"
         :data-callback="dataCallback"
-        :init-param="{ id: dialogProps.id }"
+        :init-param="{ dictTypeId: dialogProps.id }"
       >
         <!-- 表格 header 按钮 -->
         <template #tableHeader>
@@ -39,7 +39,7 @@
         </template>
       </ProTable>
     </el-dialog>
-    <MenuForm ref="dialogRef" />
+    <DictDataForm ref="dialogRef" />
   </div>
 </template>
 
@@ -48,9 +48,10 @@ import { ref } from "vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { Delete, EditPen, CirclePlus } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
-import { selectDict, insertDict, updateDict, deleteDict } from "@/api/modules/dict";
-import MenuForm from "./dictForm.vue";
+import { selectDictData, insertDictData, updateDictData, deleteDictData } from "@/api/modules/dict";
+import DictDataForm from "./dictDataForm.vue";
 import { ElMessage } from "element-plus";
+import { dictStore } from "@/stores/modules/dict";
 
 const dialogFlag = ref(false);
 const proTable = ref<ProTableInstance>();
@@ -67,16 +68,19 @@ const dataCallback = (data: any) => {
 // 表格配置项
 const columns: ColumnProps[] = [
   { type: "index", width: 60, label: "序号" },
-  { prop: "dictName", label: "字典名称", search: { el: "input" } },
-  { prop: "dictType", label: "字典类型", search: { el: "input" } },
-  { prop: "status", label: "是否停用" },
+  { prop: "dictLabel", label: "数据标签", search: { el: "input" } },
+  { prop: "dictValue", label: "数据键值", search: { el: "input" } },
+  { prop: "dictSort", label: "排序" },
+  { prop: "isDefault", label: "是否默认" },
+  { prop: "status", label: "状态" },
   { prop: "remark", label: "备注" },
+  { prop: "createTime", label: "创建时间" },
   { prop: "operation", label: "操作", width: 300 }
 ];
 
 //删除按钮
 const deleteBtn = async (row: any) => {
-  await deleteDict(row.id);
+  await deleteDictData(row.id);
   proTable.value?.getTableList();
   ElMessage({
     message: "删除成功!",
@@ -85,7 +89,7 @@ const deleteBtn = async (row: any) => {
 };
 
 // 打开 dialog(新增、查看、编辑)
-const dialogRef = ref<InstanceType<typeof MenuForm> | null>(null);
+const dialogRef = ref<InstanceType<typeof DictDataForm> | null>(null);
 const openDialog = (type: string, row: any) => {
   const params = {
     type,
@@ -93,7 +97,7 @@ const openDialog = (type: string, row: any) => {
     row: { ...row },
     isView: type === "view",
     disabled: type === "view",
-    api: type === "add" ? insertDict : type === "update" ? updateDict : undefined,
+    api: type === "add" ? insertDictData : type === "update" ? updateDictData : undefined,
     getTableList: proTable.value?.getTableList
   };
   dialogRef.value?.open(params);
@@ -102,12 +106,14 @@ const openDialog = (type: string, row: any) => {
 //定义表单需要的参数
 interface DialogProps {
   id: string;
+  dictType: string;
   title: string;
 }
 
 //声明参数
 const dialogProps = ref<DialogProps>({
   id: "",
+  dictType: "",
   title: ""
 });
 
@@ -115,6 +121,8 @@ const dialogProps = ref<DialogProps>({
 const open = (params: DialogProps) => {
   dialogProps.value = params;
   dialogFlag.value = true;
+  //存入字典状态
+  dictStore().set(params.id, params.dictType);
 };
 
 //关闭dialog

@@ -1,23 +1,47 @@
 import { SYSTEM } from "@/api/config/servicePort";
 import http from "@/api";
-import { Menu, ResPage } from "@/api/interface";
+import { ResPage } from "@/api/interface";
+import { Menu } from "@/api/interface/menu";
 
+// ===================================菜单类型接口=============================================
 // 获取菜单列表
-export const selectDict = (data: any) => {
-  return http.post<ResPage<Menu.Result>>(SYSTEM + `/dict/select`, data, { noLoading: true });
+export const selectDict = (params: Menu.ReqMenuParams) => {
+  return http.post<ResPage<any>>(SYSTEM + `/dict/select`, params, { noLoading: true });
 };
 
 // 添加菜单
-export const insertDict = (data: any) => {
-  return http.post(SYSTEM + `/dict/insert`, data, { noLoading: true });
+export const insertDict = (params: any) => {
+  return http.post(SYSTEM + `/dict/insert`, params, { noLoading: true });
 };
 
 // 修改菜单
-export const updateDict = (data: any) => {
-  return http.post(SYSTEM + `/dict/update`, data, { noLoading: true });
+export const updateDict = (params: any) => {
+  return http.post(SYSTEM + `/dict/update`, params, { noLoading: true });
 };
 
 // 删除菜单
-export const deleteDict = (data: string) => {
-  return http.get(SYSTEM + `/dict/delete?ids=` + data, { noLoading: true });
+export const deleteDict = (params: string) => {
+  return http.get(SYSTEM + `/dict/delete?ids=` + params, { noLoading: true });
+};
+
+// ===================================菜单数据接口=============================================
+
+// 获取菜单列表
+export const selectDictData = (params: Menu.ReqMenuParams) => {
+  return http.post<ResPage<any>>(SYSTEM + `/dictData/select`, params, { noLoading: true });
+};
+
+// 添加菜单
+export const insertDictData = (params: any) => {
+  return http.post(SYSTEM + `/dictData/insert`, params, { noLoading: true });
+};
+
+// 修改菜单
+export const updateDictData = (params: any) => {
+  return http.post(SYSTEM + `/dictData/update`, params, { noLoading: true });
+};
+
+// 删除菜单
+export const deleteDictData = (params: string) => {
+  return http.get(SYSTEM + `/dictData/delete?ids=` + params, { noLoading: true });
 };

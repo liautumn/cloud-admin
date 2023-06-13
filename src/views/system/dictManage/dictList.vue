@@ -94,6 +94,7 @@ const dictDataRef = ref<InstanceType<typeof DictDataForm> | null>(null);
 const toDictDataPage = (row: any) => {
   const params = {
     id: row.id,
+    dictType: row.dictType,
     title: row.dictName
   };
   dictDataRef.value?.open(params);
