@@ -22,3 +22,13 @@ export const updateMenu = (params: FormData) => {
 export const deleteMenu = (params: string) => {
   return http.get(SYSTEM + `/menu/delete?ids=` + params, { noLoading: true });
 };
+
+// 导入
+export const importMenu = (params: FormData) => {
+  return http.post(SYSTEM + `/menu/import`, params);
+};
+
+// 导出用户数据
+export const exportMenu = (params: any) => {
+  return http.download(SYSTEM + `/menu/export`, params);
+};

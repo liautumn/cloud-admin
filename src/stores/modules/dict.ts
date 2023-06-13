@@ -1,21 +1,27 @@
 import { defineStore } from "pinia";
+import { DictState } from "@/stores/interface";
 
 export const dictStore = defineStore({
   id: "dictStore",
-  state: (): { dictTypeId: string; dictType: string } => ({
-    dictTypeId: "",
-    dictType: ""
+  state: (): DictState => ({
+    row: {
+      id: "",
+      title: "",
+      dictType: ""
+    }
   }),
   actions: {
     // Set
-    async set(dictTypeId: string, dictType: string) {
-      this.dictTypeId = dictTypeId;
-      this.dictType = dictType;
+    async set(row: any) {
+      this.row = row;
     },
     // Remove
     async remove() {
-      this.dictTypeId = "";
-      this.dictType = "";
+      this.row = {
+        id: "",
+        title: "",
+        dictType: ""
+      };
     }
   }
 });

@@ -1,44 +1,32 @@
 <template>
   <div class="table-box">
-    <el-dialog
-      v-model="dialogFlag"
-      :close-on-click-modal="true"
-      :destroy-on-close="true"
-      @close="close"
-      :title="`${dialogProps.title} 数据配置`"
-      width="55%"
-      draggable
-      :fullscreen="true"
-      :modal="false"
+    <ProTable
+      ref="proTable"
+      :title="route.query.row.title"
+      row-key="id"
+      highlight-current-row
+      :columns="columns"
+      :request-api="selectDictData"
+      :pagination="true"
+      :data-callback="dataCallback"
+      :init-param="{ dictTypeId: route.query.row.id }"
     >
-      <ProTable
-        ref="proTable"
-        title="字典数据管理"
-        row-key="id"
-        highlight-current-row
-        :columns="columns"
-        :request-api="selectDictData"
-        :pagination="true"
-        :data-callback="dataCallback"
-        :init-param="{ dictTypeId: dialogProps.id }"
-      >
-        <!-- 表格 header 按钮 -->
-        <template #tableHeader>
-          <el-button type="primary" @click="openDialog('add', null)" :icon="CirclePlus">新增数据</el-button>
-        </template>
-        <!-- 菜单图标 -->
-        <template #icon="scope">
-          <el-icon :size="18">
-            <component :is="scope.row.icon"></component>
-          </el-icon>
-        </template>
-        <!-- 菜单操作 -->
-        <template #operation="scope">
-          <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
-          <el-button type="primary" link @click="deleteBtn(scope.row)" :icon="Delete">删除</el-button>
-        </template>
-      </ProTable>
-    </el-dialog>
+      <!-- 表格 header 按钮 -->
+      <template #tableHeader>
+        <el-button type="primary" @click="openDialog('add', null)" :icon="CirclePlus">新增数据</el-button>
+      </template>
+      <!-- 菜单图标 -->
+      <template #icon="scope">
+        <el-icon :size="18">
+          <component :is="scope.row.icon"></component>
+        </el-icon>
+      </template>
+      <!-- 菜单操作 -->
+      <template #operation="scope">
+        <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
+        <el-button type="primary" link @click="deleteBtn(scope.row)" :icon="Delete">删除</el-button>
+      </template>
+    </ProTable>
     <DictDataForm ref="dialogRef" />
   </div>
 </template>
@@ -51,10 +39,11 @@ import ProTable from "@/components/ProTable/index.vue";
 import { selectDictData, insertDictData, updateDictData, deleteDictData } from "@/api/modules/dict";
 import DictDataForm from "./dictDataForm.vue";
 import { ElMessage } from "element-plus";
-import { dictStore } from "@/stores/modules/dict";
+import { useRoute } from "vue-router";
 
-const dialogFlag = ref(false);
+const route = useRoute();
 const proTable = ref<ProTableInstance>();
+console.log(route.query.row);
 
 const dataCallback = (data: any) => {
   return {
@@ -101,33 +90,6 @@ const openDialog = (type: string, row: any) => {
     getTableList: proTable.value?.getTableList
   };
   dialogRef.value?.open(params);
-};
-
-//定义表单需要的参数
-interface DialogProps {
-  id: string;
-  dictType: string;
-  title: string;
-}
-
-//声明参数
-const dialogProps = ref<DialogProps>({
-  id: "",
-  dictType: "",
-  title: ""
-});
-
-//打开dialog并传入表单数据等参数
-const open = (params: DialogProps) => {
-  dialogProps.value = params;
-  dialogFlag.value = true;
-  //存入字典状态
-  dictStore().set(params.id, params.dictType);
-};
-
-//关闭dialog
-const close = () => {
-  dialogFlag.value = false;
 };
 
 defineExpose({

@@ -22,26 +22,26 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link @click="toDictDataPage(scope.row)" :icon="MoreFilled">配置</el-button>
+        <el-button type="primary" link @click="toDictDataList(scope.row)" :icon="MoreFilled">配置</el-button>
         <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
         <el-button type="primary" link @click="deleteBtn(scope.row)" :icon="Delete">删除</el-button>
       </template>
     </ProTable>
 
     <DictForm ref="dialogRef" />
-    <DictDataForm ref="dictDataRef" />
   </div>
 </template>
 
 <script setup lang="ts" name="dictMange">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { Delete, EditPen, CirclePlus, MoreFilled } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { selectDict, insertDict, updateDict, deleteDict } from "@/api/modules/dict";
 import DictForm from "./dictForm.vue";
-import DictDataForm from "./dictDataList.vue";
 import { ElMessage } from "element-plus";
+import { dictStore } from "@/stores/modules/dict";
 
 const proTable = ref<ProTableInstance>();
 
@@ -89,14 +89,11 @@ const openDialog = (type: string, row: any) => {
   dialogRef.value?.open(params);
 };
 
-// 打开 dialog(配置)
-const dictDataRef = ref<InstanceType<typeof DictDataForm> | null>(null);
-const toDictDataPage = (row: any) => {
-  const params = {
-    id: row.id,
-    dictType: row.dictType,
-    title: row.dictName
-  };
-  dictDataRef.value?.open(params);
+const router = useRouter();
+// 跳转详情页
+const toDictDataList = (row: any) => {
+  //存入字典状态
+  dictStore().set(row);
+  router.push(`/system/dictManage/dictDataList?row=${row}`);
 };
 </script>

@@ -71,3 +71,11 @@ export interface AuthState {
 export interface KeepAliveState {
   keepAliveName: string[];
 }
+
+export interface DictState {
+  row: {
+    id: string;
+    title: string;
+    dictType: string;
+  };
+}

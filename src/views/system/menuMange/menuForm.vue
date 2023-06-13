@@ -206,7 +206,6 @@ interface DialogProps {
   type: string;
   title: string;
   disabled: boolean;
-  isView: boolean;
   row: Partial<Menu.ResMenuList>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
@@ -217,13 +216,40 @@ const dialogProps = ref<DialogProps>({
   type: "",
   title: "",
   disabled: false,
-  isView: false,
-  row: {}
+  row: {
+    id: "",
+    title: "",
+    name: "",
+    path: "",
+    component: "",
+    redirect: "",
+    parentId: "",
+    icon: "",
+    activeMenu: "",
+    perms: "",
+    orderNum: "",
+    query: "",
+    isLink: "1",
+    isHide: "1",
+    isFull: "1",
+    isAffix: "1",
+    isKeepAlive: "1",
+    menuType: "",
+    status: "1",
+    remark: ""
+  }
 });
 
 //打开dialog并传入表单数据等参数
 const open = (params: DialogProps) => {
-  dialogProps.value = params;
+  if (params.type != "add") {
+    dialogProps.value.row = params.row;
+  }
+  dialogProps.value.type = params.type;
+  dialogProps.value.title = params.title;
+  dialogProps.value.disabled = params.disabled;
+  dialogProps.value.api = params.api;
+  dialogProps.value.getTableList = params.getTableList;
   dialogFlag.value = true;
 };
 
