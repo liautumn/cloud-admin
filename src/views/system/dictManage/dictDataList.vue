@@ -2,14 +2,14 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      :title="route.query.row.title"
+      :title="route.query.dictName"
       row-key="id"
       highlight-current-row
       :columns="columns"
       :request-api="selectDictData"
       :pagination="true"
       :data-callback="dataCallback"
-      :init-param="{ dictTypeId: route.query.row.id }"
+      :init-param="{ dictTypeId: route.query.id }"
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
@@ -43,7 +43,6 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 const proTable = ref<ProTableInstance>();
-console.log(route.query.row);
 
 const dataCallback = (data: any) => {
   return {

@@ -1,9 +1,8 @@
 import { defineStore } from "pinia";
-import { DictState } from "@/stores/interface";
 
 export const dictStore = defineStore({
   id: "dictStore",
-  state: (): DictState => ({
+  state: (): { row: any } => ({
     row: {
       id: "",
       title: "",
@@ -12,11 +11,11 @@ export const dictStore = defineStore({
   }),
   actions: {
     // Set
-    async set(row: any) {
+    set(row: any) {
       this.row = row;
     },
     // Remove
-    async remove() {
+    remove() {
       this.row = {
         id: "",
         title: "",

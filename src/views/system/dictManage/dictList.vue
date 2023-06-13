@@ -43,6 +43,7 @@ import DictForm from "./dictForm.vue";
 import { ElMessage } from "element-plus";
 import { dictStore } from "@/stores/modules/dict";
 
+const router = useRouter();
 const proTable = ref<ProTableInstance>();
 
 const dataCallback = (data: any) => {
@@ -89,11 +90,10 @@ const openDialog = (type: string, row: any) => {
   dialogRef.value?.open(params);
 };
 
-const router = useRouter();
 // 跳转详情页
 const toDictDataList = (row: any) => {
   //存入字典状态
   dictStore().set(row);
-  router.push(`/system/dictManage/dictDataList?row=${row}`);
+  router.push(`/system/dictDataManage?id=${row.id}&dictName=${row.dictName}`);
 };
 </script>

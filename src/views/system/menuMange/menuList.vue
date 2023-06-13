@@ -83,6 +83,13 @@ const deleteClick = async (row: Menu.ResMenuList) => {
 
 // 批量删除用户信息
 const batchDelete = async (ids: string[]) => {
+  if (ids.length === 0) {
+    ElMessage({
+      message: "请先选择",
+      type: "error"
+    });
+    return;
+  }
   await deleteMenu(ids.toString());
   proTable.value?.clearSelection();
   proTable.value?.getTableList();

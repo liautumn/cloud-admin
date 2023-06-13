@@ -42,7 +42,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="数据类型" prop="dictType">
-            <el-input v-model="dictStoreData.dictType" disabled="true" placeholder="数据类型" clearable />
+            <el-input v-model="dictStoreData.row.dictType" disabled="true" placeholder="数据类型" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -138,7 +138,10 @@ const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
     try {
-      const row = { ...dialogProps.value.row, ...{ dictTypeId: dictStoreData.dictTypeId, dictType: dictStoreData.dictType } };
+      const row = {
+        ...dialogProps.value.row,
+        ...{ dictTypeId: dictStoreData.row.id, dictType: dictStoreData.row.dictType }
+      };
       await dialogProps.value.api!(row);
       ElMessage.success({ message: `${dialogProps.value.title}成功！` });
       dialogProps.value.getTableList!();
