@@ -12,7 +12,7 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" @click="openDialog('add', {})" :icon="CirclePlus">新增菜单</el-button>
+        <el-button type="primary" @click="openDialog('add', formDefaultData)" :icon="CirclePlus">新增菜单</el-button>
         <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">删除</el-button>
         <el-button type="primary" @click="importClick" plain :icon="Upload">导入</el-button>
         <el-button type="primary" @click="exportClick" plain :icon="Download">导出</el-button>
@@ -26,7 +26,13 @@
       <!-- 菜单操作 -->
       <template #operation="scope">
         <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
-        <el-button type="primary" link @click="openDialog('addRow', scope.row)" :icon="CirclePlus">新增</el-button>
+        <el-button
+          type="primary"
+          link
+          @click="openDialog('addRow', { ...formDefaultData, ...{ parentId: scope.row.id, title: scope.row.title } })"
+          :icon="CirclePlus"
+          >新增</el-button
+        >
         <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
         <el-button type="danger" link @click="deleteClick(scope.row)" :icon="Delete">删除</el-button>
       </template>
@@ -71,6 +77,31 @@ const columns: ColumnProps<Menu.ResMenuList>[] = [
   { prop: "operation", label: "操作", width: 300 }
 ];
 
+//表单默认数据
+//声明参数
+const formDefaultData = ref<Menu.ResMenuList>({
+  id: "",
+  title: "",
+  name: "",
+  path: "",
+  component: "",
+  redirect: "",
+  parentId: "",
+  icon: "",
+  activeMenu: "",
+  perms: "",
+  orderNum: "",
+  query: "",
+  isLink: "1",
+  isHide: "1",
+  isFull: "1",
+  isAffix: "1",
+  isKeepAlive: "1",
+  menuType: "0",
+  status: "1",
+  remark: ""
+});
+
 //删除按钮
 const deleteClick = async (row: Menu.ResMenuList) => {
   await deleteMenu(row.id);
@@ -103,7 +134,7 @@ const batchDelete = async (ids: string[]) => {
 const importRef = ref<InstanceType<typeof ImportExcel> | null>(null);
 const importClick = () => {
   const params = {
-    title: "用户",
+    title: "菜单列表",
     tempApi: exportMenu,
     importApi: importMenu,
     getTableList: proTable.value?.getTableList
@@ -124,9 +155,20 @@ const openDialog = (type: string, row: Partial<Menu.ResMenuList> = {}) => {
   const params = {
     type,
     row,
-    title: type === "add" ? "新增" : type === "delete" ? "删除" : type === "update" ? "修改" : type === "view" ? "查看" : "",
+    title:
+      type === "add"
+        ? "新增"
+        : type === "addRow"
+        ? row.title + "新增"
+        : type === "delete"
+        ? "删除"
+        : type === "update"
+        ? "修改"
+        : type === "view"
+        ? "查看"
+        : "",
     disabled: type === "view",
-    api: type === "add" ? insertMenu : type === "update" ? updateMenu : undefined,
+    api: type === "add" ? insertMenu : type === "addRow" ? insertMenu : type === "update" ? updateMenu : undefined,
     getTableList: proTable.value?.getTableList
   };
   dialogRef.value?.open(params);

@@ -29,6 +29,6 @@ export const importMenu = (params: FormData) => {
 };
 
 // 导出用户数据
-export const exportMenu = (params: any) => {
+export const exportMenu = (params: Menu.ReqMenuParams) => {
   return http.download(SYSTEM + `/menu/export`, params);
 };
