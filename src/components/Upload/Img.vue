@@ -14,19 +14,25 @@
       :drag="drag"
       :accept="fileType.join(',')"
     >
-      <template v-if="imageUrl">
+      <template v-if="fileId">
         <img :src="imageUrl" class="upload-image" />
         <div class="upload-handle" @click.stop>
           <div class="handle-icon" @click="editImg" v-if="!self_disabled">
-            <el-icon><Edit /></el-icon>
+            <el-icon>
+              <Edit />
+            </el-icon>
             <span>编辑</span>
           </div>
           <div class="handle-icon" @click="imgViewVisible = true">
-            <el-icon><ZoomIn /></el-icon>
+            <el-icon>
+              <ZoomIn />
+            </el-icon>
             <span>查看</span>
           </div>
           <div class="handle-icon" @click="deleteImg" v-if="!self_disabled">
-            <el-icon><Delete /></el-icon>
+            <el-icon>
+              <Delete />
+            </el-icon>
             <span>删除</span>
           </div>
         </div>
@@ -34,7 +40,9 @@
       <template v-else>
         <div class="upload-empty">
           <slot name="empty">
-            <el-icon><Plus /></el-icon>
+            <el-icon>
+              <Plus />
+            </el-icon>
             <!-- <span>请上传图片</span> -->
           </slot>
         </div>
@@ -48,14 +56,16 @@
 </template>
 
 <script setup lang="ts" name="UploadImg">
-import { ref, computed, inject } from "vue";
+import { ref, computed, inject, onMounted } from "vue";
 import { generateUUID } from "@/utils";
-import { uploadImg } from "@/api/modules/upload";
+import { uploadImg, fileParse } from "@/api/modules/upload";
 import { ElNotification, formContextKey, formItemContextKey } from "element-plus";
 import type { UploadProps, UploadRequestOptions } from "element-plus";
 
+const imageUrl = ref("");
+
 interface UploadFileProps {
-  imageUrl: string; // 图片地址 ==> 必传
+  fileId: string; // 图片地址 ==> 必传
   api?: (params: any) => Promise<any>; // 上传图片的 api 方法，一般项目上传都是同一个 api 方法，在组件里直接引入即可 ==> 非必传
   drag?: boolean; // 是否支持拖拽上传 ==> 非必传（默认为 true）
   disabled?: boolean; // 是否禁用上传组件 ==> 非必传（默认为 false）
@@ -68,7 +78,7 @@ interface UploadFileProps {
 
 // 接受父组件参数
 const props = withDefaults(defineProps<UploadFileProps>(), {
-  imageUrl: "",
+  fileId: "",
   drag: true,
   disabled: false,
   fileSize: 5,
@@ -92,12 +102,17 @@ const self_disabled = computed(() => {
   return props.disabled || formContext?.disabled;
 });
 
+onMounted(async () => {
+  const { data } = await fileParse(props.fileId);
+  imageUrl.value = data[0].url;
+});
+
 /**
  * @description 图片上传
  * @param options upload 所有配置项
  * */
 interface UploadEmits {
-  (e: "update:imageUrl", value: string): void;
+  (e: "update:fileId", value: string): void;
 }
 const emit = defineEmits<UploadEmits>();
 const handleHttpUpload = async (options: UploadRequestOptions) => {
@@ -106,7 +121,8 @@ const handleHttpUpload = async (options: UploadRequestOptions) => {
   try {
     const api = props.api ?? uploadImg;
     const { data } = await api(formData);
-    emit("update:imageUrl", data.fileIds);
+    imageUrl.value = "http://127.0.0.1:9000/files/" + data.fileNameAfter;
+    emit("update:fileId", data.id);
     // 调用 el-form 内部的校验方法（可自动校验）
     formItemContext?.prop && formContext?.validateField([formItemContext.prop as string]);
   } catch (error) {
@@ -118,7 +134,8 @@ const handleHttpUpload = async (options: UploadRequestOptions) => {
  * @description 删除图片
  * */
 const deleteImg = () => {
-  emit("update:imageUrl", "");
+  imageUrl.value = "";
+  emit("update:fileId", "");
 };
 
 /**

@@ -14,3 +14,8 @@ export const uploadImg = (params: FormData) => {
 export const uploadVideo = (params: FormData) => {
   return http.post<Upload.ResFileUrl>(SYSTEM + `/file/upload/video`, params);
 };
+
+// 图片解析
+export const fileParse = (params: string) => {
+  return http.get(SYSTEM + `/file/parse?fileIds=${params}`);
+};

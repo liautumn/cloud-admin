@@ -4,7 +4,7 @@
     <div class="card img-box">
       <span class="text">多图片上传组件 🍓🍇🍈🍉</span>
       <div class="upload-list">
-        <UploadImgs v-model:file-list="fileList" :drag="false" border-radius="50%">
+        <UploadImgs v-model:fileIds="fileList" :drag="false" border-radius="50%">
           <template #empty>
             <el-icon>
               <Picture />
@@ -93,7 +93,7 @@
         />
         <el-form ref="ruleFormRef" label-width="100px" label-suffix=" :" :rules="rules" :model="fromModel">
           <el-form-item label="用户头像" prop="avatar">
-            <UploadImg v-model:image-url="fromModel.avatar" width="135px" height="135px" :file-size="3">
+            <UploadImg v-model:fileId="fromModel.avatar" width="135px" height="135px" :file-size="3">
               <template #empty>
                 <el-icon>
                   <Avatar />
@@ -103,20 +103,8 @@
               <template #tip> 头像大小不能超过 3M</template>
             </UploadImg>
           </el-form-item>
-          <el-upload
-            v-model:file-list="fromModel.fileList"
-            class="upload-demo"
-            action="/system/file/upload/img"
-            multiple
-            :limit="3"
-          >
-            <el-button type="primary">Click to upload</el-button>
-            <template #tip>
-              <div class="el-upload__tip">jpg/png files with a size less than 500KB.</div>
-            </template>
-          </el-upload>
           <el-form-item label="用户照片" prop="photo">
-            <UploadImgs v-model:file-list="fromModel.photo" :limit="3" height="140px" width="140px" border-radius="50%">
+            <UploadImgs v-model:fileIds="fromModel.photo" :limit="3" height="140px" width="140px" border-radius="50%">
               <template #empty>
                 <el-icon>
                   <Picture />
@@ -197,7 +185,7 @@ import { FormInstance } from "element-plus";
 import UploadImg from "@/components/Upload/Img.vue";
 import UploadImgs from "@/components/Upload/Imgs.vue";
 
-const fileList = ref([{ name: "img", url: "https://i.imgtg.com/2023/01/16/QRBHS.jpg" }]);
+const fileList = ref("");
 const fileList1 = ref([]);
 
 const avatar1 = ref("");
@@ -215,9 +203,8 @@ const rules = reactive({
 });
 
 const fromModel = ref({
-  avatar: "",
-  fileList: [],
-  photo: [{ name: "img", url: "https://i.imgtg.com/2023/01/16/QR57a.jpg" }],
+  avatar: "1669335592654348290",
+  photo: "1669335592654348290,1669347065254387714",
   username: "",
   idCard: "",
   email: ""
@@ -231,12 +218,10 @@ const fromModel1 = ref({
 });
 const ruleFormRef = ref<FormInstance>();
 const submit = () => {
-  console.log(fromModel.value.avatar);
-  console.log(fromModel.value.photo);
-  console.log(fromModel.value.fileList);
-  // ruleFormRef.value!.validate(valid => {
-  //   console.log(valid);
-  // });
+  console.log("=====================", fromModel.value.photo);
+  ruleFormRef.value!.validate(valid => {
+    console.log(valid);
+  });
 };
 </script>
 
