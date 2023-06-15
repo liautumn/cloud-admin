@@ -26,13 +26,14 @@
           <template #tip>
             <slot name="tip">
               <div class="el-upload__tip">请上传 .xls , .xlsx 标准格式文件，文件最大为 {{ parameter.fileSize }}M</div>
+              <div class="el-upload__tip">导出的源数据为修改操作，添加的新数据为新增操作</div>
             </slot>
           </template>
         </el-upload>
       </el-form-item>
-      <el-form-item label="数据覆盖 :">
-        <el-switch v-model="isCover" />
-      </el-form-item>
+      <!--      <el-form-item label="数据覆盖 :">-->
+      <!--        <el-switch v-model="isCover" />-->
+      <!--      </el-form-item>-->
     </el-form>
   </el-dialog>
 </template>
@@ -53,7 +54,7 @@ export interface ExcelParameterProps {
 }
 
 // 是否覆盖数据
-const isCover = ref(false);
+// const isCover = ref(false);
 // 最大文件上传数
 const excelLimit = ref(1);
 // dialog状态
@@ -81,7 +82,7 @@ const downloadTemp = () => {
 const uploadExcel = async (param: UploadRequestOptions) => {
   let excelFormData = new FormData();
   excelFormData.append("file", param.file);
-  excelFormData.append("isCover", isCover.value as unknown as Blob);
+  // excelFormData.append("isCover", isCover.value as unknown as Blob);
   await parameter.value.importApi!(excelFormData);
   parameter.value.getTableList && parameter.value.getTableList();
   dialogVisible.value = false;
