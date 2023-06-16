@@ -7,15 +7,15 @@ import http from "@/api";
  */
 // 图片上传
 export const uploadImg = (params: FormData) => {
-  return http.post<Upload.ResFileUrl>(SYSTEM + `/file/upload/img`, params);
+  return http.post<Upload.ResFile>(SYSTEM + `/file/upload/img`, params);
 };
 
 // 视频上传
 export const uploadVideo = (params: FormData) => {
-  return http.post<Upload.ResFileUrl>(SYSTEM + `/file/upload/video`, params);
+  return http.post<Upload.ResFile>(SYSTEM + `/file/upload/video`, params);
 };
 
 // 图片解析
 export const fileParse = (params: string) => {
-  return http.get(SYSTEM + `/file/parse?fileIds=${params}`);
+  return http.get<Upload.ResFileList>(SYSTEM + `/file/parse?fileIds=${params}`);
 };

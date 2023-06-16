@@ -4,7 +4,7 @@
       action="#"
       list-type="picture-card"
       :class="['upload', self_disabled ? 'disabled' : '', drag ? 'no-border' : '']"
-      v-model:file-list="_fileList"
+      v-model:file-list="fileUrls"
       :multiple="true"
       :disabled="self_disabled"
       :limit="limit"
@@ -47,8 +47,9 @@
 import { ref, computed, inject, onMounted } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import { uploadImg, fileParse } from "@/api/modules/upload";
-import type { UploadProps, UploadFile, UploadRequestOptions } from "element-plus";
+import type { UploadProps, UploadRequestOptions } from "element-plus";
 import { ElNotification, formContextKey, formItemContextKey } from "element-plus";
+import { Upload } from "@/api/interface/index";
 
 interface UploadFileProps {
   fileIds: string;
@@ -61,6 +62,21 @@ interface UploadFileProps {
   height?: string; // 组件高度 ==> 非必传（默认为 150px）
   width?: string; // 组件宽度 ==> 非必传（默认为 150px）
   borderRadius?: string; // 组件边框圆角 ==> 非必传（默认为 8px）
+}
+
+interface UploadRawFile extends File {
+  uid: number;
+}
+interface UploadFile {
+  fileId: string;
+  name: string;
+  percentage?: number;
+  status: string;
+  size?: number;
+  response?: unknown;
+  uid: number;
+  url?: string;
+  raw?: UploadRawFile;
 }
 
 const props = withDefaults(defineProps<UploadFileProps>(), {
@@ -84,20 +100,12 @@ const self_disabled = computed(() => {
   return props.disabled || formContext?.disabled;
 });
 
-const _fileList = ref([]);
+const fileUrls = ref();
 
 onMounted(async () => {
   const { data } = await fileParse(props.fileIds);
-  _fileList.value = data;
+  fileUrls.value = data.list;
 });
-
-// 监听 props.fileList 列表默认值改变
-// watch(
-//   () => props.fileIds,
-//   (n: UploadUserFile[]) => {
-//     _fileList.value = n;
-//   }
-// );
 
 /**
  * @description 文件上传之前判断
@@ -148,15 +156,11 @@ interface UploadEmits {
   (e: "update:fileIds", value: string): void;
 }
 const emit = defineEmits<UploadEmits>();
-const uploadSuccess = (response: any | undefined, uploadFile: UploadFile) => {
+const uploadSuccess = (response: Upload.ResFile | undefined, uploadFile: UploadFile) => {
   if (!response) return;
-  uploadFile.url = "http://127.0.0.1:9000/files/" + response.fileNameAfter;
-  emit("update:fileIds", props.fileIds + "," + response.id);
-  // _fileList.value?.push({
-  //   fileId: response.id,
-  //   name: response.fileNameBefore,
-  //   url: "http://127.0.0.1:9000/files" + response.fileNameAfter
-  // });
+  uploadFile.url = response.url;
+  uploadFile.fileId = response.fileId;
+  emit("update:fileIds", props.fileIds + "," + response.fileId);
   // 调用 el-form 内部的校验方法（可自动校验）
   formItemContext?.prop && formContext?.validateField([formItemContext.prop as string]);
   ElNotification({
@@ -171,8 +175,10 @@ const uploadSuccess = (response: any | undefined, uploadFile: UploadFile) => {
  * @param file 删除的文件
  * */
 const handleRemove = (file: UploadFile) => {
-  _fileList.value = _fileList.value.filter(item => item.url !== file.url || item.name !== file.name);
-  const fileIds = _fileList.value.map(item => item.fileId);
+  fileUrls.value = fileUrls.value.filter(
+    (item: { url: string; name: string }) => item.url !== file.url || item.name !== file.name || item.fileId !== file.fileId
+  );
+  const fileIds = fileUrls.value.map((item: { fileId: string }) => item.fileId);
   emit("update:fileIds", fileIds.toString());
 };
 

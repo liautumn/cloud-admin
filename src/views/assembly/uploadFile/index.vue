@@ -1,7 +1,7 @@
 <template>
   <div class="upload content-box">
     <!-- 多图上传 -->
-    <div class="card img-box">
+    <!-- <div class="card img-box">
       <span class="text">多图片上传组件 🍓🍇🍈🍉</span>
       <div class="upload-list">
         <UploadImgs v-model:fileIds="fileList" :drag="false" border-radius="50%">
@@ -13,7 +13,7 @@
           </template>
           <template #tip> 圆形组件，图片最大为 5M（禁止拖拽上传）</template>
         </UploadImgs>
-        <UploadImgs v-model:file-list="fileList1" width="250px">
+        <UploadImgs v-model:fileIds="fileList1" width="250px">
           <template #empty>
             <el-icon>
               <Picture />
@@ -25,19 +25,19 @@
       </div>
       <el-descriptions title="配置项 📚（其它参数和单图上传组件相同）" :column="1" border>
         <el-descriptions-item label="fileList">
-          双向绑定的 fileList 值，使用示例： v-model:file-list="fileList"
+          双向绑定的 fileList 值，使用示例： v-model:fileIds="fileList"
         </el-descriptions-item>
         <el-descriptions-item label="limit"> 最大图片上传数，默认为 5 张</el-descriptions-item>
       </el-descriptions>
-    </div>
+    </div> -->
     <!-- 单图上传 -->
-    <div class="card img-box">
+    <!-- <div class="card img-box">
       <span class="text">单图片上传组件 🍓🍇🍈🍉</span>
       <div class="upload-list">
-        <UploadImg v-model:image-url="avatar1" :file-size="3">
+        <UploadImg v-model:fileId="avatar1" :file-size="3">
           <template #tip> 上传图片最大为 3M</template>
         </UploadImg>
-        <UploadImg v-model:image-url="avatar2" :drag="false" border-radius="50%">
+        <UploadImg v-model:fileId="avatar2" :drag="false" border-radius="50%">
           <template #empty>
             <el-icon>
               <Avatar />
@@ -46,7 +46,7 @@
           </template>
           <template #tip> 圆形组件（禁止拖拽上传）</template>
         </UploadImg>
-        <UploadImg v-model:image-url="avatar3" width="250px">
+        <UploadImg v-model:fileId="avatar3" width="250px">
           <template #empty>
             <el-icon>
               <Picture />
@@ -55,17 +55,15 @@
           </template>
           <template #tip> 长方形组件（可拖拽上传）</template>
         </UploadImg>
-        <UploadImg v-model:image-url="avatar4" disabled>
+        <UploadImg v-model:fileId="avatar4" disabled>
           <template #tip> 无图（禁用上传）</template>
         </UploadImg>
-        <UploadImg v-model:image-url="avatar5" disabled>
+        <UploadImg v-model:fileId="avatar5" disabled>
           <template #tip> 有图（禁用编辑、删除）</template>
         </UploadImg>
       </div>
       <el-descriptions title="配置项 📚" :column="1" border>
-        <el-descriptions-item label="imageUrl">
-          双向绑定的 imageUrl 值，使用示例： v-model:image-url="avatar"
-        </el-descriptions-item>
+        <el-descriptions-item label="imageUrl"> 双向绑定的 imageUrl 值，使用示例： v-model:fileId="avatar" </el-descriptions-item>
         <el-descriptions-item label="api">
           上传图片的 api 方法，一般项目上传都是同一个 api 方法，在组件里直接引入即可（非必传）
         </el-descriptions-item>
@@ -79,7 +77,7 @@
         <el-descriptions-item label="width"> 组件宽度样式，默认为 "150px"</el-descriptions-item>
         <el-descriptions-item label="borderRadius"> 组件边框圆角样式，默认为 "8px"</el-descriptions-item>
       </el-descriptions>
-    </div>
+    </div> -->
 
     <!-- 表单使用 -->
     <div class="form-box">
@@ -129,17 +127,17 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="card">
+      <!-- <div class="card">
         <el-alert
           title="图片上传组件在 form 表单中使用，如果该表单禁用，则上传组件会自动禁用"
           type="warning"
           effect="dark"
           :closable="false"
           class="mb20"
-        />
-        <el-form label-width="100px" label-suffix=" :" disabled :model="fromModel1">
+        /> -->
+      <!-- <el-form label-width="100px" label-suffix=" :" disabled :model="fromModel1">
           <el-form-item label="用户头像" prop="avatar">
-            <UploadImg v-model:image-url="fromModel1.avatar" width="135px" height="135px" :file-size="3">
+            <UploadImg v-model:fileId="fromModel1.avatar" width="135px" height="135px" :file-size="3">
               <template #empty>
                 <el-icon>
                   <Avatar />
@@ -150,7 +148,7 @@
             </UploadImg>
           </el-form-item>
           <el-form-item label="用户照片" prop="photo">
-            <UploadImgs v-model:file-list="fromModel1.photo" height="140px" width="140px" border-radius="50%">
+            <UploadImgs v-model:fileIds="fromModel1.photo" height="140px" width="140px" border-radius="50%">
               <template #empty>
                 <el-icon>
                   <Picture />
@@ -173,8 +171,8 @@
             <el-button> 取消</el-button>
             <el-button type="primary" @click="submit"> 确定</el-button>
           </el-form-item>
-        </el-form>
-      </div>
+        </el-form> -->
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -185,14 +183,14 @@ import { FormInstance } from "element-plus";
 import UploadImg from "@/components/Upload/Img.vue";
 import UploadImgs from "@/components/Upload/Imgs.vue";
 
-const fileList = ref("");
-const fileList1 = ref([]);
+// const fileList = ref("1669335592654348290");
+// const fileList1 = ref("");
 
-const avatar1 = ref("");
-const avatar2 = ref("");
-const avatar3 = ref("");
-const avatar4 = ref("");
-const avatar5 = ref("https://i.imgtg.com/2023/01/16/QRqMK.jpg");
+// const avatar1 = ref("");
+// const avatar2 = ref("");
+// const avatar3 = ref("");
+// const avatar4 = ref("");
+// const avatar5 = ref("1669335592654348290");
 
 const rules = reactive({
   avatar: [{ required: true, message: "请上传用户头像" }],
@@ -209,16 +207,15 @@ const fromModel = ref({
   idCard: "",
   email: ""
 });
-const fromModel1 = ref({
-  avatar: "",
-  photo: [{ name: "img", url: "https://i.imgtg.com/2023/01/16/QR57a.jpg" }],
-  username: "",
-  idCard: "",
-  email: ""
-});
+// const fromModel1 = ref({
+//   avatar: "",
+//   photo: "1669335592654348290",
+//   username: "",
+//   idCard: "",
+//   email: ""
+// });
 const ruleFormRef = ref<FormInstance>();
 const submit = () => {
-  console.log("=====================", fromModel.value.photo);
   ruleFormRef.value!.validate(valid => {
     console.log(valid);
   });

@@ -104,7 +104,7 @@ const self_disabled = computed(() => {
 
 onMounted(async () => {
   const { data } = await fileParse(props.fileId);
-  imageUrl.value = data[0].url;
+  imageUrl.value = data.list[0].url;
 });
 
 /**
@@ -121,8 +121,8 @@ const handleHttpUpload = async (options: UploadRequestOptions) => {
   try {
     const api = props.api ?? uploadImg;
     const { data } = await api(formData);
-    imageUrl.value = "http://127.0.0.1:9000/files/" + data.fileNameAfter;
-    emit("update:fileId", data.id);
+    imageUrl.value = data.url;
+    emit("update:fileId", data.fileId);
     // 调用 el-form 内部的校验方法（可自动校验）
     formItemContext?.prop && formContext?.validateField([formItemContext.prop as string]);
   } catch (error) {
