@@ -9,7 +9,7 @@
 import { ref, watch } from "vue";
 import { fileParse } from "@/api/modules/upload";
 
-const imageUrl = ref("");
+const imageUrl = ref("http://100.75.77.47:9000/files/avatar.gif");
 const imgViewVisible = ref(false);
 
 interface ImgViewProps {
@@ -22,15 +22,17 @@ const props = withDefaults(defineProps<ImgViewProps>(), {
 
 const initData = async () => {
   const { data } = await fileParse(props.fileId);
-  imageUrl.value = data.list[0].url;
+  imageUrl.value = data.list[0]?.url;
 };
-initData();
+if (props.fileId != "" && props.fileId != null) {
+  initData();
+}
 
 watch(
   () => props.fileId,
   async newProps => {
     const { data } = await fileParse(newProps);
-    imageUrl.value = data.list[0].url;
+    imageUrl.value = data.list[0]?.url;
   }
 );
 </script>

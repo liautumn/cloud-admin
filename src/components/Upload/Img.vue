@@ -104,7 +104,7 @@ const self_disabled = computed(() => {
 
 const initData = async () => {
   const { data } = await fileParse(props.fileId);
-  imageUrl.value = data.list[0].url;
+  imageUrl.value = data.list[0]?.url;
 };
 initData();
 
@@ -112,7 +112,7 @@ watch(
   () => props.fileId,
   async newProps => {
     const { data } = await fileParse(newProps);
-    imageUrl.value = data.list[0].url;
+    imageUrl.value = data.list[0]?.url;
   }
 );
 
