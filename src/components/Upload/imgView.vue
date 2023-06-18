@@ -9,7 +9,8 @@
 import { ref, watch } from "vue";
 import { fileParse } from "@/api/modules/upload";
 
-const imageUrl = ref("http://100.75.77.47:9000/files/avatar.gif");
+const publicImg = "http://100.75.77.47:9000/files/avatar.gif";
+const imageUrl = ref(publicImg);
 const imgViewVisible = ref(false);
 
 interface ImgViewProps {
@@ -32,7 +33,7 @@ watch(
   () => props.fileId,
   async newProps => {
     const { data } = await fileParse(newProps);
-    imageUrl.value = data.list[0]?.url;
+    imageUrl.value = data.list[0]?.url ? data.list[0]?.url : publicImg;
   }
 );
 </script>
