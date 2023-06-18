@@ -4,23 +4,33 @@ import { ResPage } from "@/api/interface";
 
 // ===================================菜单类型接口=============================================
 // 获取菜单列表
-export const selectDict = (params: FormData) => {
-  return http.post<ResPage<any>>(SYSTEM + `/dict/select`, params, { noLoading: true });
+export const selectDictType = (params: FormData) => {
+  return http.post<ResPage<any>>(SYSTEM + `/dictType/select`, params, { noLoading: true });
 };
 
 // 添加菜单
-export const insertDict = (params: FormData) => {
-  return http.post(SYSTEM + `/dict/insert`, params, { noLoading: true });
+export const insertDictType = (params: FormData) => {
+  return http.post(SYSTEM + `/dictType/insert`, params, { noLoading: true });
 };
 
 // 修改菜单
-export const updateDict = (params: FormData) => {
-  return http.post(SYSTEM + `/dict/update`, params, { noLoading: true });
+export const updateDictType = (params: FormData) => {
+  return http.post(SYSTEM + `/dictType/update`, params, { noLoading: true });
 };
 
 // 删除菜单
-export const deleteDict = (params: string) => {
-  return http.get(SYSTEM + `/dict/delete?ids=` + params, { noLoading: true });
+export const deleteDictType = (params: string) => {
+  return http.get(SYSTEM + `/dictType/delete?ids=` + params, { noLoading: true });
+};
+
+// 导入
+export const importDictType = (params: FormData) => {
+  return http.post(SYSTEM + `/dictType/import`, params);
+};
+
+// 导出用户数据
+export const exportDictType = (params: FormData) => {
+  return http.download(SYSTEM + `/dictType/export`, params);
 };
 
 // ===================================字典数据接口=============================================
@@ -45,8 +55,18 @@ export const deleteDictData = (params: string) => {
   return http.get(SYSTEM + `/dictData/delete?ids=` + params, { noLoading: true });
 };
 
+// 导入
+export const importDictData = (params: FormData) => {
+  return http.post(SYSTEM + `/dictData/import`, params);
+};
+
+// 导出用户数据
+export const exportDictData = (params: FormData) => {
+  return http.download(SYSTEM + `/dictData/export`, params);
+};
+
 // ===================================字典通用解析接口=============================================
 
 export const dictParse = (params: string) => {
-  return http.get(SYSTEM + `/dict/parse?dictType=` + params, { noLoading: false });
+  return http.get(SYSTEM + `/dictType/parse?dictType=` + params, { noLoading: false });
 };

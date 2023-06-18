@@ -5,9 +5,10 @@
     :destroy-on-close="true"
     @close="close"
     :title="dialogProps.title"
-    width="55%"
+    width="50%"
+    top="7vh"
     draggable
-    :modal="false"
+    :modal="true"
   >
     <el-form
       ref="formRef"
@@ -15,7 +16,6 @@
       label-suffix=" :"
       :model="dialogProps.row"
       :rules="rules"
-      class="demo-form-inline"
       label-position="right"
       :disabled="dialogProps.disabled"
     >

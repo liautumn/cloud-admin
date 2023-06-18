@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts" name="UploadImgs">
-import { ref, computed, inject, onMounted } from "vue";
+import { ref, computed, inject, watch } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import { uploadImg, fileParse } from "@/api/modules/upload";
 import type { UploadProps, UploadRequestOptions } from "element-plus";
@@ -102,10 +102,19 @@ const self_disabled = computed(() => {
 
 const fileUrls = ref();
 
-onMounted(async () => {
+const initData = async () => {
   const { data } = await fileParse(props.fileIds);
   fileUrls.value = data.list;
-});
+};
+initData();
+
+watch(
+  () => props.fileIds,
+  async newProps => {
+    const { data } = await fileParse(newProps);
+    fileUrls.value = data.list;
+  }
+);
 
 /**
  * @description 文件上传之前判断

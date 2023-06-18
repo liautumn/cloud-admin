@@ -1,7 +1,8 @@
 <template>
   <el-dropdown trigger="click">
     <div class="avatar">
-      <img :src="userStore.userInfo.avatar" alt="avatar" />
+      <!-- <img :src="imageUrl" alt="avatar" /> -->
+      <imgView v-model:fileId="userStore.userInfo.avatar"></imgView>
     </div>
     <template #dropdown>
       <el-dropdown-menu>
@@ -26,6 +27,7 @@ import { logoutApi } from "@/api/modules/login";
 import { useUserStore } from "@/stores/modules/user";
 import { ElMessageBox, ElMessage } from "element-plus";
 import InfoDialog from "./InfoDialog.vue";
+import imgView from "@/components/Upload/imgView.vue";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -63,9 +65,5 @@ const openDialog = (ref: string) => {
   overflow: hidden;
   cursor: pointer;
   border-radius: 50%;
-  img {
-    width: 100%;
-    height: 100%;
-  }
 }
 </style>

@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts" name="UploadImg">
-import { ref, computed, inject, onMounted } from "vue";
+import { ref, computed, inject, watch } from "vue";
 import { generateUUID } from "@/utils";
 import { uploadImg, fileParse } from "@/api/modules/upload";
 import { ElNotification, formContextKey, formItemContextKey } from "element-plus";
@@ -102,10 +102,19 @@ const self_disabled = computed(() => {
   return props.disabled || formContext?.disabled;
 });
 
-onMounted(async () => {
+const initData = async () => {
   const { data } = await fileParse(props.fileId);
   imageUrl.value = data.list[0].url;
-});
+};
+initData();
+
+watch(
+  () => props.fileId,
+  async newProps => {
+    const { data } = await fileParse(newProps);
+    imageUrl.value = data.list[0].url;
+  }
+);
 
 /**
  * @description 图片上传

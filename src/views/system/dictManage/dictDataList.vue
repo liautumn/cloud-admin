@@ -12,8 +12,11 @@
       :init-param="{ dictTypeId: route.query.id }"
     >
       <!-- 表格 header 按钮 -->
-      <template #tableHeader>
+      <template #tableHeader="scope">
         <el-button type="primary" @click="openDialog('add', null)" :icon="CirclePlus">新增数据</el-button>
+        <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">删除</el-button>
+        <el-button type="primary" @click="importClick" plain :icon="Upload">导入</el-button>
+        <el-button type="primary" @click="exportClick" plain :icon="Download">导出</el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -27,6 +30,8 @@
         <el-button type="primary" link @click="deleteBtn(scope.row)" :icon="Delete">删除</el-button>
       </template>
     </ProTable>
+
+    <ImportExcel ref="importRef" />
     <DictDataForm ref="dialogRef" />
   </div>
 </template>
@@ -34,11 +39,20 @@
 <script setup lang="ts" name="dictMange">
 import { ref } from "vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { Delete, EditPen, CirclePlus } from "@element-plus/icons-vue";
+import { Delete, EditPen, CirclePlus, Upload, Download } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
-import { selectDictData, insertDictData, updateDictData, deleteDictData } from "@/api/modules/dict";
+import {
+  selectDictData,
+  insertDictData,
+  updateDictData,
+  deleteDictData,
+  exportDictData,
+  importDictData
+} from "@/api/modules/dict";
 import DictDataForm from "./dictDataForm.vue";
-import { ElMessage } from "element-plus";
+import { useDownload } from "@/hooks/useDownload";
+import { ElMessage, ElMessageBox } from "element-plus";
+import ImportExcel from "@/components/ImportExcel/index.vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -74,6 +88,43 @@ const deleteBtn = async (row: any) => {
     message: "删除成功!",
     type: "success"
   });
+};
+
+// 批量删除
+const batchDelete = async (ids: string[]) => {
+  if (ids.length === 0) {
+    ElMessage({
+      message: "请先选择",
+      type: "error"
+    });
+    return;
+  }
+  await deleteDictData(ids.toString());
+  proTable.value?.clearSelection();
+  proTable.value?.getTableList();
+  ElMessage({
+    message: "删除成功!",
+    type: "success"
+  });
+};
+
+// 导入
+const importRef = ref<InstanceType<typeof ImportExcel> | null>(null);
+const importClick = () => {
+  const params = {
+    title: "字典数据列表",
+    tempApi: exportDictData,
+    importApi: importDictData,
+    getTableList: proTable.value?.getTableList
+  };
+  importRef.value?.acceptParams(params);
+};
+
+// 导出
+const exportClick = async () => {
+  ElMessageBox.confirm("确认导出数据?", "温馨提示", { type: "warning" }).then(() =>
+    useDownload(exportDictData, "字典数据列表", proTable.value?.searchParam)
+  );
 };
 
 // 打开 dialog(新增、查看、编辑)
