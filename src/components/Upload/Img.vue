@@ -43,7 +43,6 @@
             <el-icon>
               <Plus />
             </el-icon>
-            <!-- <span>请上传图片</span> -->
           </slot>
         </div>
       </template>
@@ -58,6 +57,7 @@
 <script setup lang="ts" name="UploadImg">
 import { ref, computed, inject, watch } from "vue";
 import { generateUUID } from "@/utils";
+import { Plus } from "@element-plus/icons-vue";
 import { uploadImg, fileParse } from "@/api/modules/upload";
 import { ElNotification, formContextKey, formItemContextKey } from "element-plus";
 import type { UploadProps, UploadRequestOptions } from "element-plus";
@@ -65,7 +65,7 @@ import type { UploadProps, UploadRequestOptions } from "element-plus";
 const imageUrl = ref("");
 
 interface UploadFileProps {
-  fileId: string; // 图片地址 ==> 必传
+  fileId?: string; // 图片地址 ==> 必传
   api?: (params: any) => Promise<any>; // 上传图片的 api 方法，一般项目上传都是同一个 api 方法，在组件里直接引入即可 ==> 非必传
   drag?: boolean; // 是否支持拖拽上传 ==> 非必传（默认为 true）
   disabled?: boolean; // 是否禁用上传组件 ==> 非必传（默认为 false）
@@ -106,7 +106,9 @@ const initData = async () => {
   const { data } = await fileParse(props.fileId);
   imageUrl.value = data.list[0]?.url;
 };
-initData();
+if (props.fileId != "" && props.fileId != null) {
+  initData();
+}
 
 watch(
   () => props.fileId,

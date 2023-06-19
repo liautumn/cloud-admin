@@ -1,8 +1,7 @@
 <template>
   <el-dropdown trigger="click">
     <div class="avatar">
-      <!-- <img :src="imageUrl" alt="avatar" /> -->
-      <imgView v-model:fileId="userStore.userInfo.avatar"></imgView>
+      <imgView v-model:fileId="userStore.userInfo.avatar" width="100%" height="100%" :preview="false"></imgView>
     </div>
     <template #dropdown>
       <el-dropdown-menu>

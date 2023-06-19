@@ -19,7 +19,6 @@
       <div class="upload-empty">
         <slot name="empty">
           <el-icon><Plus /></el-icon>
-          <!-- <span>请上传图片</span> -->
         </slot>
       </div>
       <template #file="{ file }">
@@ -106,7 +105,9 @@ const initData = async () => {
   const { data } = await fileParse(props.fileIds);
   fileUrls.value = data.list;
 };
-initData();
+if (props.fileIds != "" && props.fileIds != null) {
+  initData();
+}
 
 watch(
   () => props.fileIds,
@@ -169,7 +170,11 @@ const uploadSuccess = (response: Upload.ResFile | undefined, uploadFile: UploadF
   if (!response) return;
   uploadFile.url = response.url;
   uploadFile.fileId = response.fileId;
-  emit("update:fileIds", props.fileIds + "," + response.fileId);
+  if (props.fileIds != "" && props.fileIds != null) {
+    emit("update:fileIds", props.fileIds + "," + response.fileId);
+  } else {
+    emit("update:fileIds", response.fileId);
+  }
   // 调用 el-form 内部的校验方法（可自动校验）
   formItemContext?.prop && formContext?.validateField([formItemContext.prop as string]);
   ElNotification({
