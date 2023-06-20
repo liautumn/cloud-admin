@@ -77,6 +77,7 @@ watch(
   async newProps => {
     const { data } = await fileParse(newProps);
     imageUrls.value = data.list;
+    imageUrl.value = data.list[0]?.url;
   }
 );
 </script>

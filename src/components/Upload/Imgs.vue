@@ -101,9 +101,10 @@ const self_disabled = computed(() => {
 
 const fileUrls = ref();
 
-const initData = async () => {
-  const { data } = await fileParse(props.fileIds);
-  fileUrls.value = data.list;
+const initData = () => {
+  fileParse(props.fileIds).then(res => {
+    fileUrls.value = res.data.list;
+  });
 };
 if (props.fileIds != "" && props.fileIds != null) {
   initData();
@@ -111,9 +112,10 @@ if (props.fileIds != "" && props.fileIds != null) {
 
 watch(
   () => props.fileIds,
-  async newProps => {
-    const { data } = await fileParse(newProps);
-    fileUrls.value = data.list;
+  newProps => {
+    fileParse(newProps).then(res => {
+      fileUrls.value = res.data.list;
+    });
   }
 );
 

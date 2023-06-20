@@ -102,9 +102,10 @@ const self_disabled = computed(() => {
   return props.disabled || formContext?.disabled;
 });
 
-const initData = async () => {
-  const { data } = await fileParse(props.fileId);
-  imageUrl.value = data.list[0]?.url;
+const initData = () => {
+  fileParse(props.fileId).then(res => {
+    imageUrl.value = res.data.list[0]?.url;
+  });
 };
 if (props.fileId != "" && props.fileId != null) {
   initData();
@@ -112,9 +113,10 @@ if (props.fileId != "" && props.fileId != null) {
 
 watch(
   () => props.fileId,
-  async newProps => {
-    const { data } = await fileParse(newProps);
-    imageUrl.value = data.list[0]?.url;
+  newProps => {
+    fileParse(newProps).then(res => {
+      imageUrl.value = res.data.list[0]?.url;
+    });
   }
 );
 

@@ -201,8 +201,8 @@ const rules = reactive({
 });
 
 const fromModel = ref({
-  avatar: "1669335592654348290",
-  photo: "1669335592654348290,1669347065254387714",
+  avatar: "",
+  photo: "",
   username: "",
   idCard: "",
   email: ""

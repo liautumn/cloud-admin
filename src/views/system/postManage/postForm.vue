@@ -9,6 +9,7 @@
     top="7vh"
     draggable
     :modal="true"
+    style="border-radius: 8px"
   >
     <el-form
       ref="formRef"
@@ -66,13 +67,13 @@
             <el-input-number v-model="dialogProps.row!.postSort" :min="1" style="width: 100%"></el-input-number>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="是否停用" prop="isHide">
-            <el-radio-group v-model="dialogProps.row!.status">
-              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
+        <!--        <el-col :span="12">-->
+        <!--          <el-form-item label="是否停用" prop="isHide">-->
+        <!--            <el-radio-group v-model="dialogProps.row!.status">-->
+        <!--              <el-radio v-for="item in dictData('whether')" :key="item.value" :label="item.value">{{ item.label }}</el-radio>-->
+        <!--            </el-radio-group>-->
+        <!--          </el-form-item>-->
+        <!--        </el-col>-->
         <el-col :span="24">
           <el-form-item label="备注" prop="remark">
             <el-input
@@ -83,6 +84,7 @@
             />
           </el-form-item>
         </el-col>
+        {{ dictData("whether") }}
       </el-row>
     </el-form>
     <template #footer>
@@ -101,26 +103,16 @@ import { Post } from "@/api/interface/post";
 import UploadImg from "@/components/Upload/Img.vue";
 import UploadImgs from "@/components/Upload/Imgs.vue";
 import ImgView from "@/components/Upload/imgView.vue";
-// import { dictParse } from "@/api/modules/dict";
+import { dictParse } from "@/api/modules/dict";
 
-// const dictWhether = ref({});
-// onMounted(async () => {
-//   dictWhether.value = await dictParse("whether");
-// });
+const dictData = (key: string) => {
+  dictParse(key).then(res => {
+    return res.data;
+  });
+};
 
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
-
-const isData = [
-  {
-    label: "是",
-    value: "0"
-  },
-  {
-    label: "否",
-    value: "1"
-  }
-];
 
 //表单字段规则
 const rules = reactive<FormRules>({

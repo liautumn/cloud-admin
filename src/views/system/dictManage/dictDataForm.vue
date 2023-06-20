@@ -9,6 +9,7 @@
     top="7vh"
     draggable
     :modal="true"
+    style="border-radius: 8px"
   >
     <el-form
       ref="formRef"

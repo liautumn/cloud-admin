@@ -9,6 +9,7 @@
     top="7vh"
     draggable
     :modal="true"
+    style="border-radius: 8px"
   >
     <el-form
       ref="formRef"
@@ -30,7 +31,7 @@
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button && dialogProps.row!.isFull != WHETHER.yes">
           <el-form-item label="是否为外链" prop="isLink">
             <el-radio-group v-model="dialogProps.row!.isLink">
-              <el-radio v-for="item in dictWhether.data" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -150,15 +151,10 @@
 <script setup lang="ts" name="menuForm">
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import SelectIcon from "@/components/SelectIcon/index.vue";
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive } from "vue";
 import { MENUTYPE, WHETHER } from "@/utils/staticVariable";
 import { Menu } from "@/api/interface/menu";
-import { dictParse } from "@/api/modules/dict";
 
-const dictWhether = ref({});
-onMounted(async () => {
-  dictWhether.value = await dictParse("whether");
-});
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
 

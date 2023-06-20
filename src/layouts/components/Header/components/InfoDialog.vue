@@ -172,7 +172,6 @@ const close = () => {
 
 //重置
 const reset = () => {
-  activeName.value = "0";
   if (activeName.value === "0") {
     formRef.value?.resetFields();
   } else {
