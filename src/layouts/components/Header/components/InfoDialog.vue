@@ -7,9 +7,10 @@
     @open="initData"
     title="个人信息"
     width="50%"
-    top="7vh"
+    top="1vh"
     draggable
     :modal="true"
+    style="border-radius: 8px"
   >
     <el-tabs class="my-tabs" v-model="activeName">
       <el-tab-pane name="0" label="用户信息">
@@ -30,7 +31,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="用户名" prop="userName">
-                <el-input v-model="formData!.userName" placeholder="用户名" clearable disabled />
+                <el-input v-model="formData!.userName" placeholder="用户名" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -50,12 +51,19 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="性别" prop="sex">
-                <el-input v-model="formData!.sex" placeholder="性别" clearable />
+                <el-radio-group v-model="formData!.sex">
+                  <el-radio v-for="item in aa" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+                </el-radio-group>
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item label="注册时间" prop="createTime">
+                <el-input v-model="formData!.loginDate" placeholder="注册时间" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
               <el-form-item label="备注" prop="remark">
-                <el-input v-model="formData!.remark" placeholder="备注" clearable />
+                <el-input type="textarea" v-model="formData!.remark" :autosize="{ minRows: 2, maxRows: 8 }" placeholder="备注" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -73,17 +81,35 @@
           <el-row>
             <el-col :span="24">
               <el-form-item label="旧密码" prop="oldPassword">
-                <el-input v-model="passFormData!.oldPassword" placeholder="请输入旧密码" clearable />
+                <el-input
+                  type="password"
+                  show-password
+                  v-model="passFormData!.oldPassword"
+                  placeholder="请输入旧密码"
+                  clearable
+                />
               </el-form-item>
             </el-col>
             <el-col :span="24">
               <el-form-item label="新密码" prop="newPassword">
-                <el-input v-model="passFormData!.newPassword" placeholder="请输入新密码" clearable />
+                <el-input
+                  type="password"
+                  show-password
+                  v-model="passFormData!.newPassword"
+                  placeholder="请输入新密码"
+                  clearable
+                />
               </el-form-item>
             </el-col>
             <el-col :span="24">
-              <el-form-item label="" prop="newPassword2">
-                <el-input v-model="passFormData!.newPassword2" placeholder="请再次输入新密码" clearable />
+              <el-form-item label="" prop="checkPassword">
+                <el-input
+                  type="password"
+                  show-password
+                  v-model="passFormData!.checkPassword"
+                  placeholder="请再次输入新密码"
+                  clearable
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -102,14 +128,30 @@ import { ref, reactive } from "vue";
 import { useUserStore } from "@/stores/modules/user";
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import UploadImg from "@/components/Upload/Img.vue";
-import { updateUser, getOneUser } from "@/api/modules/loginUser";
+import { updateUser, getOneUser, updatePassword } from "@/api/modules/loginUser";
 import { UserState } from "@/stores/interface/index";
+
+const aa = [
+  {
+    label: "男",
+    value: "0"
+  },
+  {
+    label: "女",
+    value: "1"
+  },
+  {
+    label: "未知",
+    value: "2"
+  }
+];
 
 //定义表单需要的参数
 interface PassForm {
+  id: string;
   oldPassword: string;
   newPassword: string;
-  newPassword2: string;
+  checkPassword: string;
 }
 
 const activeName = ref("0");
@@ -136,19 +178,46 @@ const formData = ref<UserState["userInfo"]>({
   remark: ""
 });
 const passFormData = ref<PassForm>({
+  id: "",
   oldPassword: "",
   newPassword: "",
-  newPassword2: ""
+  checkPassword: ""
 });
+
+const validatePass = (rule: any, value: any, callback: any) => {
+  if (value === "" || value === null) {
+    callback(new Error("不能为空"));
+  } else {
+    if (passFormData.value.checkPassword != "" && passFormData.value.checkPassword != null) {
+      if (!passFormRef.value) return;
+      passFormRef.value.validateField("checkPassword", () => null);
+    }
+    callback();
+  }
+};
+
+const validateCheckPass = (rule: any, value: any, callback: any) => {
+  if (value == "" || value == null) {
+    callback(new Error("不能为空"));
+  } else if (value != passFormData.value.newPassword) {
+    callback(new Error("两次密码不一致"));
+  } else {
+    callback();
+  }
+};
 
 //表单字段规则
 const rules = reactive<FormRules>({
-  userName: [{ required: true, message: "不能为空", trigger: "blur" }]
+  userName: [{ required: true, message: "不能为空", trigger: "blur" }],
+  nickName: [{ required: true, message: "不能为空", trigger: "blur" }],
+  email: [{ required: true, message: "不能为空", trigger: "blur" }],
+  sex: [{ required: true, message: "不能为空", trigger: "blur" }],
+  phonenumber: [{ required: true, message: "不能为空", trigger: "blur" }]
 });
 const passRules = reactive<FormRules>({
   oldPassword: [{ required: true, message: "不能为空", trigger: "blur" }],
-  newPassword: [{ required: true, message: "不能为空", trigger: "blur" }],
-  newPassword2: [{ required: true, message: "不能为空", trigger: "blur" }]
+  newPassword: [{ validator: validatePass, required: true, trigger: "blur" }],
+  checkPassword: [{ validator: validateCheckPass, required: true, trigger: "blur" }]
 });
 
 //打开dialog
@@ -160,6 +229,7 @@ const initData = async () => {
   //加载用户信息
   const { data } = await getOneUser(userStore.userInfo.id);
   formData.value = data;
+  passFormData.value.id = formData.value.id;
 };
 initData();
 
@@ -201,8 +271,8 @@ const submit = () => {
     passFormRef.value!.validate(async valid => {
       if (!valid) return;
       try {
-        // await updateUser(formData.value);
-        ElMessage.success({ message: `修改成功！` });
+        await updatePassword(passFormData.value);
+        ElMessage.success({ message: `修改密码成功！` });
         close();
       } catch (error) {
         ElMessage({

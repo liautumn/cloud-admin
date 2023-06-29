@@ -1,5 +1,12 @@
 <template>
-  <el-dialog v-model="dialogVisible" :title="`批量添加${parameter.title}`" :destroy-on-close="true" width="580px" draggable>
+  <el-dialog
+    v-model="dialogVisible"
+    :title="`批量添加${parameter.title}`"
+    :destroy-on-close="true"
+    width="580px"
+    draggable
+    style="border-radius: 8px"
+  >
     <el-form class="drawer-multiColumn-form" label-width="100px">
       <el-form-item label="模板下载 :">
         <el-button type="primary" :icon="Download" @click="downloadTemp">点击下载</el-button>
@@ -26,7 +33,7 @@
           <template #tip>
             <slot name="tip">
               <div class="el-upload__tip">请上传 .xls , .xlsx 标准格式文件，文件最大为 {{ parameter.fileSize }}M</div>
-              <div class="el-upload__tip">导出的源数据为修改操作，添加的新数据为新增操作</div>
+              <div class="el-upload__tip">导出的原数据为修改操作，添加的新数据为新增操作</div>
             </slot>
           </template>
         </el-upload>

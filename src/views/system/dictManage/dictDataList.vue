@@ -123,7 +123,7 @@ const importClick = () => {
 // 导出
 const exportClick = async () => {
   ElMessageBox.confirm("确认导出数据?", "温馨提示", { type: "warning" }).then(() =>
-    useDownload(exportDictData, "字典数据列表", proTable.value?.searchParam)
+    useDownload(exportDictData, "字典数据列表", { ...proTable.value?.searchParam, ...{ dictTypeId: route.query.id } })
   );
 };
 
