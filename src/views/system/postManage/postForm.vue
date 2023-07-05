@@ -21,37 +21,37 @@
       :disabled="dialogProps.disabled"
     >
       <el-row>
-        <el-col :span="24">
-          <el-form-item label="单图片上传" prop="postName">
-            <UploadImg v-model:fileId="dialogProps.row!.postName" width="135px" height="135px" :file-size="3">
-              <template #empty>
-                <el-icon>
-                  <Avatar />
-                </el-icon>
-                <span>请上传图片</span>
-              </template>
-              <template #tip> 头像大小不能超过 3M</template>
-            </UploadImg>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="多图片上传" prop="remark">
-            <UploadImgs v-model:fileIds="dialogProps.row!.remark" :limit="3" height="140px" width="140px">
-              <template #empty>
-                <el-icon>
-                  <Picture />
-                </el-icon>
-                <span>请上传图片</span>
-              </template>
-              <template #tip> 最多上传 3 张图片</template>
-            </UploadImgs>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="图片预览" prop="view">
-            <ImgView v-model:file-id="dialogProps.row!.remark" />
-          </el-form-item>
-        </el-col>
+        <!--        <el-col :span="24">-->
+        <!--          <el-form-item label="单图片上传" prop="postName">-->
+        <!--            <UploadImg v-model:fileId="dialogProps.row!.postName" width="135px" height="135px" :file-size="3">-->
+        <!--              <template #empty>-->
+        <!--                <el-icon>-->
+        <!--                  <Avatar />-->
+        <!--                </el-icon>-->
+        <!--                <span>请上传图片</span>-->
+        <!--              </template>-->
+        <!--              <template #tip> 头像大小不能超过 3M</template>-->
+        <!--            </UploadImg>-->
+        <!--          </el-form-item>-->
+        <!--        </el-col>-->
+        <!--        <el-col :span="24">-->
+        <!--          <el-form-item label="多图片上传" prop="remark">-->
+        <!--            <UploadImgs v-model:fileIds="dialogProps.row!.remark" :limit="3" height="140px" width="140px">-->
+        <!--              <template #empty>-->
+        <!--                <el-icon>-->
+        <!--                  <Picture />-->
+        <!--                </el-icon>-->
+        <!--                <span>请上传图片</span>-->
+        <!--              </template>-->
+        <!--              <template #tip> 最多上传 3 张图片</template>-->
+        <!--            </UploadImgs>-->
+        <!--          </el-form-item>-->
+        <!--        </el-col>-->
+        <!--        <el-col :span="24">-->
+        <!--          <el-form-item label="图片预览" prop="view">-->
+        <!--            <ImgView v-model:file-id="dialogProps.row!.remark" />-->
+        <!--          </el-form-item>-->
+        <!--        </el-col>-->
         <el-col :span="12">
           <el-form-item label="岗位编码" prop="postCode">
             <el-input v-model="dialogProps.row!.postCode" placeholder="岗位编码" clearable />
@@ -67,13 +67,13 @@
             <el-input-number v-model="dialogProps.row!.postSort" :min="1" style="width: 100%"></el-input-number>
           </el-form-item>
         </el-col>
-        <!--        <el-col :span="12">-->
-        <!--          <el-form-item label="是否停用" prop="isHide">-->
-        <!--            <el-radio-group v-model="dialogProps.row!.status">-->
-        <!--              <el-radio v-for="item in dictData('whether')" :key="item.value" :label="item.value">{{ item.label }}</el-radio>-->
-        <!--            </el-radio-group>-->
-        <!--          </el-form-item>-->
-        <!--        </el-col>-->
+        <el-col :span="12">
+          <el-form-item label="是否停用" prop="isHide">
+            <el-radio-group v-model="dialogProps.row!.status">
+              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
         <el-col :span="24">
           <el-form-item label="备注" prop="remark">
             <el-input
@@ -84,7 +84,6 @@
             />
           </el-form-item>
         </el-col>
-        {{ dictData("whether") }}
       </el-row>
     </el-form>
     <template #footer>
@@ -100,16 +99,21 @@
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
 import { Post } from "@/api/interface/post";
-import UploadImg from "@/components/Upload/Img.vue";
-import UploadImgs from "@/components/Upload/Imgs.vue";
-import ImgView from "@/components/Upload/imgView.vue";
-import { dictParse } from "@/api/modules/dict";
+// import UploadImg from "@/components/Upload/Img.vue";
+// import UploadImgs from "@/components/Upload/Imgs.vue";
+// import ImgView from "@/components/Upload/imgView.vue";
+// import { dictParse } from "@/api/modules/dict";
 
-const dictData = (key: string) => {
-  dictParse(key).then(res => {
-    return res.data;
-  });
-};
+const isData = [
+  {
+    label: "是",
+    value: "0"
+  },
+  {
+    label: "否",
+    value: "1"
+  }
+];
 
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
