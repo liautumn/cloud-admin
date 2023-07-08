@@ -1,5 +1,37 @@
 <template>
   <div class="upload content-box">
+    <!--        <el-col :span="24">-->
+    <!--          <el-form-item label="单图片上传" prop="postName">-->
+    <!--            <UploadImg v-model:fileId="dialogProps.row!.postName" width="135px" height="135px" :file-size="3">-->
+    <!--              <template #empty>-->
+    <!--                <el-icon>-->
+    <!--                  <Avatar />-->
+    <!--                </el-icon>-->
+    <!--                <span>请上传图片</span>-->
+    <!--              </template>-->
+    <!--              <template #tip> 头像大小不能超过 3M</template>-->
+    <!--            </UploadImg>-->
+    <!--          </el-form-item>-->
+    <!--        </el-col>-->
+    <!--        <el-col :span="24">-->
+    <!--          <el-form-item label="多图片上传" prop="remark">-->
+    <!--            <UploadImgs v-model:fileIds="dialogProps.row!.remark" :limit="3" height="140px" width="140px">-->
+    <!--              <template #empty>-->
+    <!--                <el-icon>-->
+    <!--                  <Picture />-->
+    <!--                </el-icon>-->
+    <!--                <span>请上传图片</span>-->
+    <!--              </template>-->
+    <!--              <template #tip> 最多上传 3 张图片</template>-->
+    <!--            </UploadImgs>-->
+    <!--          </el-form-item>-->
+    <!--        </el-col>-->
+    <!--        <el-col :span="24">-->
+    <!--          <el-form-item label="图片预览" prop="view">-->
+    <!--            <ImgView v-model:file-id="dialogProps.row!.remark" />-->
+    <!--          </el-form-item>-->
+    <!--        </el-col>-->
+
     <!-- 多图上传 -->
     <!-- <div class="card img-box">
       <span class="text">多图片上传组件 🍓🍇🍈🍉</span>

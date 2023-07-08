@@ -20,7 +20,7 @@ export const updateDictType = (params: FormData) => {
 
 // 删除菜单
 export const deleteDictType = (params: string) => {
-  return http.get(SYSTEM + `/dictType/delete?ids=` + params, { noLoading: true });
+  return http.get(SYSTEM + `/dictType/delete?ids=` + params);
 };
 
 // 导入
@@ -52,7 +52,7 @@ export const updateDictData = (params: FormData) => {
 
 // 删除菜单
 export const deleteDictData = (params: string) => {
-  return http.get(SYSTEM + `/dictData/delete?ids=` + params, { noLoading: true });
+  return http.get(SYSTEM + `/dictData/delete?ids=` + params);
 };
 
 // 导入
@@ -68,5 +68,5 @@ export const exportDictData = (params: FormData) => {
 // ===================================字典通用解析接口=============================================
 
 export const dictParse = (params: string) => {
-  return http.get(SYSTEM + `/dictType/parse?dictType=` + params, { noLoading: false });
+  return http.get(SYSTEM + `/dictType/parse?dictType=` + params);
 };

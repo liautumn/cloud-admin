@@ -12,7 +12,7 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" @click="openDialog('add', formDefaultData)" :icon="CirclePlus">新增菜单</el-button>
+        <el-button type="primary" @click="openDialog('add', formDefaultData)" :icon="CirclePlus">新增</el-button>
         <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">删除</el-button>
         <el-button type="primary" @click="importClick" plain :icon="Upload">导入</el-button>
         <el-button type="primary" @click="exportClick" plain :icon="Download">导出</el-button>
@@ -27,7 +27,11 @@
       <template #operation="scope">
         <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
         <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
-        <el-button type="danger" link @click="deleteClick(scope.row)" :icon="Delete">删除</el-button>
+        <el-popconfirm title="确定删除?" @confirm="deleteClick(scope.row)">
+          <template #reference>
+            <el-button type="danger" link :icon="Delete">删除</el-button>
+          </template>
+        </el-popconfirm>
       </template>
     </ProTable>
 
@@ -46,10 +50,10 @@ import ImportExcel from "@/components/ImportExcel/index.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { Post } from "@/api/interface/post";
 import PostForm from "./postForm.vue";
-import { selectPost, selectOnePost, insertPost, updatePost, deletePost, exportPost, importPost } from "@/api/modules/post";
+import { dictParse } from "@/api/modules/dict";
+import { selectPost, insertPost, updatePost, deletePost, exportPost, importPost } from "@/api/modules/post";
 
 const proTable = ref<ProTableInstance>();
-console.log(selectOnePost);
 const dataCallback = (data: any) => {
   return {
     list: data.list,
@@ -63,11 +67,17 @@ const dataCallback = (data: any) => {
 const columns: ColumnProps<Post.ResList>[] = [
   { type: "selection", fixed: "left", width: 60 },
   { type: "index", width: 60, label: "序号" },
-  { prop: "postCode", label: "岗位编码", search: { el: "input" } },
   { prop: "postName", label: "岗位名称", search: { el: "input" } },
+  { prop: "postCode", label: "岗位编码", search: { el: "input" } },
   { prop: "postSort", label: "显示顺序", search: { el: "input" } },
   { prop: "remark", label: "备注", search: { el: "input" } },
-  { prop: "status", label: "是否停用", search: { el: "input" } },
+  {
+    prop: "status",
+    label: "是否停用",
+    enum: () => dictParse("whether"),
+    search: { el: "select", props: { filterable: true } },
+    fieldNames: { label: "label", value: "value" }
+  },
   { prop: "operation", label: "操作", width: 300 }
 ];
 

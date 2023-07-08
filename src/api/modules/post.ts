@@ -8,11 +8,6 @@ export const selectPost = (params: Post.ReqParams) => {
   return http.post<ResPage<Post.ResList>>(SYSTEM + `/post/select`, params, { noLoading: true });
 };
 
-// 查看
-export const selectOnePost = (params: string) => {
-  return http.get<Post.ResList>(SYSTEM + `/post/select?id=${params}`, { noLoading: true });
-};
-
 // 添加
 export const insertPost = (params: FormData) => {
   return http.post(SYSTEM + `/post/insert`, params, { noLoading: true });
@@ -25,7 +20,7 @@ export const updatePost = (params: FormData) => {
 
 // 删除
 export const deletePost = (params: string) => {
-  return http.get(SYSTEM + `/post/delete?ids=${params}`, { noLoading: true });
+  return http.get(SYSTEM + `/post/delete?ids=${params}`);
 };
 
 // 导入

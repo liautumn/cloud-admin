@@ -12,7 +12,7 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" @click="openDialog('add', formDefaultData)" :icon="CirclePlus">新增菜单</el-button>
+        <el-button type="primary" @click="openDialog('add', formDefaultData)" :icon="CirclePlus">新增</el-button>
         <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">删除</el-button>
         <el-button type="primary" @click="importClick" plain :icon="Upload">导入</el-button>
         <el-button type="primary" @click="exportClick" plain :icon="Download">导出</el-button>
