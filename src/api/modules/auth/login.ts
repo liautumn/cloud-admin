@@ -1,6 +1,5 @@
 import { Login } from "@/api/interface/index";
 import { AUTH, SYSTEM } from "@/api/config/servicePort";
-import authButtonList from "@/assets/json/authButtonList.json";
 import http from "@/api";
 
 /**
@@ -18,9 +17,7 @@ export const getAuthMenuListApi = () => {
 
 // 获取按钮权限
 export const getAuthButtonListApi = () => {
-  // return http.get<Login.ResAuthButtons>(PORT1 + `/auth/buttons`, {}, { noLoading: true });
-  // 如果想让按钮权限变为本地数据，注释上一行代码，并引入本地 authButtonList.json 数据
-  return authButtonList;
+  return http.get<Login.ResAuthButtons>(SYSTEM + `/buttons`, {}, { noLoading: true });
 };
 
 // 用户退出登录

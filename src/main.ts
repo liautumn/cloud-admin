@@ -39,6 +39,9 @@ const app = createApp(App);
 
 app.config.errorHandler = errorHandler;
 
+import { getDict } from "@/utils/dict";
+app.config.globalProperties.$dict = getDict;
+
 // register the element Icons component
 Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key as keyof typeof Icons]);

@@ -37,9 +37,16 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="上级菜单" prop="parentId">
-            <el-select v-model="dialogProps.row!.parentId" placeholder="请选择" filterable="true" style="width: 100%" clearable>
-              <el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
+            <el-tree-select
+              v-model="dialogProps.row!.parentId"
+              :data="menuTreeList"
+              placeholder="请选择"
+              :render-after-expand="false"
+              check-strictly
+              filterable
+              clearable
+              style="width: 100%"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -47,11 +54,6 @@
             <el-input v-model="dialogProps.row!.title" placeholder="菜单名称" clearable />
           </el-form-item>
         </el-col>
-        <!--        <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button">-->
-        <!--          <el-form-item label="路由 name" prop="name">-->
-        <!--            <el-input v-model="dialogProps.row!.name" placeholder="路由 name" clearable />-->
-        <!--          </el-form-item>-->
-        <!--        </el-col>-->
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button">
           <el-form-item label="菜单图标" prop="icon">
             <SelectIcon title="菜单图标" placeholder="请选择图标" v-model:icon-value="dialogProps.row!.icon" />
@@ -83,8 +85,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType === MENUTYPE.menu && dialogProps.row.isLink != WHETHER.yes">
-          <el-form-item label="高亮菜单" prop="activeMenu">
-            <el-input v-model="dialogProps.row!.activeMenu" placeholder="高亮菜单" clearable />
+          <el-form-item label="父菜单路由" prop="activeMenu">
+            <el-input v-model="dialogProps.row!.activeMenu" placeholder="父菜单路由" clearable />
           </el-form-item>
         </el-col>
         <!--        <el-col :span="12" v-if="dialogProps.row!.menuType === MENUTYPE.menu">-->
@@ -153,21 +155,23 @@ import { FormInstance, FormRules, ElMessage } from "element-plus";
 import SelectIcon from "@/components/SelectIcon/index.vue";
 import { ref, reactive } from "vue";
 import { MENUTYPE, WHETHER } from "@/utils/staticVariable";
-import { Menu } from "@/api/interface/menu";
+import { Menu } from "@/api/interface/system/menu/menu";
+import { getMenuTree } from "@/api/modules/system/menu/menu";
 
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
 
-const selectData = [
-  {
-    label: "根目录",
-    value: "0"
-  },
-  {
-    label: "系统管理",
-    value: "2"
-  }
-];
+//获取菜单树下拉数据
+const menuTreeList = ref();
+const initMenuTreeList = () => {
+  const param = {
+    menuType: ["0", "1"]
+  };
+  getMenuTree(param).then(res => {
+    menuTreeList.value = res.data;
+  });
+};
+initMenuTreeList();
 
 const isData = [
   {
@@ -200,7 +204,8 @@ const rules = reactive<FormRules>({
   parentId: [{ required: true, message: "不能为空", trigger: "blur" }],
   path: [{ required: true, message: "不能为空", trigger: "blur" }],
   icon: [{ required: true, message: "不能为空", trigger: "blur" }],
-  title: [{ required: true, message: "不能为空", trigger: "blur" }]
+  title: [{ required: true, message: "不能为空", trigger: "blur" }],
+  perms: [{ required: true, message: "不能为空", trigger: "blur" }]
 });
 
 //定义表单需要的参数
@@ -208,7 +213,7 @@ interface DialogProps {
   type: string;
   title: string;
   disabled: boolean;
-  row: Partial<Menu.ResMenuList>;
+  row: Partial<Menu.ResList>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }
@@ -242,17 +247,10 @@ const reset = () => {
 const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
-    try {
-      await dialogProps.value.api!(dialogProps.value.row);
-      ElMessage.success({ message: `${dialogProps.value.title}成功！` });
-      dialogProps.value.getTableList!();
-      close();
-    } catch (error) {
-      ElMessage({
-        message: error,
-        type: "error"
-      });
-    }
+    await dialogProps.value.api!(dialogProps.value.row);
+    ElMessage.success({ message: `${dialogProps.value.title}成功！` });
+    dialogProps.value.getTableList!();
+    close();
   });
 };
 

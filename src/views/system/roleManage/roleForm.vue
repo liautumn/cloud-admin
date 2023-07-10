@@ -22,18 +22,23 @@
     >
       <el-row>
         <el-col :span="12">
-          <el-form-item label="岗位名称" prop="postName">
-            <el-input v-model="dialogProps.row!.postName" placeholder="岗位名称" clearable />
+          <el-form-item label="角色名称" prop="roleName">
+            <el-input v-model="dialogProps.row!.roleName" placeholder="角色名称" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="岗位编码" prop="postCode">
-            <el-input v-model="dialogProps.row!.postCode" placeholder="岗位编码" clearable />
+          <el-form-item label="角色权限" prop="roleKey">
+            <el-input v-model="dialogProps.row!.roleKey" placeholder="角色权限" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="显示顺序" prop="postSort">
-            <el-input-number v-model="dialogProps.row!.postSort" :min="1" style="width: 100%"></el-input-number>
+          <el-form-item label="显示顺序" prop="roleSort">
+            <el-input-number v-model="dialogProps.row!.roleSort" :min="1" style="width: 100%" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="数据范围" prop="dataScope">
+            <el-input v-model="dialogProps.row!.dataScope" placeholder="数据范围" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -41,6 +46,23 @@
             <el-radio-group v-model="dialogProps.row!.status">
               <el-radio v-for="item in $dict('whether')" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="菜单树权限选择" prop="menuTreeList">
+            <el-tree-select
+              v-model="dialogProps.row!.menuTreeList"
+              :data="menuTreeList"
+              placeholder="请选择"
+              multiple
+              show-checkbox
+              :check-on-click-node="true"
+              :render-after-expand="false"
+              check-strictly
+              filterable
+              clearable
+              style="width: 100%"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -64,17 +86,38 @@
   </el-dialog>
 </template>
 
-<script setup lang="ts" name="postForm">
+<script setup lang="ts" name="roleForm">
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
-import { Post } from "@/api/interface/system/post/post";
+import { getMenuTree } from "@/api/modules/system/menu/menu";
+import { Role } from "@/api/interface/system/role/role";
+
+//获取菜单树下拉数据
+const menuTreeList = ref();
+const initMenuTreeList = () => {
+  const param = {
+    status: "1"
+  };
+  getMenuTree(param).then(res => {
+    menuTreeList.value = res.data;
+  });
+};
+initMenuTreeList();
 
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
 
 //表单字段规则
 const rules = reactive<FormRules>({
-  postCode: [{ required: true, message: "不能为空", trigger: "blur" }]
+  roleName: [{ required: true, message: "不能为空", trigger: "blur" }],
+  roleKey: [{ required: true, message: "不能为空", trigger: "blur" }],
+  roleSort: [{ required: false, message: "不能为空", trigger: "blur" }],
+  dataScope: [{ required: false, message: "不能为空", trigger: "blur" }],
+  menuTreeList: [{ required: true, message: "不能为空", trigger: "blur" }],
+  menuCheckStrictly: [{ required: false, message: "不能为空", trigger: "blur" }],
+  deptCheckStrictly: [{ required: false, message: "不能为空", trigger: "blur" }],
+  remark: [{ required: false, message: "不能为空", trigger: "blur" }],
+  status: [{ required: false, message: "不能为空", trigger: "blur" }]
 });
 
 //定义表单需要的参数
@@ -82,7 +125,7 @@ interface DialogProps {
   type: string;
   title: string;
   disabled: boolean;
-  row: Partial<Post.ResList>;
+  row: Partial<Role.ResList>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }
@@ -117,7 +160,7 @@ const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
     await dialogProps.value.api!(dialogProps.value.row);
-    ElMessage.success({ message: `${dialogProps.value.title}成功！` });
+    ElMessage.success({ message: dialogProps.value.title + "成功！" });
     dialogProps.value.getTableList!();
     close();
   });

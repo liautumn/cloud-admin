@@ -7,8 +7,7 @@
       highlight-current-row
       :columns="columns"
       :request-api="selectMenu"
-      :pagination="true"
-      :data-callback="dataCallback"
+      :pagination="false"
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
@@ -29,7 +28,7 @@
         <el-button
           type="primary"
           link
-          @click="openDialog('addRow', { ...formDefaultData, ...{ parentId: scope.row.id, title: scope.row.title } })"
+          @click="openDialog('addRow', { ...formDefaultData, ...{ parentId: scope.row.id } })"
           :icon="CirclePlus"
           >新增</el-button
         >
@@ -51,35 +50,32 @@ import { Delete, EditPen, CirclePlus, Download, Upload } from "@element-plus/ico
 import { useDownload } from "@/hooks/useDownload";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { Menu } from "@/api/interface/menu";
+import { Menu } from "@/api/interface/system/menu/menu";
 import MenuForm from "./menuForm.vue";
-import { selectMenu, insertMenu, updateMenu, deleteMenu, exportMenu, importMenu } from "@/api/modules/menu";
+import { selectMenu, insertMenu, updateMenu, deleteMenu, exportMenu, importMenu } from "@/api/modules/system/menu/menu";
+import { dictParse } from "@/api/modules/system/dict/dict";
 
 const proTable = ref<ProTableInstance>();
 
-const dataCallback = (data: any) => {
-  return {
-    list: data.list,
-    total: data.total,
-    pageNum: data.pageNum,
-    pageSize: data.pageSize
-  };
-};
-
 // 表格配置项
-const columns: ColumnProps<Menu.ResMenuList>[] = [
+const columns: ColumnProps<Menu.ResList>[] = [
   { type: "selection", fixed: "left", width: 60 },
-  { type: "index", width: 60, label: "序号" },
   { prop: "title", label: "菜单名称", search: { el: "input" } },
   { prop: "icon", label: "菜单图标" },
   { prop: "name", label: "菜单 name" },
-  { prop: "path", label: "菜单路径", width: 300, search: { el: "input" } },
+  { prop: "path", label: "菜单路径", width: 300 },
+  {
+    prop: "status",
+    label: "是否停用",
+    enum: () => dictParse("whether"),
+    fieldNames: { label: "label", value: "value" }
+  },
   { prop: "operation", label: "操作", width: 300 }
 ];
 
 //表单默认数据
 //声明参数
-const formDefaultData = ref<Menu.ResMenuList>({
+const formDefaultData = ref<Menu.ResList>({
   id: "",
   title: "",
   name: "",
@@ -103,31 +99,22 @@ const formDefaultData = ref<Menu.ResMenuList>({
 });
 
 //删除按钮
-const deleteClick = async (row: Menu.ResMenuList) => {
+const deleteClick = async (row: Menu.ResList) => {
   await deleteMenu(row.id);
   proTable.value?.getTableList();
-  ElMessage({
-    message: "删除成功!",
-    type: "success"
-  });
+  ElMessage.success("删除成功!");
 };
 
 // 批量删除信息
 const batchDelete = async (ids: string[]) => {
   if (ids.length === 0) {
-    ElMessage({
-      message: "请先选择",
-      type: "error"
-    });
+    ElMessage.error("请先选择");
     return;
   }
   await deleteMenu(ids.toString());
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
-  ElMessage({
-    message: "删除成功!",
-    type: "success"
-  });
+  ElMessage.success("删除成功!");
 };
 
 // 导入
@@ -151,7 +138,7 @@ const exportClick = async () => {
 
 // 打开 dialog(新增、查看、编辑)
 const dialogRef = ref<InstanceType<typeof MenuForm> | null>(null);
-const openDialog = (type: string, row: Partial<Menu.ResMenuList> = {}) => {
+const openDialog = (type: string, row: Partial<Menu.ResList> = {}) => {
   const params = {
     type,
     row,

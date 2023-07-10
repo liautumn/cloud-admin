@@ -1,4 +1,4 @@
-import { ReqPage } from "./index";
+import { ReqPage } from "@/api/interface/index";
 
 // 菜单管理模块
 export namespace Post {

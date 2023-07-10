@@ -34,7 +34,7 @@
 <script setup lang="ts" name="UploadImg">
 import { Picture } from "@element-plus/icons-vue";
 import { ref, watch } from "vue";
-import { fileParse } from "@/api/modules/upload";
+import { fileParse } from "@/api/modules/file/upload";
 
 const imageUrl = ref("");
 const imageUrls = ref();

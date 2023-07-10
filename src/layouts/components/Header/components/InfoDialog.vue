@@ -128,7 +128,8 @@ import { ref, reactive } from "vue";
 import { useUserStore } from "@/stores/modules/user";
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import UploadImg from "@/components/Upload/Img.vue";
-import { updateUser, getOneUser, updatePassword } from "@/api/modules/loginUser";
+import { Login } from "@/api/interface/auth/login";
+import { updateUser, getOneUser, updatePassword } from "@/api/modules/auth/loginUser";
 import { UserState } from "@/stores/interface/index";
 
 const aa = [
@@ -145,14 +146,6 @@ const aa = [
     value: "2"
   }
 ];
-
-//定义表单需要的参数
-interface PassForm {
-  id: string;
-  oldPassword: string;
-  newPassword: string;
-  checkPassword: string;
-}
 
 const activeName = ref("0");
 
@@ -177,7 +170,7 @@ const formData = ref<UserState["userInfo"]>({
   createTime: "",
   remark: ""
 });
-const passFormData = ref<PassForm>({
+const passFormData = ref<Login.PassForm>({
   id: "",
   oldPassword: "",
   newPassword: "",
@@ -254,32 +247,18 @@ const submit = () => {
   if (activeName.value === "0") {
     formRef.value!.validate(async valid => {
       if (!valid) return;
-      try {
-        await updateUser(formData.value);
-        //更新全局用户信息
-        userStore.setUserInfo(JSON.parse(JSON.stringify(formData.value)));
-        ElMessage.success({ message: `修改成功！` });
-        close();
-      } catch (error) {
-        ElMessage({
-          message: error,
-          type: "error"
-        });
-      }
+      await updateUser(formData.value);
+      //更新全局用户信息
+      userStore.setUserInfo(JSON.parse(JSON.stringify(formData.value)));
+      ElMessage.success({ message: `修改成功！` });
+      close();
     });
   } else {
     passFormRef.value!.validate(async valid => {
       if (!valid) return;
-      try {
-        await updatePassword(passFormData.value);
-        ElMessage.success({ message: `修改密码成功！` });
-        close();
-      } catch (error) {
-        ElMessage({
-          message: error,
-          type: "error"
-        });
-      }
+      await updatePassword(passFormData.value);
+      ElMessage.success({ message: `修改密码成功！` });
+      close();
     });
   }
 };

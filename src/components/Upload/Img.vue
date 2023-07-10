@@ -58,7 +58,7 @@
 import { ref, computed, inject, watch } from "vue";
 import { generateUUID } from "@/utils";
 import { Plus } from "@element-plus/icons-vue";
-import { uploadImg, fileParse } from "@/api/modules/upload";
+import { uploadImg, fileParse } from "@/api/modules/file/upload";
 import { ElNotification, formContextKey, formItemContextKey } from "element-plus";
 import type { UploadProps, UploadRequestOptions } from "element-plus";
 

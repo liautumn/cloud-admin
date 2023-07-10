@@ -17,7 +17,7 @@
 import { nextTick, computed, inject, shallowRef, onBeforeUnmount } from "vue";
 import { IToolbarConfig, IEditorConfig } from "@wangeditor/editor";
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
-import { uploadImg, uploadVideo } from "@/api/modules/upload";
+import { uploadImg, uploadVideo } from "@/api/modules/file/upload";
 import "@wangeditor/editor/dist/css/style.css";
 import { formContextKey, formItemContextKey } from "element-plus";
 
@@ -99,7 +99,7 @@ props.editorConfig.MENU_CONF!["uploadImage"] = {
     formData.append("file", file);
     try {
       const { data } = await uploadImg(formData);
-      insertFn(data.fileUrl);
+      insertFn(data.url);
     } catch (error) {
       console.log(error);
     }
@@ -125,7 +125,7 @@ props.editorConfig.MENU_CONF!["uploadVideo"] = {
     formData.append("file", file);
     try {
       const { data } = await uploadVideo(formData);
-      insertFn(data.fileUrl);
+      insertFn(data.url);
     } catch (error) {
       console.log(error);
     }

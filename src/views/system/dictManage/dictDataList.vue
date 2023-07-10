@@ -48,7 +48,7 @@ import {
   deleteDictData,
   exportDictData,
   importDictData
-} from "@/api/modules/dict";
+} from "@/api/modules/system/dict/dict";
 import DictDataForm from "./dictDataForm.vue";
 import { useDownload } from "@/hooks/useDownload";
 import { ElMessage, ElMessageBox } from "element-plus";

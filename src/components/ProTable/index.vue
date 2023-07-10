@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts" name="ProTable">
-import { ref, watch, computed, provide, onMounted } from "vue";
+import { ref, watch, computed, provide } from "vue";
 import { ElTable } from "element-plus";
 import { useTable } from "@/hooks/useTable";
 import { useSelection } from "@/hooks/useSelection";
@@ -146,7 +146,11 @@ const { tableData, pageable, searchParam, searchInitParam, getTableList, search,
 const clearSelection = () => tableRef.value!.clearSelection();
 
 // 初始化请求
-onMounted(() => props.requestAuto && getTableList());
+// onMounted(() => props.requestAuto && getTableList());
+const initData = async () => {
+  props.requestAuto && (await getTableList());
+};
+initData();
 
 // 监听页面 initParam 改化，重新获取表格数据
 watch(() => props.initParam, getTableList, { deep: true });

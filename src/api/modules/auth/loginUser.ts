@@ -1,6 +1,7 @@
 import { AUTH } from "@/api/config/servicePort";
 import http from "@/api";
 import { UserState } from "@/stores/interface/index";
+import { Login } from "@/api/interface/auth/login";
 
 // 获取用户信息
 export const getOneUser = (params: string) => {
@@ -13,6 +14,6 @@ export const updateUser = (params: UserState["userInfo"]) => {
 };
 
 // 修改用户密码
-export const updatePassword = (params: FormData) => {
+export const updatePassword = (params: Login.PassForm) => {
   return http.post(AUTH + `/updatePassword`, params);
 };

@@ -45,7 +45,7 @@
 <script setup lang="ts" name="UploadImgs">
 import { ref, computed, inject, watch } from "vue";
 import { Plus } from "@element-plus/icons-vue";
-import { uploadImg, fileParse } from "@/api/modules/upload";
+import { uploadImg, fileParse } from "@/api/modules/file/upload";
 import type { UploadProps, UploadRequestOptions } from "element-plus";
 import { ElNotification, formContextKey, formItemContextKey } from "element-plus";
 import { Upload } from "@/api/interface/index";

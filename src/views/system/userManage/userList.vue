@@ -2,22 +2,20 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      title="岗位信息"
+      title="用户信息"
       row-key="id"
       highlight-current-row
       :columns="columns"
-      :request-api="selectPost"
+      :request-api="selectUser"
       :pagination="true"
       :data-callback="dataCallback"
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus"
-          >新增</el-button
-        >
-        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">删除</el-button>
-        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">导入</el-button>
-        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">导出</el-button>
+        <el-button type="primary" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">新增</el-button>
+        <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">删除</el-button>
+        <el-button type="primary" @click="importClick" plain :icon="Upload">导入</el-button>
+        <el-button type="primary" @click="exportClick" plain :icon="Download">导出</el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -27,11 +25,9 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" v-if="BUTTONS.view" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
-        <el-button type="primary" v-if="BUTTONS.update" link @click="openDialog('update', scope.row)" :icon="EditPen"
-          >编辑</el-button
-        >
-        <el-popconfirm v-if="BUTTONS.delete" title="确定删除?" @confirm="deleteClick(scope.row)">
+        <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
+        <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
+        <el-popconfirm title="确定删除?" @confirm="deleteClick(scope.row)">
           <template #reference>
             <el-button type="danger" link :icon="Delete">删除</el-button>
           </template>
@@ -40,11 +36,11 @@
     </ProTable>
 
     <ImportExcel ref="importRef" />
-    <PostForm ref="dialogRef" />
+    <UserForm ref="dialogRef" />
   </div>
 </template>
 
-<script setup lang="ts" name="postList">
+<script setup lang="ts" name="userList">
 import { ref } from "vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
@@ -52,13 +48,9 @@ import { Delete, EditPen, CirclePlus, Download, Upload } from "@element-plus/ico
 import { useDownload } from "@/hooks/useDownload";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { useAuthButtons } from "@/hooks/useAuthButtons";
-import { Post } from "@/api/interface/system/post/post";
-import PostForm from "./postForm.vue";
-import { dictParse } from "@/api/modules/system/dict/dict";
-import { selectPost, insertPost, updatePost, deletePost, exportPost, importPost } from "@/api/modules/system/post/post";
-
-const { BUTTONS } = useAuthButtons();
+import { User } from "@/api/interface/system/user/user";
+import UserForm from "./userForm.vue";
+import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
 
 const proTable = ref<ProTableInstance>();
 const dataCallback = (data: any) => {
@@ -71,41 +63,47 @@ const dataCallback = (data: any) => {
 };
 
 // 表格配置项
-const columns: ColumnProps<Post.ResList>[] = [
+const columns: ColumnProps<User.ResList>[] = [
   { type: "selection", fixed: "left", width: 60 },
   { type: "index", width: 60, label: "序号" },
-  { prop: "postName", label: "岗位名称", search: { el: "input" } },
-  { prop: "postCode", label: "岗位编码", search: { el: "input" } },
-  { prop: "postSort", label: "显示顺序" },
-  { prop: "remark", label: "备注" },
-  {
-    prop: "status",
-    label: "是否停用",
-    enum: () => dictParse("whether"),
-    search: { el: "select", props: { filterable: true } },
-    fieldNames: { label: "label", value: "value" }
-  },
+  // { prop: "deptId", label: "部门ID" },
+  { prop: "userName", label: "用户账号" },
+  { prop: "nickName", label: "用户昵称" },
+  // { prop: "userType", label: "用户类型（00系统用户）" },
+  { prop: "email", label: "用户邮箱" },
+  { prop: "phonenumber", label: "手机号码" },
+  { prop: "sex", label: "用户性别" },
+  // { prop: "avatar", label: "头像地址" },
+  // { prop: "password", label: "密码" },
+  // { prop: "remark", label: "备注" },
+  { prop: "status", label: "帐号状态" },
+  { prop: "loginIp", label: "最后登录IP" },
+  { prop: "loginDate", label: "最后登录时间" },
   { prop: "operation", label: "操作", width: 300 }
 ];
 
 //声明参数
-const formDefaultData = ref<Post.ResList>({
-  id: "",
-  postCode: "",
-  postName: "",
-  postSort: "1",
+const formDefaultData = ref<User.ResList>({
+  deptId: "",
+  userName: "",
+  nickName: "",
+  userType: "",
+  email: "",
+  phonenumber: "",
+  sex: "",
+  avatar: "",
+  password: "",
   remark: "",
-  status: "1"
+  status: "",
+  loginIp: "",
+  loginDate: ""
 });
 
 //删除按钮
-const deleteClick = async (row: Post.ResList) => {
-  await deletePost(row.id);
+const deleteClick = async (row: User.ResList) => {
+  await deleteUser(row.id);
   proTable.value?.getTableList();
-  ElMessage({
-    message: "删除成功!",
-    type: "success"
-  });
+  ElMessage.success("删除成功");
 };
 
 // 批量删除信息
@@ -114,7 +112,7 @@ const batchDelete = async (ids: string[]) => {
     ElMessage.error("请先选择");
     return;
   }
-  await deletePost(ids.toString());
+  await deleteUser(ids.toString());
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
   ElMessage.success("删除成功");
@@ -124,9 +122,9 @@ const batchDelete = async (ids: string[]) => {
 const importRef = ref<InstanceType<typeof ImportExcel> | null>(null);
 const importClick = () => {
   const params = {
-    title: "部门信息",
-    tempApi: exportPost,
-    importApi: importPost,
+    title: "用户信息",
+    tempApi: exportUser,
+    importApi: importUser,
     getTableList: proTable.value?.getTableList
   };
   importRef.value?.acceptParams(params);
@@ -135,19 +133,19 @@ const importClick = () => {
 // 导出
 const exportClick = async () => {
   ElMessageBox.confirm("确认导出数据?", "温馨提示", { type: "warning" }).then(() =>
-    useDownload(exportPost, "部门信息", proTable.value?.searchParam)
+    useDownload(exportUser, "用户信息", proTable.value?.searchParam)
   );
 };
 
 // 打开 dialog(新增、查看、编辑)
-const dialogRef = ref<InstanceType<typeof PostForm> | null>(null);
-const openDialog = (type: string, row: Partial<Post.ResList> = {}) => {
+const dialogRef = ref<InstanceType<typeof UserForm> | null>(null);
+const openDialog = (type: string, row: Partial<User.ResList> = {}) => {
   const params = {
     type,
     row,
     title: type === "insert" ? "新增" : type === "delete" ? "删除" : type === "update" ? "修改" : type === "view" ? "查看" : "",
     disabled: type === "view",
-    api: type === "insert" ? insertPost : type === "update" ? updatePost : undefined,
+    api: type === "insert" ? insertUser : type === "update" ? updateUser : undefined,
     getTableList: proTable.value?.getTableList
   };
   dialogRef.value?.open(params);

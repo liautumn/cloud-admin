@@ -1,8 +1,6 @@
-import { ReqPage } from "./index";
-
 // 菜单管理模块
 export namespace Menu {
-  export interface ReqMenuParams extends ReqPage {
+  export interface ReqParams {
     title: string;
     path: string;
     component: string;
@@ -12,7 +10,7 @@ export namespace Menu {
     status: string;
   }
 
-  export interface ResMenuList {
+  export interface ResList {
     id: string;
     title: string;
     name: string;
@@ -33,6 +31,6 @@ export namespace Menu {
     menuType: string;
     status: string;
     remark: string;
-    children?: ResMenuList[];
+    children?: ResList[];
   }
 }
