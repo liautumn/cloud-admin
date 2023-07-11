@@ -21,7 +21,7 @@ export namespace Menu {
     icon: string;
     activeMenu: string;
     perms: string;
-    orderNum: string;
+    orderNum: number;
     query: string;
     isLink: string;
     isHide: string;

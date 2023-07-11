@@ -1,4 +1,4 @@
-import { ReqPage } from "@/api/interface/index";
+import { ReqPage } from "@/api/interface";
 
 // 菜单管理模块
 export namespace Post {
@@ -13,7 +13,7 @@ export namespace Post {
     id: string;
     postCode: string;
     postName: string;
-    postSort: string;
+    postSort: number;
     remark: string;
     status: string;
   }

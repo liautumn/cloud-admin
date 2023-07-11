@@ -52,13 +52,23 @@
             <el-col :span="12">
               <el-form-item label="性别" prop="sex">
                 <el-radio-group v-model="formData!.sex">
-                  <el-radio v-for="item in aa" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+                  <el-radio v-for="item in sex" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
                 </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="所属部门" prop="deptId">
+                <el-input v-model="formData!.deptId" placeholder="所属部门" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="注册时间" prop="createTime">
                 <el-input v-model="formData!.loginDate" placeholder="注册时间" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="登录IP" prop="loginIp">
+                <el-input v-model="formData!.loginIp" placeholder="登录IP" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="24">
@@ -131,28 +141,12 @@ import UploadImg from "@/components/Upload/Img.vue";
 import { Login } from "@/api/interface/auth/login";
 import { updateUser, getOneUser, updatePassword } from "@/api/modules/auth/loginUser";
 import { UserState } from "@/stores/interface/index";
-
-const aa = [
-  {
-    label: "男",
-    value: "0"
-  },
-  {
-    label: "女",
-    value: "1"
-  },
-  {
-    label: "未知",
-    value: "2"
-  }
-];
+import { sex } from "@/utils/dict/globalDict";
 
 const activeName = ref("0");
-
 const userStore = useUserStore();
 const formRef = ref<FormInstance>();
 const passFormRef = ref<FormInstance>();
-
 const dialogFlag = ref(false);
 const formData = ref<UserState["userInfo"]>({
   id: "",

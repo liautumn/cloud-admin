@@ -69,10 +69,6 @@ const columns: ColumnProps<Role.ResList>[] = [
   { type: "index", width: 60, label: "序号" },
   { prop: "roleName", label: "角色名称", search: { el: "input" } },
   { prop: "roleKey", label: "角色权限", search: { el: "input" } },
-  // { prop: "roleSort", label: "显示顺序" },
-  // { prop: "dataScope", label: "数据范围" },
-  // { prop: "menuCheckStrictly", label: "菜单树选择项是否关联显示" },
-  // { prop: "deptCheckStrictly", label: "部门树选择项是否关联显示" },
   { prop: "remark", label: "备注" },
   {
     prop: "status",
@@ -88,7 +84,7 @@ const columns: ColumnProps<Role.ResList>[] = [
 const formDefaultData = ref({
   roleName: "",
   roleKey: "",
-  roleSort: "1",
+  roleSort: 1,
   dataScope: "",
   menuCheckStrictly: "",
   deptCheckStrictly: "",

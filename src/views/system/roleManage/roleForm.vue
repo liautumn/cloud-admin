@@ -37,19 +37,14 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="数据范围" prop="dataScope">
-            <el-input v-model="dialogProps.row!.dataScope" placeholder="数据范围" clearable />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item label="是否停用" prop="status">
             <el-radio-group v-model="dialogProps.row!.status">
-              <el-radio v-for="item in $dict('whether')" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="菜单树权限选择" prop="menuTreeList">
+          <el-form-item label="菜单权限" prop="menuTreeList">
             <el-tree-select
               v-model="dialogProps.row!.menuTreeList"
               :data="menuTreeList"
@@ -91,6 +86,7 @@ import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
 import { getMenuTree } from "@/api/modules/system/menu/menu";
 import { Role } from "@/api/interface/system/role/role";
+import { whether } from "@/utils/dict/globalDict";
 
 //获取菜单树下拉数据
 const menuTreeList = ref();

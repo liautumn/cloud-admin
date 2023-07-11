@@ -1,4 +1,4 @@
-import { Login } from "@/api/interface/index";
+import { Login } from "@/api/interface/auth/login";
 import { AUTH, SYSTEM } from "@/api/config/servicePort";
 import http from "@/api";
 
@@ -23,4 +23,9 @@ export const getAuthButtonListApi = () => {
 // 用户退出登录
 export const logoutApi = () => {
   return http.post(AUTH + `/logout`);
+};
+
+// 获取IP
+export const getIp = () => {
+  return "";
 };

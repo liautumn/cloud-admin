@@ -1,4 +1,4 @@
-import { Upload } from "@/api/interface/index";
+import { Upload } from "@/api/interface/file/file";
 import { FILE } from "@/api/config/servicePort";
 import http from "@/api";
 

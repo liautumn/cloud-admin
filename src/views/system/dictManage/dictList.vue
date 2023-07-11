@@ -48,7 +48,8 @@ import {
   updateDictType,
   deleteDictType,
   exportDictType,
-  importDictType
+  importDictType,
+  dictParse
 } from "@/api/modules/system/dict/dict";
 import DictForm from "./dictForm.vue";
 import { useDownload } from "@/hooks/useDownload";
@@ -73,8 +74,14 @@ const columns: ColumnProps[] = [
   { type: "index", width: 60, label: "序号" },
   { prop: "dictName", label: "字典名称", search: { el: "input" } },
   { prop: "dictType", label: "字典类型", search: { el: "input" } },
-  { prop: "status", label: "是否停用" },
   { prop: "remark", label: "备注" },
+  {
+    prop: "status",
+    label: "是否停用",
+    enum: () => dictParse("whether"),
+    search: { el: "select", props: { filterable: true } },
+    fieldNames: { label: "label", value: "value" }
+  },
   { prop: "operation", label: "操作", width: 300 }
 ];
 

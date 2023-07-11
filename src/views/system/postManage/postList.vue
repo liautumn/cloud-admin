@@ -76,7 +76,6 @@ const columns: ColumnProps<Post.ResList>[] = [
   { type: "index", width: 60, label: "序号" },
   { prop: "postName", label: "岗位名称", search: { el: "input" } },
   { prop: "postCode", label: "岗位编码", search: { el: "input" } },
-  { prop: "postSort", label: "显示顺序" },
   { prop: "remark", label: "备注" },
   {
     prop: "status",
@@ -93,7 +92,7 @@ const formDefaultData = ref<Post.ResList>({
   id: "",
   postCode: "",
   postName: "",
-  postSort: "1",
+  postSort: 1,
   remark: "",
   status: "1"
 });

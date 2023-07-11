@@ -31,7 +31,7 @@ import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { HOME_URL } from "@/config";
 import { getTimeState } from "@/utils";
-import { Login } from "@/api/interface";
+import { Login } from "@/api/interface/auth/login";
 import { ElNotification } from "element-plus";
 import { loginApi } from "@/api/modules/auth/login";
 import { useUserStore } from "@/stores/modules/user";
@@ -57,6 +57,7 @@ const loading = ref(false);
 const loginForm = reactive<Login.ReqLoginForm>({
   userName: "admin",
   password: "123456",
+  loginIp: "",
   isRemember: false
 });
 
@@ -68,7 +69,8 @@ const login = (formEl: FormInstance | undefined) => {
     loading.value = true;
     try {
       // 1.执行登录接口
-      const { data } = await loginApi(loginForm);
+      const param = { ...loginForm, ...{ loginIp: "127.0.0.1" } };
+      const { data } = await loginApi(param);
       userStore.setToken(data.token);
       userStore.setUserInfo(data.userInfo);
 

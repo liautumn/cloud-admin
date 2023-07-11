@@ -24,14 +24,14 @@
         <el-col :span="dialogProps.row!.menuType === MENUTYPE.button ? 24 : 12">
           <el-form-item label="菜单类型" prop="menuType">
             <el-radio-group v-model="dialogProps.row!.menuType">
-              <el-radio v-for="item in menuTypeData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in menuType" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button && dialogProps.row!.isFull != WHETHER.yes">
           <el-form-item label="是否为外链" prop="isLink">
             <el-radio-group v-model="dialogProps.row!.isLink">
-              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -89,43 +89,38 @@
             <el-input v-model="dialogProps.row!.activeMenu" placeholder="父菜单路由" clearable />
           </el-form-item>
         </el-col>
-        <!--        <el-col :span="12" v-if="dialogProps.row!.menuType === MENUTYPE.menu">-->
-        <!--          <el-form-item label="路由参数" prop="query">-->
-        <!--            <el-input v-model="dialogProps.row!.query" placeholder="路由参数" clearable />-->
-        <!--          </el-form-item>-->
-        <!--        </el-col>-->
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button">
           <el-form-item label="是否隐藏" prop="isHide">
             <el-radio-group v-model="dialogProps.row!.isHide">
-              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button">
           <el-form-item label="是否缓存" prop="isKeepAlive">
             <el-radio-group v-model="dialogProps.row!.isKeepAlive">
-              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button">
+        <el-col :span="12">
           <el-form-item label="是否停用" prop="status">
             <el-radio-group v-model="dialogProps.row!.status">
-              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button && dialogProps.row!.isLink != WHETHER.yes">
           <el-form-item label="是否固定页" prop="isAffix">
             <el-radio-group v-model="dialogProps.row!.isAffix">
-              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType === MENUTYPE.menu && dialogProps.row!.isLink != WHETHER.yes">
           <el-form-item label="是否全屏" prop="isFull">
             <el-radio-group v-model="dialogProps.row!.isFull">
-              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -154,9 +149,10 @@
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import SelectIcon from "@/components/SelectIcon/index.vue";
 import { ref, reactive } from "vue";
-import { MENUTYPE, WHETHER } from "@/utils/staticVariable";
+import { MENUTYPE, WHETHER } from "@/utils/dict/staticCode";
 import { Menu } from "@/api/interface/system/menu/menu";
 import { getMenuTree } from "@/api/modules/system/menu/menu";
+import { menuType, whether } from "@/utils/dict/globalDict";
 
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
@@ -165,39 +161,14 @@ const dialogFlag = ref(false);
 const menuTreeList = ref();
 const initMenuTreeList = () => {
   const param = {
-    menuType: ["0", "1"]
+    menuType: ["0", "1"],
+    isGetRoot: true
   };
   getMenuTree(param).then(res => {
     menuTreeList.value = res.data;
   });
 };
 initMenuTreeList();
-
-const isData = [
-  {
-    label: "是",
-    value: "0"
-  },
-  {
-    label: "否",
-    value: "1"
-  }
-];
-
-const menuTypeData = [
-  {
-    label: "目录",
-    value: "0"
-  },
-  {
-    label: "菜单",
-    value: "1"
-  },
-  {
-    label: "按钮",
-    value: "2"
-  }
-];
 
 //表单字段规则
 const rules = reactive<FormRules>({

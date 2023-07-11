@@ -26,8 +26,9 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
+        <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
         <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
-        <el-button type="primary" link @click="deleteBtn(scope.row)" :icon="Delete">删除</el-button>
+        <el-button type="danger" link @click="deleteClick(scope.row)" :icon="Delete">删除</el-button>
       </template>
     </ProTable>
 
@@ -47,7 +48,8 @@ import {
   updateDictData,
   deleteDictData,
   exportDictData,
-  importDictData
+  importDictData,
+  dictParse
 } from "@/api/modules/system/dict/dict";
 import DictDataForm from "./dictDataForm.vue";
 import { useDownload } from "@/hooks/useDownload";
@@ -73,15 +75,25 @@ const columns: ColumnProps[] = [
   { prop: "dictLabel", label: "数据标签", search: { el: "input" } },
   { prop: "dictValue", label: "数据键值", search: { el: "input" } },
   { prop: "dictSort", label: "排序" },
-  { prop: "isDefault", label: "是否默认" },
-  { prop: "status", label: "状态" },
+  {
+    prop: "isDefault",
+    label: "是否默认",
+    enum: () => dictParse("whether"),
+    fieldNames: { label: "label", value: "value" }
+  },
   { prop: "remark", label: "备注" },
-  { prop: "createTime", label: "创建时间" },
+  {
+    prop: "status",
+    label: "是否停用",
+    enum: () => dictParse("whether"),
+    search: { el: "select", props: { filterable: true } },
+    fieldNames: { label: "label", value: "value" }
+  },
   { prop: "operation", label: "操作", width: 300 }
 ];
 
 //删除按钮
-const deleteBtn = async (row: any) => {
+const deleteClick = async (row: any) => {
   await deleteDictData(row.id);
   proTable.value?.getTableList();
   ElMessage({

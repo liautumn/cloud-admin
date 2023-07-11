@@ -86,7 +86,7 @@ const formDefaultData = ref<Menu.ResList>({
   icon: "",
   activeMenu: "",
   perms: "",
-  orderNum: "",
+  orderNum: 1,
   query: "",
   isLink: "1",
   isHide: "1",

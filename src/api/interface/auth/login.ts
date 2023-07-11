@@ -1,3 +1,4 @@
+import { UserState } from "@/stores/interface";
 // 登录实体类
 export namespace Login {
   export interface PassForm {
@@ -5,5 +6,18 @@ export namespace Login {
     oldPassword: string;
     newPassword: string;
     checkPassword: string;
+  }
+
+  export interface ReqLoginForm {
+    userName: string;
+    password: string;
+    loginIp: string;
+    isRemember: boolean;
+  }
+
+  export type ResLogin = UserState;
+
+  export interface ResAuthButtons {
+    [key: string]: string[];
   }
 }

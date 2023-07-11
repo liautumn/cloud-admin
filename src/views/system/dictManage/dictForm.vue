@@ -35,13 +35,18 @@
         <el-col :span="12">
           <el-form-item label="是否停用" prop="status">
             <el-radio-group v-model="dialogProps.row!.status">
-              <el-radio v-for="item in isData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" autosize v-model="dialogProps.row!.remark" placeholder="备注" />
+            <el-input
+              type="textarea"
+              v-model="dialogProps.row!.remark"
+              :autosize="{ minRows: 2, maxRows: 8 }"
+              placeholder="备注"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -58,20 +63,10 @@
 <script setup lang="ts" name="menuForm">
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
+import { whether } from "@/utils/dict/globalDict";
 
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
-
-const isData = [
-  {
-    label: "是",
-    value: "0"
-  },
-  {
-    label: "否",
-    value: "1"
-  }
-];
 
 //表单字段规则
 const rules = reactive<FormRules>({
@@ -122,17 +117,10 @@ const reset = () => {
 const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
-    try {
-      await dialogProps.value.api!(dialogProps.value.row);
-      ElMessage.success({ message: `${dialogProps.value.title}成功！` });
-      dialogProps.value.getTableList!();
-      close();
-    } catch (error) {
-      ElMessage({
-        message: error,
-        type: "error"
-      });
-    }
+    await dialogProps.value.api!(dialogProps.value.row);
+    ElMessage.success({ message: `${dialogProps.value.title}成功！` });
+    dialogProps.value.getTableList!();
+    close();
   });
 };
 

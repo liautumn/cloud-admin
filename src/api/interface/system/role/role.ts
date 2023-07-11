@@ -18,7 +18,7 @@ export namespace Role {
     menuTreeList: [];
     roleName: string;
     roleKey: string;
-    roleSort: string;
+    roleSort: number;
     dataScope: string;
     menuCheckStrictly: string;
     deptCheckStrictly: string;

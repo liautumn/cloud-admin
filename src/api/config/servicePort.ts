@@ -2,5 +2,3 @@
 export const AUTH = "/auth";
 export const SYSTEM = "/system";
 export const FILE = "/file";
-export const PORT1 = "/geeker";
-export const PORT2 = "/hooks";

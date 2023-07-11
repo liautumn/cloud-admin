@@ -139,21 +139,14 @@ const reset = () => {
 const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
-    try {
-      const row = {
-        ...dialogProps.value.row,
-        ...{ dictTypeId: dictStoreData.row.id, dictType: dictStoreData.row.dictType }
-      };
-      await dialogProps.value.api!(row);
-      ElMessage.success({ message: `${dialogProps.value.title}成功！` });
-      dialogProps.value.getTableList!();
-      close();
-    } catch (error) {
-      ElMessage({
-        message: error,
-        type: "error"
-      });
-    }
+    const row = {
+      ...dialogProps.value.row,
+      ...{ dictTypeId: dictStoreData.row.id, dictType: dictStoreData.row.dictType }
+    };
+    await dialogProps.value.api!(row);
+    ElMessage.success({ message: `${dialogProps.value.title}成功！` });
+    dialogProps.value.getTableList!();
+    close();
   });
 };
 
