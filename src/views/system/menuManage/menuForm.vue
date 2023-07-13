@@ -174,7 +174,6 @@ initMenuTreeList();
 const rules = reactive<FormRules>({
   parentId: [{ required: true, message: "不能为空", trigger: "blur" }],
   path: [{ required: true, message: "不能为空", trigger: "blur" }],
-  icon: [{ required: true, message: "不能为空", trigger: "blur" }],
   title: [{ required: true, message: "不能为空", trigger: "blur" }],
   perms: [{ required: true, message: "不能为空", trigger: "blur" }]
 });

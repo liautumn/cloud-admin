@@ -197,9 +197,9 @@ const validateCheckPass = (rule: any, value: any, callback: any) => {
 const rules = reactive<FormRules>({
   userName: [{ required: true, message: "不能为空", trigger: "blur" }],
   nickName: [{ required: true, message: "不能为空", trigger: "blur" }],
-  email: [{ required: true, message: "不能为空", trigger: "blur" }],
-  sex: [{ required: true, message: "不能为空", trigger: "blur" }],
-  phonenumber: [{ required: true, message: "不能为空", trigger: "blur" }]
+  email: [{ required: false, message: "不能为空", trigger: "blur" }],
+  sex: [{ required: false, message: "不能为空", trigger: "blur" }],
+  phonenumber: [{ required: false, message: "不能为空", trigger: "blur" }]
 });
 const passRules = reactive<FormRules>({
   oldPassword: [{ required: true, message: "不能为空", trigger: "blur" }],

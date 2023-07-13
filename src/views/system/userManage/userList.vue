@@ -25,13 +25,15 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
-        <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
-        <el-popconfirm title="确定删除?" @confirm="deleteClick(scope.row)">
-          <template #reference>
-            <el-button type="danger" link :icon="Delete">删除</el-button>
-          </template>
-        </el-popconfirm>
+        <div v-if="scope.row.userType !== USERTYPE">
+          <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
+          <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
+          <el-popconfirm title="确定删除?" @confirm="deleteClick(scope.row)">
+            <template #reference>
+              <el-button type="danger" link :icon="Delete">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </div>
       </template>
     </ProTable>
 
@@ -50,6 +52,7 @@ import ImportExcel from "@/components/ImportExcel/index.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { User } from "@/api/interface/system/user/user";
 import UserForm from "./userForm.vue";
+import { USERTYPE } from "@/utils/dict/staticCode";
 import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
 
 const proTable = ref<ProTableInstance>();
@@ -85,11 +88,11 @@ const formDefaultData = ref<User.ResList>({
   userType: "",
   email: "",
   phonenumber: "",
-  sex: "",
+  sex: "2",
   avatar: "",
-  password: "",
+  password: "123456",
   remark: "",
-  status: "",
+  status: "1",
   loginIp: "",
   loginDate: ""
 });

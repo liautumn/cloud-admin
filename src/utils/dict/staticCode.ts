@@ -1,3 +1,6 @@
+//管理员
+export const USERTYPE = "00";
+
 //是否
 export const WHETHER = {
   yes: "0",

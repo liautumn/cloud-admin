@@ -22,6 +22,7 @@ export namespace User {
     id: string;
     deptId: string;
     roleList: [];
+    postList: [];
     userName: string;
     nickName: string;
     userType: string;
