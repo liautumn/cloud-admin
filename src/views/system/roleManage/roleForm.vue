@@ -87,7 +87,9 @@ import { ref, reactive } from "vue";
 import { getMenuTree } from "@/api/modules/system/menu/menu";
 import { Role } from "@/api/interface/system/role/role";
 import { whether } from "@/utils/dict/globalDict";
+import { useI18n } from "vue-i18n";
 
+const $I18n = useI18n();
 //获取菜单树下拉数据
 const menuTreeList = ref();
 const initMenuTreeList = () => {
@@ -156,7 +158,7 @@ const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
     await dialogProps.value.api!(dialogProps.value.row);
-    ElMessage.success({ message: dialogProps.value.title + "成功！" });
+    ElMessage.success({ message: dialogProps.value.title + $I18n.t("crud.success") });
     dialogProps.value.getTableList!();
     close();
   });

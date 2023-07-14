@@ -153,7 +153,9 @@ import { MENUTYPE, WHETHER } from "@/utils/dict/staticCode";
 import { Menu } from "@/api/interface/system/menu/menu";
 import { getMenuTree } from "@/api/modules/system/menu/menu";
 import { menuType, whether } from "@/utils/dict/globalDict";
+import { useI18n } from "vue-i18n";
 
+const $I18n = useI18n();
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
 
@@ -218,7 +220,7 @@ const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
     await dialogProps.value.api!(dialogProps.value.row);
-    ElMessage.success({ message: `${dialogProps.value.title}成功！` });
+    ElMessage.success(`${dialogProps.value.title}` + $I18n.t("crud.success"));
     dialogProps.value.getTableList!();
     close();
   });

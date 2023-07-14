@@ -59,6 +59,7 @@ import { User } from "@/api/interface/system/user/user";
 import UserForm from "./userForm.vue";
 import { USERTYPE } from "@/utils/dict/staticCode";
 import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
+import { dictParse } from "@/api/modules/system/dict/dict";
 
 const $I18n = useI18n();
 const proTable = ref<ProTableInstance>();
@@ -79,8 +80,13 @@ const columns: ColumnProps<User.ResList>[] = [
   { prop: "nickName", label: "用户昵称" },
   { prop: "email", label: "用户邮箱" },
   { prop: "phonenumber", label: "手机号码" },
-  { prop: "sex", label: "用户性别" },
-  { prop: "status", label: "帐号状态" },
+  { prop: "sex", label: "性别", enum: () => dictParse("sex"), fieldNames: { label: "label", value: "value" } },
+  {
+    prop: "status",
+    label: "是否停用",
+    enum: () => dictParse("whether"),
+    fieldNames: { label: "label", value: "value" }
+  },
   { prop: "loginIp", label: "最后登录IP" },
   { prop: "loginDate", label: "最后登录时间" },
   { prop: "operation", label: "操作", width: 260 }
@@ -113,7 +119,7 @@ const deleteClick = async (row: User.ResList) => {
 // 批量删除信息
 const batchDelete = async (ids: string[]) => {
   if (ids.length === 0) {
-    ElMessage.error($I18n.t("crud.beforeSelect"));
+    ElMessage.warning($I18n.t("crud.beforeSelect"));
     return;
   }
   await deleteUser(ids.toString());

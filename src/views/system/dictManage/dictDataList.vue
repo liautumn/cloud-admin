@@ -12,10 +12,10 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" @click="openDialog('add', null)" :icon="CirclePlus">新增</el-button>
-        <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">删除</el-button>
-        <el-button type="primary" @click="importClick" plain :icon="Upload">导入</el-button>
-        <el-button type="primary" @click="exportClick" plain :icon="Download">导出</el-button>
+        <el-button type="primary" @click="openDialog('insert', null)" :icon="CirclePlus">{{ $t("crud.insert") }}</el-button>
+        <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">{{ $t("crud.delete") }}</el-button>
+        <el-button type="primary" @click="importClick" plain :icon="Upload">{{ $t("crud.import") }}</el-button>
+        <el-button type="primary" @click="exportClick" plain :icon="Download">{{ $t("crud.export") }}</el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -25,9 +25,11 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
-        <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
-        <el-button type="danger" link @click="deleteClick(scope.row)" :icon="Delete">删除</el-button>
+        <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">{{ $t("crud.view") }}</el-button>
+        <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">{{
+          $t("crud.update")
+        }}</el-button>
+        <el-button type="danger" link @click="deleteClick(scope.row)" :icon="Delete">{{ $t("crud.delete") }}</el-button>
       </template>
     </ProTable>
 
@@ -55,7 +57,9 @@ import { useDownload } from "@/hooks/useDownload";
 import { ElMessage, ElMessageBox } from "element-plus";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import { useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
 
+const $I18n = useI18n();
 const route = useRoute();
 const proTable = ref<ProTableInstance>();
 
@@ -95,19 +99,19 @@ const columns: ColumnProps[] = [
 const deleteClick = async (row: any) => {
   await deleteDictData(row.id);
   proTable.value?.getTableList();
-  ElMessage.success("删除成功");
+  ElMessage.success($I18n.t("crud.deleteMsg"));
 };
 
 // 批量删除
 const batchDelete = async (ids: string[]) => {
   if (ids.length === 0) {
-    ElMessage.error("请先选择");
+    ElMessage.warning($I18n.t("crud.beforeSelect"));
     return;
   }
   await deleteDictData(ids.toString());
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
-  ElMessage.success("删除成功!");
+  ElMessage.success($I18n.t("crud.deleteMsg"));
 };
 
 // 导入
@@ -124,7 +128,7 @@ const importClick = () => {
 
 // 导出
 const exportClick = async () => {
-  ElMessageBox.confirm("确认导出数据?", "温馨提示", { type: "warning" }).then(() =>
+  ElMessageBox.confirm($I18n.t("crud.confirmExport"), $I18n.t("crud.kindReminder"), { type: "warning" }).then(() =>
     useDownload(exportDictData, "字典数据列表", { ...proTable.value?.searchParam, ...{ dictTypeId: route.query.id } })
   );
 };
@@ -134,11 +138,20 @@ const dialogRef = ref<InstanceType<typeof DictDataForm> | null>(null);
 const openDialog = (type: string, row: any) => {
   const params = {
     type,
-    title: type === "add" ? "新增" : type === "delete" ? "删除" : type === "update" ? "修改" : type === "view" ? "查看" : "",
+    title:
+      type === "insert"
+        ? $I18n.t("crud.insert")
+        : type === "delete"
+        ? $I18n.t("crud.delete")
+        : type === "update"
+        ? $I18n.t("crud.update")
+        : type === "view"
+        ? $I18n.t("crud.view")
+        : "",
     row: { ...row },
     isView: type === "view",
     disabled: type === "view",
-    api: type === "add" ? insertDictData : type === "update" ? updateDictData : undefined,
+    api: type === "insert" ? insertDictData : type === "update" ? updateDictData : undefined,
     getTableList: proTable.value?.getTableList
   };
   dialogRef.value?.open(params);

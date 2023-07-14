@@ -76,7 +76,9 @@
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
 import { Dept } from "@/api/interface/system/dept/dept";
+import { useI18n } from "vue-i18n";
 
+const $I18n = useI18n();
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
 
@@ -132,7 +134,7 @@ const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
     await dialogProps.value.api!(dialogProps.value.row);
-    ElMessage.success({ message: dialogProps.value.title + "成功！" });
+    ElMessage.success(dialogProps.value.title + $I18n.t("crud.success"));
     dialogProps.value.getTableList!();
     close();
   });

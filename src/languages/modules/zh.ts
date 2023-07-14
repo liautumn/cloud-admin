@@ -94,5 +94,10 @@ export default {
     text6: "上传文件大小不能超过",
     text7: "最多只能上传一个文件！",
     text8: "失败，请您重新上传！"
+  },
+  public: {
+    confirm: "确定",
+    cancel: "取消",
+    kindReminder: "温馨提示"
   }
 };

@@ -87,7 +87,9 @@
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
 import { dictStore } from "@/stores/modules/dict";
+import { useI18n } from "vue-i18n";
 
+const $I18n = useI18n();
 const dictStoreData = dictStore();
 
 const formRef = ref<FormInstance>();
@@ -144,7 +146,7 @@ const submit = () => {
       ...{ dictTypeId: dictStoreData.row.id, dictType: dictStoreData.row.dictType }
     };
     await dialogProps.value.api!(row);
-    ElMessage.success({ message: `${dialogProps.value.title}成功！` });
+    ElMessage.success({ message: `${dialogProps.value.title}` + $I18n.t("crud.success") });
     dialogProps.value.getTableList!();
     close();
   });

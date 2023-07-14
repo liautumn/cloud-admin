@@ -12,12 +12,18 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus"
-          >新增</el-button
-        >
-        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">删除</el-button>
-        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">导入</el-button>
-        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">导出</el-button>
+        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">{{
+          $t("crud.insert")
+        }}</el-button>
+        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">{{
+          $t("crud.delete")
+        }}</el-button>
+        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">{{
+          $t("crud.import")
+        }}</el-button>
+        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">{{
+          $t("crud.export")
+        }}</el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -27,13 +33,15 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" v-if="BUTTONS.view" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
-        <el-button type="primary" v-if="BUTTONS.update" link @click="openDialog('update', scope.row)" :icon="EditPen"
-          >编辑</el-button
-        >
+        <el-button type="primary" v-if="BUTTONS.view" link @click="openDialog('view', scope.row)" :icon="EditPen">{{
+          $t("crud.view")
+        }}</el-button>
+        <el-button type="primary" v-if="BUTTONS.update" link @click="openDialog('update', scope.row)" :icon="EditPen">{{
+          $t("crud.update")
+        }}</el-button>
         <el-popconfirm v-if="BUTTONS.delete" title="确定删除?" @confirm="deleteClick(scope.row)">
           <template #reference>
-            <el-button type="danger" link :icon="Delete">删除</el-button>
+            <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
           </template>
         </el-popconfirm>
       </template>
@@ -57,9 +65,10 @@ import { Post } from "@/api/interface/system/post/post";
 import PostForm from "./postForm.vue";
 import { dictParse } from "@/api/modules/system/dict/dict";
 import { selectPost, insertPost, updatePost, deletePost, exportPost, importPost } from "@/api/modules/system/post/post";
+import { useI18n } from "vue-i18n";
 
+const $I18n = useI18n();
 const { BUTTONS } = useAuthButtons();
-
 const proTable = ref<ProTableInstance>();
 const dataCallback = (data: any) => {
   return {
@@ -101,22 +110,19 @@ const formDefaultData = ref({
 const deleteClick = async (row: Post.ResList) => {
   await deletePost(row.id);
   proTable.value?.getTableList();
-  ElMessage({
-    message: "删除成功!",
-    type: "success"
-  });
+  ElMessage.success($I18n.t("crud.deleteMsg"));
 };
 
 // 批量删除信息
 const batchDelete = async (ids: string[]) => {
   if (ids.length === 0) {
-    ElMessage.error("请先选择");
+    ElMessage.warning($I18n.t("crud.beforeSelect"));
     return;
   }
   await deletePost(ids.toString());
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
-  ElMessage.success("删除成功");
+  ElMessage.success($I18n.t("crud.deleteMsg"));
 };
 
 // 导入
@@ -133,7 +139,7 @@ const importClick = () => {
 
 // 导出
 const exportClick = async () => {
-  ElMessageBox.confirm("确认导出数据?", "温馨提示", { type: "warning" }).then(() =>
+  ElMessageBox.confirm($I18n.t("crud.confirmExport"), $I18n.t("crud.kindReminder"), { type: "warning" }).then(() =>
     useDownload(exportPost, "部门信息", proTable.value?.searchParam)
   );
 };
@@ -144,7 +150,16 @@ const openDialog = (type: string, row: Partial<Post.ResList> = {}) => {
   const params = {
     type,
     row,
-    title: type === "insert" ? "新增" : type === "delete" ? "删除" : type === "update" ? "修改" : type === "view" ? "查看" : "",
+    title:
+      type === "insert"
+        ? $I18n.t("crud.insert")
+        : type === "delete"
+        ? $I18n.t("crud.delete")
+        : type === "update"
+        ? $I18n.t("crud.update")
+        : type === "view"
+        ? $I18n.t("crud.view")
+        : "",
     disabled: type === "view",
     api: type === "insert" ? insertPost : type === "update" ? updatePost : undefined,
     getTableList: proTable.value?.getTableList

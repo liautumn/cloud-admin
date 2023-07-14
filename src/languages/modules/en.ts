@@ -51,7 +51,7 @@ export default {
     passwordPlaceholder: "password",
     passwordMsg: "Please enter the password",
     isRemember: "Remember me: ",
-    reset: "reset",
+    reset: "Reset",
     loginBtn: "Login",
     notNull: "Cannot be empty",
     againPassword: "The two passwords do not match",
@@ -60,8 +60,8 @@ export default {
   },
   logout: {
     text1: "Are you sure you want to log out?",
-    confirm: "confirm",
-    cancel: "cancel",
+    confirm: "Confirm",
+    cancel: "Cancel",
     text2: "Successfully logged out!"
   },
   crud: {
@@ -76,9 +76,9 @@ export default {
     beforeSelect: "Please select!",
     confirmExport: "Confirm exporting data?",
     kindReminder: "Kind reminder",
-    success: "success!",
-    reset: "reset",
-    submit: "submit"
+    success: "Success!",
+    reset: "Reset",
+    submit: "Submit"
   },
   importExcel: {
     template: " Template",
@@ -94,5 +94,10 @@ export default {
     text6: "The size of the uploaded file cannot exceed",
     text7: "You can only upload one file at most!",
     text8: "Failed, please upload again!"
+  },
+  public: {
+    confirm: "Confirm",
+    cancel: "Cancel",
+    kindReminder: "Kind reminder"
   }
 };
