@@ -63,21 +63,6 @@ interface UploadFileProps {
   borderRadius?: string; // 组件边框圆角 ==> 非必传（默认为 8px）
 }
 
-interface UploadRawFile extends File {
-  uid: number;
-}
-interface UploadFile {
-  fileId: string;
-  name: string;
-  percentage?: number;
-  status: string;
-  size?: number;
-  response?: unknown;
-  uid: number;
-  url?: string;
-  raw?: UploadRawFile;
-}
-
 const props = withDefaults(defineProps<UploadFileProps>(), {
   fileIds: "",
   drag: true,
@@ -99,7 +84,7 @@ const self_disabled = computed(() => {
   return props.disabled || formContext?.disabled;
 });
 
-const fileUrls = ref();
+const fileUrls = ref<Upload.ResFileList["list"]>();
 
 const initData = () => {
   fileParse(props.fileIds).then(res => {
@@ -168,7 +153,7 @@ interface UploadEmits {
   (e: "update:fileIds", value: string): void;
 }
 const emit = defineEmits<UploadEmits>();
-const uploadSuccess = (response: Upload.ResFile | undefined, uploadFile: UploadFile) => {
+const uploadSuccess = (response: Upload.ResFile, uploadFile: any) => {
   if (!response) return;
   uploadFile.url = response.url;
   uploadFile.fileId = response.fileId;
@@ -190,11 +175,11 @@ const uploadSuccess = (response: Upload.ResFile | undefined, uploadFile: UploadF
  * @description 删除图片
  * @param file 删除的文件
  * */
-const handleRemove = (file: UploadFile) => {
-  fileUrls.value = fileUrls.value.filter(
-    (item: { url: string; name: string }) => item.url !== file.url || item.name !== file.name || item.fileId !== file.fileId
+const handleRemove = (file: any) => {
+  fileUrls.value!.filter(
+    (item: Upload.ResFile) => item.url !== file.url || item.name !== file.name || item.fileId !== file.fileId
   );
-  const fileIds = fileUrls.value.map((item: { fileId: string }) => item.fileId);
+  const fileIds = fileUrls.value!.map((item: { fileId: string }) => item.fileId);
   emit("update:fileIds", fileIds.toString());
 };
 

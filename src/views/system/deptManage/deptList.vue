@@ -76,7 +76,7 @@ const columns: ColumnProps<Dept.ResList>[] = [
 ];
 
 //声明参数
-const formDefaultData = ref<Dept.ResList>({
+const formDefaultData = ref({
   parentId: "",
   ancestors: "",
   deptName: "",

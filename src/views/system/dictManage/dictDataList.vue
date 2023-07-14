@@ -2,14 +2,13 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      :title="route.query.dictName"
       row-key="id"
       highlight-current-row
       :columns="columns"
       :request-api="selectDictData"
       :pagination="true"
       :data-callback="dataCallback"
-      :init-param="{ dictTypeId: route.query.id }"
+      :init-param="{ dictTypeId: route.query!.id }"
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
@@ -96,28 +95,19 @@ const columns: ColumnProps[] = [
 const deleteClick = async (row: any) => {
   await deleteDictData(row.id);
   proTable.value?.getTableList();
-  ElMessage({
-    message: "删除成功!",
-    type: "success"
-  });
+  ElMessage.success("删除成功");
 };
 
 // 批量删除
 const batchDelete = async (ids: string[]) => {
   if (ids.length === 0) {
-    ElMessage({
-      message: "请先选择",
-      type: "error"
-    });
+    ElMessage.error("请先选择");
     return;
   }
   await deleteDictData(ids.toString());
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
-  ElMessage({
-    message: "删除成功!",
-    type: "success"
-  });
+  ElMessage.success("删除成功!");
 };
 
 // 导入

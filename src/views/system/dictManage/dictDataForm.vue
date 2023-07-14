@@ -44,7 +44,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="数据类型" prop="dictType">
-            <el-input v-model="dictStoreData.row.dictType" disabled="true" placeholder="数据类型" clearable />
+            <el-input v-model="dictStoreData.row!.dictType" :disabled="true" placeholder="数据类型" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">

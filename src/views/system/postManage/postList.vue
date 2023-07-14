@@ -88,7 +88,7 @@ const columns: ColumnProps<Post.ResList>[] = [
 ];
 
 //声明参数
-const formDefaultData = ref<Post.ResList>({
+const formDefaultData = ref({
   id: "",
   postCode: "",
   postName: "",

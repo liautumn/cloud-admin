@@ -36,16 +36,16 @@ import { Picture } from "@element-plus/icons-vue";
 import { ref, watch } from "vue";
 import { fileParse } from "@/api/modules/file/upload";
 
-const imageUrl = ref("");
+const imageUrl = ref();
 const imageUrls = ref();
 
 interface ImgViewProps {
-  fileId?: string;
-  fit?: string;
-  height?: string;
-  width?: string;
-  borderRadius?: string;
-  preview?: boolean;
+  fileId: string;
+  fit: any;
+  height: string;
+  width: string;
+  borderRadius: string;
+  preview: boolean;
 }
 // 接受父组件参数
 const props = withDefaults(defineProps<ImgViewProps>(), {

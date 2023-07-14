@@ -6,6 +6,6 @@ export namespace Upload {
     url: string;
   }
   export interface ResFileList {
-    list: [fileId: string, name: string, url: string];
+    list: [{ fileId: string; name: string; url: string }];
   }
 }

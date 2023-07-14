@@ -73,9 +73,8 @@ const columns: ColumnProps<Menu.ResList>[] = [
   { prop: "operation", label: "操作", width: 300 }
 ];
 
-//表单默认数据
 //声明参数
-const formDefaultData = ref<Menu.ResList>({
+const formDefaultData = ref({
   id: "",
   title: "",
   name: "",
