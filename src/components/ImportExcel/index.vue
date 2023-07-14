@@ -1,17 +1,17 @@
 <template>
   <el-dialog
     v-model="dialogVisible"
-    :title="`批量添加${parameter.title}`"
+    :title="$t('importExcel.batchAdd') + `${parameter.title}`"
     :destroy-on-close="true"
     width="580px"
     draggable
     style="border-radius: 8px"
   >
     <el-form class="drawer-multiColumn-form" label-width="100px">
-      <el-form-item label="模板下载 :">
-        <el-button type="primary" :icon="Download" @click="downloadTemp">点击下载</el-button>
+      <el-form-item :label="$t('importExcel.templateDownload')">
+        <el-button type="primary" :icon="Download" @click="downloadTemp">{{ $t("importExcel.clickToDownload") }}</el-button>
       </el-form-item>
-      <el-form-item label="文件上传 :">
+      <el-form-item :label="$t('importExcel.fileUpload')">
         <el-upload
           action="#"
           class="upload"
@@ -28,12 +28,14 @@
         >
           <slot name="empty">
             <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__text">
+              {{ $t("importExcel.text1") }}<em>{{ $t("importExcel.text2") }}</em>
+            </div>
           </slot>
           <template #tip>
             <slot name="tip">
-              <div class="el-upload__tip">请上传 .xls , .xlsx 标准格式文件，文件最大为 {{ parameter.fileSize }}M</div>
-              <div class="el-upload__tip">导出的原数据为修改操作，添加的新数据为新增操作</div>
+              <div class="el-upload__tip">{{ $t("importExcel.text3") }} {{ parameter.fileSize }}M</div>
+              <div class="el-upload__tip">{{ $t("importExcel.text4") }}</div>
             </slot>
           </template>
         </el-upload>
@@ -47,9 +49,12 @@
 
 <script setup lang="ts" name="ImportExcel">
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useDownload } from "@/hooks/useDownload";
 import { Download } from "@element-plus/icons-vue";
 import { ElNotification, UploadRequestOptions, UploadRawFile } from "element-plus";
+
+const $I18n = useI18n();
 
 export interface ExcelParameterProps {
   title: string; // 标题
@@ -82,7 +87,7 @@ const acceptParams = (params: ExcelParameterProps) => {
 // Excel 导入模板下载
 const downloadTemp = () => {
   if (!parameter.value.tempApi) return;
-  useDownload(parameter.value.tempApi, `${parameter.value.title}模板`, { tempFlag: true });
+  useDownload(parameter.value.tempApi, `${parameter.value.title}` + $I18n.t("importExcel.template"), { tempFlag: true });
 };
 
 // 文件上传
@@ -104,15 +109,15 @@ const beforeExcelUpload = (file: UploadRawFile) => {
   const fileSize = file.size / 1024 / 1024 < parameter.value.fileSize!;
   if (!isExcel)
     ElNotification({
-      title: "温馨提示",
-      message: "上传文件只能是 xls / xlsx 格式！",
+      title: $I18n.t("crud.kindReminder"),
+      message: $I18n.t("importExcel.text5"),
       type: "warning"
     });
   if (!fileSize)
     setTimeout(() => {
       ElNotification({
-        title: "温馨提示",
-        message: `上传文件大小不能超过 ${parameter.value.fileSize}MB！`,
+        title: $I18n.t("crud.kindReminder"),
+        message: $I18n.t("importExcel.text6") + ` ${parameter.value.fileSize}MB！`,
         type: "warning"
       });
     }, 0);
@@ -122,8 +127,8 @@ const beforeExcelUpload = (file: UploadRawFile) => {
 // 文件数超出提示
 const handleExceed = () => {
   ElNotification({
-    title: "温馨提示",
-    message: "最多只能上传一个文件！",
+    title: $I18n.t("crud.kindReminder"),
+    message: $I18n.t("importExcel.text7"),
     type: "warning"
   });
 };
@@ -131,8 +136,8 @@ const handleExceed = () => {
 // 上传错误提示
 const excelUploadError = () => {
   ElNotification({
-    title: "温馨提示",
-    message: `批量添加${parameter.value.title}失败，请您重新上传！`,
+    title: $I18n.t("crud.kindReminder"),
+    message: $I18n.t("importExcel.batchAdd") + ` ${parameter.value.title} ` + $I18n.t("importExcel.text8"),
     type: "error"
   });
 };
@@ -140,8 +145,8 @@ const excelUploadError = () => {
 // 上传成功提示
 const excelUploadSuccess = () => {
   ElNotification({
-    title: "温馨提示",
-    message: `批量添加${parameter.value.title}成功！`,
+    title: $I18n.t("crud.kindReminder"),
+    message: $I18n.t("importExcel.batchAdd") + `${parameter.value.title}` + $I18n.t("crud.success"),
     type: "success"
   });
 };

@@ -20,6 +20,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
 import { logoutApi } from "@/api/modules/auth/login";
@@ -28,14 +29,15 @@ import { ElMessageBox, ElMessage } from "element-plus";
 import InfoDialog from "./InfoDialog.vue";
 import imgView from "@/components/Upload/imgView.vue";
 
+const $I18n = useI18n();
 const router = useRouter();
 const userStore = useUserStore();
 
 // 退出登录
 const logout = () => {
-  ElMessageBox.confirm("您是否确认退出登录?", "温馨提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm($I18n.t("logout.text1"), $I18n.t("crud.kindReminder"), {
+    confirmButtonText: $I18n.t("logout.confirm"),
+    cancelButtonText: $I18n.t("logout.cancel"),
     type: "warning"
   }).then(async () => {
     // 1.执行退出登录接口
@@ -46,7 +48,7 @@ const logout = () => {
 
     // 3.重定向到登陆页
     router.replace(LOGIN_URL);
-    ElMessage.success("退出登录成功！");
+    ElMessage.success($I18n.t("logout.text2"));
   });
 };
 

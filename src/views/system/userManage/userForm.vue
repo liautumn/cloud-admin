@@ -95,8 +95,8 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer" v-if="!dialogProps.disabled">
-        <el-button @click="reset">重置</el-button>
-        <el-button type="primary" @click="submit"> 提交 </el-button>
+        <el-button @click="reset">{{ $t("crud.reset") }}</el-button>
+        <el-button type="primary" @click="submit"> {{ $t("crud.submit") }} </el-button>
       </span>
     </template>
   </el-dialog>
@@ -104,11 +104,13 @@
 
 <script setup lang="ts" name="userForm">
 import { FormInstance, FormRules, ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
 import { ref, reactive } from "vue";
 import { User } from "@/api/interface/system/user/user";
 import { getRoleList, getDeptList, getPostList } from "@/api/modules/system/role/role";
 import { sex, whether } from "@/utils/dict/globalDict";
 
+const $I18n = useI18n();
 //获取所属部门下拉数据
 const deptDataList = ref();
 const initDeptDataList = () => {
@@ -198,7 +200,7 @@ const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
     await dialogProps.value.api!(dialogProps.value.row);
-    ElMessage.success({ message: dialogProps.value.title + "成功！" });
+    ElMessage.success({ message: dialogProps.value.title + $I18n.t("crud.success") });
     dialogProps.value.getTableList!();
     close();
   });

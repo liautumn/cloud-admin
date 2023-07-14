@@ -12,10 +12,12 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">新增</el-button>
-        <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">删除</el-button>
-        <el-button type="primary" @click="importClick" plain :icon="Upload">导入</el-button>
-        <el-button type="primary" @click="exportClick" plain :icon="Download">导出</el-button>
+        <el-button type="primary" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">{{
+          $t("crud.insert")
+        }}</el-button>
+        <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">{{ $t("crud.delete") }}</el-button>
+        <el-button type="primary" @click="importClick" plain :icon="Upload">{{ $t("crud.import") }}</el-button>
+        <el-button type="primary" @click="exportClick" plain :icon="Download">{{ $t("crud.export") }}</el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -26,11 +28,13 @@
       <!-- 菜单操作 -->
       <template #operation="scope">
         <div v-if="scope.row.userType !== USERTYPE">
-          <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="EditPen">查看</el-button>
-          <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">编辑</el-button>
-          <el-popconfirm title="确定删除?" @confirm="deleteClick(scope.row)">
+          <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="View">{{ $t("crud.view") }}</el-button>
+          <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">{{
+            $t("crud.update")
+          }}</el-button>
+          <el-popconfirm :title="$t('crud.deleteConfirm')" @confirm="deleteClick(scope.row)">
             <template #reference>
-              <el-button type="danger" link :icon="Delete">删除</el-button>
+              <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
             </template>
           </el-popconfirm>
         </div>
@@ -44,9 +48,10 @@
 
 <script setup lang="ts" name="userList">
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { Delete, EditPen, CirclePlus, Download, Upload } from "@element-plus/icons-vue";
+import { Delete, EditPen, CirclePlus, Download, Upload, View } from "@element-plus/icons-vue";
 import { useDownload } from "@/hooks/useDownload";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -55,6 +60,7 @@ import UserForm from "./userForm.vue";
 import { USERTYPE } from "@/utils/dict/staticCode";
 import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
 
+const $I18n = useI18n();
 const proTable = ref<ProTableInstance>();
 const dataCallback = (data: any) => {
   return {
@@ -77,11 +83,11 @@ const columns: ColumnProps<User.ResList>[] = [
   { prop: "status", label: "帐号状态" },
   { prop: "loginIp", label: "最后登录IP" },
   { prop: "loginDate", label: "最后登录时间" },
-  { prop: "operation", label: "操作", width: 300 }
+  { prop: "operation", label: "操作", width: 260 }
 ];
 
 //声明参数
-const formDefaultData = ref<User.ResList>({
+const formDefaultData = ref({
   deptId: "",
   userName: "",
   nickName: "",
@@ -101,19 +107,19 @@ const formDefaultData = ref<User.ResList>({
 const deleteClick = async (row: User.ResList) => {
   await deleteUser(row.id);
   proTable.value?.getTableList();
-  ElMessage.success("删除成功");
+  ElMessage.success($I18n.t("crud.deleteMsg"));
 };
 
 // 批量删除信息
 const batchDelete = async (ids: string[]) => {
   if (ids.length === 0) {
-    ElMessage.error("请先选择");
+    ElMessage.error($I18n.t("crud.beforeSelect"));
     return;
   }
   await deleteUser(ids.toString());
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
-  ElMessage.success("删除成功");
+  ElMessage.success($I18n.t("crud.deleteMsg"));
 };
 
 // 导入
@@ -130,7 +136,7 @@ const importClick = () => {
 
 // 导出
 const exportClick = async () => {
-  ElMessageBox.confirm("确认导出数据?", "温馨提示", { type: "warning" }).then(() =>
+  ElMessageBox.confirm($I18n.t("crud.confirmExport"), $I18n.t("crud.kindReminder"), { type: "warning" }).then(() =>
     useDownload(exportUser, "用户信息", proTable.value?.searchParam)
   );
 };
@@ -141,7 +147,16 @@ const openDialog = (type: string, row: Partial<User.ResList> = {}) => {
   const params = {
     type,
     row,
-    title: type === "insert" ? "新增" : type === "delete" ? "删除" : type === "update" ? "修改" : type === "view" ? "查看" : "",
+    title:
+      type === "insert"
+        ? $I18n.t("crud.insert")
+        : type === "delete"
+        ? $I18n.t("crud.delete")
+        : type === "update"
+        ? $I18n.t("crud.update")
+        : type === "view"
+        ? $I18n.t("crud.view")
+        : "",
     disabled: type === "view",
     api: type === "insert" ? insertUser : type === "update" ? updateUser : undefined,
     getTableList: proTable.value?.getTableList

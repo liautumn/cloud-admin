@@ -1,27 +1,33 @@
 <template>
   <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="large">
     <el-form-item prop="userName">
-      <el-input v-model="loginForm.userName" placeholder="用户名：admin">
+      <el-input v-model="loginForm.userName" :placeholder="$t('loginUser.userNamePlaceholder')">
         <template #prefix>
           <el-icon class="el-input__icon"><user /></el-icon>
         </template>
       </el-input>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input type="password" v-model="loginForm.password" placeholder="密码：123456" show-password autocomplete="new-password">
+      <el-input
+        type="password"
+        v-model="loginForm.password"
+        :placeholder="$t('loginUser.passwordPlaceholder')"
+        show-password
+        autocomplete="new-password"
+      >
         <template #prefix>
           <el-icon class="el-input__icon"><lock /></el-icon>
         </template>
       </el-input>
     </el-form-item>
-    <el-form-item label="记住我: " prop="isRemember">
+    <el-form-item :label="$t('loginUser.isRemember')" prop="isRemember">
       <el-switch v-model="loginForm.isRemember" inline-prompt active-text="Y" inactive-text="N" />
     </el-form-item>
   </el-form>
   <div class="login-btn">
-    <el-button :icon="CircleClose" round @click="resetForm(loginFormRef)" size="large">重置</el-button>
+    <el-button :icon="CircleClose" round @click="resetForm(loginFormRef)" size="large">{{ $t("loginUser.reset") }}</el-button>
     <el-button :icon="UserFilled" round @click="login(loginFormRef)" size="large" type="primary" :loading="loading">
-      登录
+      {{ $t("loginUser.loginBtn") }}
     </el-button>
   </div>
 </template>
@@ -29,6 +35,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 import { HOME_URL } from "@/config";
 import { getTimeState } from "@/utils";
 import { Login } from "@/api/interface/auth/login";
@@ -41,6 +48,7 @@ import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 import { CircleClose, UserFilled } from "@element-plus/icons-vue";
 import type { ElForm } from "element-plus";
 
+const $I18n = useI18n();
 const router = useRouter();
 const userStore = useUserStore();
 const tabsStore = useTabsStore();
@@ -49,8 +57,8 @@ const keepAliveStore = useKeepAliveStore();
 type FormInstance = InstanceType<typeof ElForm>;
 const loginFormRef = ref<FormInstance>();
 const loginRules = reactive({
-  userName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-  password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+  userName: [{ required: true, message: $I18n.t("loginUser.userNameMsg"), trigger: "blur" }],
+  password: [{ required: true, message: $I18n.t("loginUser.passwordMsg"), trigger: "blur" }]
 });
 
 const loading = ref(false);
@@ -85,7 +93,7 @@ const login = (formEl: FormInstance | undefined) => {
       router.push(HOME_URL);
       ElNotification({
         title: getTimeState(),
-        message: "欢迎登录: " + userStore.userInfo.nickName,
+        message: $I18n.t("loginUser.text3") + userStore.userInfo.nickName,
         type: "success",
         duration: 2000
       });
