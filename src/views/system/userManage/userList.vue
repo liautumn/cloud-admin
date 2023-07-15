@@ -12,12 +12,18 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">{{
+        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">{{
           $t("crud.insert")
         }}</el-button>
-        <el-button type="danger" @click="batchDelete(scope.selectedListIds)" :icon="Delete">{{ $t("crud.delete") }}</el-button>
-        <el-button type="primary" @click="importClick" plain :icon="Upload">{{ $t("crud.import") }}</el-button>
-        <el-button type="primary" @click="exportClick" plain :icon="Download">{{ $t("crud.export") }}</el-button>
+        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">{{
+          $t("crud.delete")
+        }}</el-button>
+        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">{{
+          $t("crud.import")
+        }}</el-button>
+        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">{{
+          $t("crud.export")
+        }}</el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -28,11 +34,13 @@
       <!-- 菜单操作 -->
       <template #operation="scope">
         <div v-if="scope.row.userType !== USERTYPE">
-          <el-button type="primary" link @click="openDialog('view', scope.row)" :icon="View">{{ $t("crud.view") }}</el-button>
-          <el-button type="primary" link @click="openDialog('update', scope.row)" :icon="EditPen">{{
+          <el-button type="primary" link v-if="BUTTONS.view" @click="openDialog('view', scope.row)" :icon="View">{{
+            $t("crud.view")
+          }}</el-button>
+          <el-button type="primary" link v-if="BUTTONS.update" @click="openDialog('update', scope.row)" :icon="EditPen">{{
             $t("crud.update")
           }}</el-button>
-          <el-popconfirm :title="$t('crud.deleteConfirm')" @confirm="deleteClick(scope.row)">
+          <el-popconfirm :title="$t('crud.deleteConfirm')" v-if="BUTTONS.delete" @confirm="deleteClick(scope.row)">
             <template #reference>
               <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
             </template>
@@ -60,8 +68,10 @@ import UserForm from "./userForm.vue";
 import { USERTYPE } from "@/utils/dict/staticCode";
 import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
 import { dictParse } from "@/api/modules/system/dict/dict";
+import { useAuthButtons } from "@/hooks/useAuthButtons";
 
 const $I18n = useI18n();
+const { BUTTONS } = useAuthButtons();
 const proTable = ref<ProTableInstance>();
 const dataCallback = (data: any) => {
   return {

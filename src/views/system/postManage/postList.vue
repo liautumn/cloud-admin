@@ -39,7 +39,7 @@
         <el-button type="primary" v-if="BUTTONS.update" link @click="openDialog('update', scope.row)" :icon="EditPen">{{
           $t("crud.update")
         }}</el-button>
-        <el-popconfirm v-if="BUTTONS.delete" title="确定删除?" @confirm="deleteClick(scope.row)">
+        <el-popconfirm v-if="BUTTONS.delete" :title="$t('crud.deleteConfirm')" @confirm="deleteClick(scope.row)">
           <template #reference>
             <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
           </template>

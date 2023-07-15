@@ -76,8 +76,8 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer" v-if="!dialogProps.disabled">
-        <el-button @click="reset">重置</el-button>
-        <el-button type="primary" @click="submit"> 提交 </el-button>
+        <el-button @click="reset">{{ $t("crud.reset") }}</el-button>
+        <el-button type="primary" @click="submit">{{ $t("crud.submit") }}</el-button>
       </span>
     </template>
   </el-dialog>
