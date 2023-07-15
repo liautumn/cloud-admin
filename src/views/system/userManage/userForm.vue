@@ -55,9 +55,15 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="所属部门" prop="deptId">
-            <el-select v-model="dialogProps.row!.deptId" filterable clearable placeholder="请选择" style="width: 100%">
-              <el-option v-for="item in deptDataList" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
+            <el-tree-select
+              v-model="dialogProps.row!.deptId"
+              :data="deptDataList"
+              placeholder="请选择"
+              :render-after-expand="false"
+              filterable
+              clearable
+              style="width: 100%"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -96,7 +102,7 @@
     <template #footer>
       <span class="dialog-footer" v-if="!dialogProps.disabled">
         <el-button @click="reset">{{ $t("crud.reset") }}</el-button>
-        <el-button type="primary" @click="submit">{{ $t("crud.submit") }}</el-button>
+        <el-button type="primary" v-debounce="submit">{{ $t("crud.submit") }}</el-button>
       </span>
     </template>
   </el-dialog>

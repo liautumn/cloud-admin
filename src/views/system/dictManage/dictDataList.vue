@@ -90,6 +90,7 @@ const dataCallback = (data: any) => {
 
 // 表格配置项
 const columns: ColumnProps[] = [
+  { type: "selection", fixed: "left", width: 60 },
   { type: "index", width: 60, label: "序号" },
   { prop: "dictLabel", label: "数据标签", search: { el: "input" } },
   { prop: "dictValue", label: "数据键值", search: { el: "input" } },

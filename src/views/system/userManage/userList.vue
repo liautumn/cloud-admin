@@ -1,5 +1,6 @@
 <template>
-  <div class="table-box">
+  <div class="content-box">
+    <TreeFilter id="value" label="label" title="部门列表" :request-api="getDeptList" @change="changeTreeFilter" />
     <ProTable
       ref="proTable"
       title="用户信息"
@@ -9,6 +10,7 @@
       :request-api="selectUser"
       :pagination="true"
       :data-callback="dataCallback"
+      :initParam="initParam"
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
@@ -58,6 +60,7 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import ProTable from "@/components/ProTable/index.vue";
+import TreeFilter from "@/components/TreeFilter/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { Delete, EditPen, CirclePlus, Download, Upload, View } from "@element-plus/icons-vue";
 import { useDownload } from "@/hooks/useDownload";
@@ -67,6 +70,7 @@ import { User } from "@/api/interface/system/user/user";
 import UserForm from "./userForm.vue";
 import { USERTYPE } from "@/utils/dict/staticCode";
 import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
+import { getDeptList } from "@/api/modules/system/role/role";
 import { dictParse } from "@/api/modules/system/dict/dict";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 
@@ -80,6 +84,15 @@ const dataCallback = (data: any) => {
     pageNum: data.pageNum,
     pageSize: data.pageSize
   };
+};
+
+const initParam = ref({
+  deptId: ""
+});
+
+const changeTreeFilter = (val: string) => {
+  initParam.value.deptId = val;
+  proTable.value?.getTableList();
 };
 
 // 表格配置项
@@ -180,3 +193,18 @@ const openDialog = (type: string, row: Partial<User.ResList> = {}) => {
   dialogRef.value?.open(params);
 };
 </script>
+
+<style>
+.content-box {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  .descriptions-box {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+  }
+}
+</style>

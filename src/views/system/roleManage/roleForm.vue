@@ -53,9 +53,11 @@
               show-checkbox
               :check-on-click-node="true"
               :render-after-expand="false"
-              check-strictly
+              :check-strictly="true"
               filterable
               clearable
+              @node-click="handleNodeClick"
+              @check-change="handleCheckChange"
               style="width: 100%"
             />
           </el-form-item>
@@ -90,6 +92,8 @@ import { whether } from "@/utils/dict/globalDict";
 import { useI18n } from "vue-i18n";
 
 const $I18n = useI18n();
+const formRef = ref<FormInstance>();
+const dialogFlag = ref(false);
 //获取菜单树下拉数据
 const menuTreeList = ref();
 const initMenuTreeList = () => {
@@ -102,8 +106,12 @@ const initMenuTreeList = () => {
 };
 initMenuTreeList();
 
-const formRef = ref<FormInstance>();
-const dialogFlag = ref(false);
+const handleNodeClick = (data: any) => {
+  console.log(data);
+};
+const handleCheckChange = (data: any, checked: boolean, indeterminate: boolean) => {
+  console.log(data, checked, indeterminate);
+};
 
 //表单字段规则
 const rules = reactive<FormRules>({
