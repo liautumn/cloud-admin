@@ -5,7 +5,7 @@
       <div class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
         <div class="logo flx-center">
           <img class="logo-img" src="@/assets/images/logo.png" alt="logo" />
-          <span class="logo-text" v-show="!isCollapse">cloud-admin</span>
+          <span class="logo-text" v-show="!isCollapse">autumn-cloud</span>
         </div>
         <el-scrollbar>
           <el-menu

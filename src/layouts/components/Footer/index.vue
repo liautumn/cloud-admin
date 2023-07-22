@@ -1,6 +1,6 @@
 <template>
   <div class="footer flx-center">
-    <a href="#" target="_blank"> 2023 © cloud-admin By xxx. </a>
+    <a href="#" target="_blank"> 2023 © autumn-cloud By xxx. </a>
   </div>
 </template>
 

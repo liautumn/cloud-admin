@@ -1,26 +1,25 @@
 {
-  "name": "cloud-admin",
+  "name": "autumn-cloud",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "cloud-admin open source management system",
+  "description": "autumn-cloud open source management system",
   "author": {
     "name": "autumn",
-    "email": "",
+    "email": "liautumns@outlook.com",
     "url": ""
   },
   "license": "MIT",
-  "homepage": "https://github.com/HalseySpicy/Geeker-Admin",
+  "homepage": "",
   "repository": {
     "type": "git",
-    "url": "git@github.com:HalseySpicy/Geeker-Admin.git"
+    "url": ""
   },
   "bugs": {
-    "url": "https://github.com/HalseySpicy/Geeker-Admin/issues"
+    "url": ""
   },
   "scripts": {
     "dev": "vite --mode development",
-    "mock": "vite --mode mock",
     "build:dev": "vue-tsc && vite build --mode development",
     "build:test": "vue-tsc && vite build --mode test",
     "build:prod": "vue-tsc && vite build --mode production",

@@ -98,9 +98,11 @@ if (props.fileIds != "" && props.fileIds != null) {
 watch(
   () => props.fileIds,
   newProps => {
-    fileParse(newProps).then(res => {
-      fileUrls.value = res.data.list;
-    });
+    if (newProps != null && newProps != "") {
+      fileParse(newProps).then(res => {
+        fileUrls.value = res.data.list;
+      });
+    }
   }
 );
 

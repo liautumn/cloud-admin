@@ -12,7 +12,7 @@
             <div class="message-item">
               <img src="@/assets/images/msg01.png" alt="" class="message-icon" />
               <div class="message-content">
-                <span class="message-title">一键三连 cloud-admin 🧡</span>
+                <span class="message-title">一键三连 autumn-cloud 🧡</span>
                 <span class="message-date">一分钟前</span>
               </div>
             </div>

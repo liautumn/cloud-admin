@@ -114,9 +114,11 @@ if (props.fileId != "" && props.fileId != null) {
 watch(
   () => props.fileId,
   newProps => {
-    fileParse(newProps).then(res => {
-      imageUrl.value = res.data.list[0]?.url;
-    });
+    if (newProps != null && newProps != "") {
+      fileParse(newProps).then(res => {
+        imageUrl.value = res.data.list[0]?.url;
+      });
+    }
   }
 );
 

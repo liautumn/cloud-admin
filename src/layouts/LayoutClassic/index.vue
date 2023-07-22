@@ -5,7 +5,7 @@
       <div class="header-lf">
         <div class="logo flx-center">
           <img class="logo-img" src="@/assets/images/logo.png" alt="logo" />
-          <span class="logo-text">cloud-admin</span>
+          <span class="logo-text">autumn-cloud</span>
         </div>
         <ToolBarLeft />
       </div>

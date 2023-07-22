@@ -9,11 +9,11 @@
         <el-row :gutter="40">
           <el-col class="mb40" :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="item-left sle">
-              <span class="left-title">访问总数</span>
-              <div class="img-box">
-                <img src="./images/book-sum.png" alt="" />
-              </div>
-              <span class="left-number">848.132w</span>
+              <span class="left-title">访问总数: 100w</span>
+              <!--              <div class="img-box">-->
+              <!--                <img src="./images/book-sum.png" alt="" />-->
+              <!--              </div>-->
+              <!--              <span class="left-number">848.132w</span>-->
             </div>
           </el-col>
           <el-col class="mb40" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">

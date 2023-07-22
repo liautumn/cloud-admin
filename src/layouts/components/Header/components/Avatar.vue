@@ -1,8 +1,6 @@
 <template>
   <el-dropdown trigger="click">
-    <div class="avatar">
-      <imgView v-model:fileId="userStore.userInfo.avatar" width="100%" height="100%" :preview="false"></imgView>
-    </div>
+    <imgView v-model:fileId="userStore.userInfo.avatar" width="40px" height="40px" :preview="false" />
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item @click="openDialog('infoRef')">
@@ -58,13 +56,3 @@ const openDialog = (ref: string) => {
   if (ref == "infoRef") infoRef.value?.openDialog();
 };
 </script>
-
-<style scoped lang="scss">
-.avatar {
-  width: 40px;
-  height: 40px;
-  overflow: hidden;
-  cursor: pointer;
-  border-radius: 50%;
-}
-</style>

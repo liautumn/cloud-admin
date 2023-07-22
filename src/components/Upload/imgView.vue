@@ -51,8 +51,8 @@ interface ImgViewProps {
 const props = withDefaults(defineProps<ImgViewProps>(), {
   fileId: "",
   fit: "cover",
-  height: "138.4px",
-  width: "138.4px",
+  height: "133.4px",
+  width: "133.4px",
   borderRadius: "8px",
   preview: true
 });
@@ -75,9 +75,14 @@ if (props.fileId != "" && props.fileId != null) {
 watch(
   () => props.fileId,
   async newProps => {
-    const { data } = await fileParse(newProps);
-    imageUrls.value = data.list;
-    imageUrl.value = data.list[0]?.url;
+    if (newProps != null && newProps != "") {
+      const { data } = await fileParse(newProps);
+      imageUrls.value = data.list;
+      imageUrl.value = data.list[0]?.url;
+    } else {
+      imageUrls.value = [];
+      imageUrl.value = "";
+    }
   }
 );
 </script>
