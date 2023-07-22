@@ -14,7 +14,7 @@ export const whether = [
 export const sex = [
   { label: "男", value: "0" },
   { label: "女", value: "1" },
-  { label: "不告诉你", value: "2" }
+  { label: "非二元性", value: "2" }
 ];
 
 /**

@@ -12,7 +12,7 @@
     :modal="true"
     style="border-radius: 8px"
   >
-    <el-tabs class="my-tabs" v-model="activeName">
+    <el-tabs class="my-tabs" tab-position="top" v-model="activeName">
       <el-tab-pane name="0" :label="$t('loginUser.label1')">
         <el-form ref="formRef" label-width="110px" label-suffix=" :" :model="formData" :rules="rules" label-position="right">
           <el-row>
@@ -268,9 +268,13 @@ defineExpose({ openDialog });
 </script>
 <style>
 .my-tabs > .el-tabs__content {
-  padding: 32px;
+  padding: 10px;
   font-size: 32px;
   font-weight: 600;
   color: #6b778c;
+}
+.el-dialog__body {
+  padding-top: 5px;
+  padding-bottom: 10px;
 }
 </style>
