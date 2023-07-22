@@ -24,6 +24,3 @@ stats.html
 *.njsproj
 *.sln
 *.sw?
-
-.history/**
-src/layouts/components/Main/index.vue
