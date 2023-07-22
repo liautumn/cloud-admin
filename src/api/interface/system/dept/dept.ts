@@ -6,7 +6,7 @@ export namespace Dept {
     parentId: string;
     ancestors: string;
     deptName: string;
-    orderNum: string;
+    orderNum: number;
     leader: string;
     phone: string;
     email: string;
@@ -18,7 +18,7 @@ export namespace Dept {
     parentId: string;
     ancestors: string;
     deptName: string;
-    orderNum: string;
+    orderNum: number;
     leader: string;
     phone: string;
     email: string;

@@ -35,19 +35,19 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <div v-if="scope.row.userType !== USERTYPE">
-          <el-button type="primary" link v-if="BUTTONS.view" @click="openDialog('view', scope.row)" :icon="View">{{
-            $t("crud.view")
-          }}</el-button>
-          <el-button type="primary" link v-if="BUTTONS.update" @click="openDialog('update', scope.row)" :icon="EditPen">{{
-            $t("crud.update")
-          }}</el-button>
-          <el-popconfirm :title="$t('crud.deleteConfirm')" v-if="BUTTONS.delete" @confirm="deleteClick(scope.row)">
-            <template #reference>
-              <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
-            </template>
-          </el-popconfirm>
-        </div>
+        <!--        <div v-if="scope.row.userType !== USERTYPE">-->
+        <el-button type="primary" link v-if="BUTTONS.view" @click="openDialog('view', scope.row)" :icon="View">{{
+          $t("crud.view")
+        }}</el-button>
+        <el-button type="primary" link v-if="BUTTONS.update" @click="openDialog('update', scope.row)" :icon="EditPen">{{
+          $t("crud.update")
+        }}</el-button>
+        <el-popconfirm :title="$t('crud.deleteConfirm')" v-if="BUTTONS.delete" @confirm="deleteClick(scope.row)">
+          <template #reference>
+            <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
+          </template>
+        </el-popconfirm>
+        <!--        </div>-->
       </template>
     </ProTable>
 
@@ -68,9 +68,9 @@ import ImportExcel from "@/components/ImportExcel/index.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { User } from "@/api/interface/system/user/user";
 import UserForm from "./userForm.vue";
-import { USERTYPE } from "@/utils/dict/staticCode";
+// import { USERTYPE } from "@/utils/dict/staticCode";
 import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
-import { getDeptList } from "@/api/modules/system/role/role";
+import { getDeptList } from "@/api/modules/system/dept/dept";
 import { dictParse } from "@/api/modules/system/dict/dict";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 
@@ -98,21 +98,22 @@ const changeTreeFilter = (val: string) => {
 // 表格配置项
 const columns: ColumnProps<User.ResList>[] = [
   { type: "selection", fixed: "left", width: 60 },
-  { type: "index", width: 60, label: "序号" },
-  { prop: "userName", label: "用户账号" },
-  { prop: "nickName", label: "用户昵称" },
-  { prop: "email", label: "用户邮箱" },
-  { prop: "phonenumber", label: "手机号码" },
+  { type: "index", label: "序号", width: 60 },
+  { prop: "userName", label: "账号", width: 150 },
+  { prop: "nickName", label: "昵称", width: 150 },
   { prop: "sex", label: "性别", enum: () => dictParse("sex"), fieldNames: { label: "label", value: "value" } },
   {
     prop: "status",
     label: "是否停用",
     enum: () => dictParse("whether"),
-    fieldNames: { label: "label", value: "value" }
+    fieldNames: { label: "label", value: "value" },
+    width: 100
   },
-  { prop: "loginIp", label: "最后登录IP" },
-  { prop: "loginDate", label: "最后登录时间" },
-  { prop: "operation", label: "操作", width: 260 }
+  { prop: "phonenumber", label: "手机", width: 120 },
+  { prop: "email", label: "邮箱", width: 180 },
+  { prop: "loginIp", label: "登录IP", width: 150 },
+  { prop: "loginDate", label: "登录时间", width: 180 },
+  { prop: "operation", label: "操作", fixed: "right", width: 250 }
 ];
 
 //声明参数

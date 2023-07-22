@@ -77,6 +77,7 @@ const dialogFlag = ref(false);
 
 //表单字段规则
 const rules = reactive<FormRules>({
+  postName: [{ required: true, message: "不能为空", trigger: "blur" }],
   postCode: [{ required: true, message: "不能为空", trigger: "blur" }]
 });
 

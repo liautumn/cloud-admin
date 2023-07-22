@@ -32,3 +32,8 @@ export const importDept = (params: FormData) => {
 export const exportDept = (params: Dept.ReqParams) => {
   return http.download(SYSTEM + `/dept/export`, params, { noLoading: true });
 };
+
+// 获取所属部门下拉数据
+export const getDeptList = (params: any) => {
+  return http.post(SYSTEM + `/dept/getDeptList`, params, { noLoading: true });
+};

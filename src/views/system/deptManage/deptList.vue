@@ -8,6 +8,7 @@
       :columns="columns"
       :request-api="selectDept"
       :pagination="true"
+      default-expand-all
       :data-callback="dataCallback"
     >
       <!-- 表格 header 按钮 -->
@@ -36,6 +37,14 @@
         <el-button type="primary" link v-if="BUTTONS.view" @click="openDialog('view', scope.row)" :icon="EditPen">{{
           $t("crud.view")
         }}</el-button>
+        <el-button
+          type="primary"
+          link
+          v-if="BUTTONS.insert"
+          @click="openDialog('insertRow', { ...formDefaultData, ...{ parentId: scope.row.id } })"
+          :icon="CirclePlus"
+          >{{ $t("crud.insert") }}</el-button
+        >
         <el-button type="primary" link v-if="BUTTONS.update" @click="openDialog('update', scope.row)" :icon="EditPen">{{
           $t("crud.update")
         }}</el-button>
@@ -95,7 +104,7 @@ const formDefaultData = ref({
   parentId: "",
   ancestors: "",
   deptName: "",
-  orderNum: "1",
+  orderNum: 1,
   leader: "",
   phone: "",
   email: "",
@@ -148,6 +157,8 @@ const openDialog = (type: string, row: Partial<Dept.ResList> = {}) => {
     title:
       type === "insert"
         ? $I18n.t("crud.insert")
+        : type === "insertRow"
+        ? $I18n.t("crud.insert")
         : type === "delete"
         ? $I18n.t("crud.delete")
         : type === "update"
@@ -156,7 +167,7 @@ const openDialog = (type: string, row: Partial<Dept.ResList> = {}) => {
         ? $I18n.t("crud.view")
         : "",
     disabled: type === "view",
-    api: type === "insert" ? insertDept : type === "update" ? updateDept : undefined,
+    api: type === "insert" ? insertDept : type === "insertRow" ? insertDept : type === "update" ? updateDept : undefined,
     getTableList: proTable.value?.getTableList
   };
   dialogRef.value?.open(params);

@@ -39,7 +39,7 @@
           type="primary"
           link
           v-if="BUTTONS.insert"
-          @click="openDialog('addRow', { ...formDefaultData, ...{ parentId: scope.row.id } })"
+          @click="openDialog('insertRow', { ...formDefaultData, ...{ parentId: scope.row.id } })"
           :icon="CirclePlus"
           >{{ $t("crud.insert") }}</el-button
         >
@@ -173,7 +173,7 @@ const openDialog = (type: string, row: Partial<Menu.ResList> = {}) => {
         ? $I18n.t("crud.view")
         : "",
     disabled: type === "view",
-    api: type === "insert" ? insertMenu : type === "addRow" ? insertMenu : type === "update" ? updateMenu : undefined,
+    api: type === "insert" ? insertMenu : type === "insertRow" ? insertMenu : type === "update" ? updateMenu : undefined,
     getTableList: proTable.value?.getTableList
   };
   dialogRef.value?.open(params);

@@ -22,13 +22,17 @@
     >
       <el-row>
         <el-col :span="12">
-          <el-form-item label="父部门id" prop="parentId">
-            <el-input v-model="dialogProps.row!.parentId" placeholder="父部门id" clearable />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="祖级列表" prop="ancestors">
-            <el-input v-model="dialogProps.row!.ancestors" placeholder="祖级列表" clearable />
+          <el-form-item label="上级节点" prop="parentId">
+            <el-tree-select
+              v-model="dialogProps.row!.parentId"
+              :data="deptDataList"
+              placeholder="请选择"
+              :render-after-expand="false"
+              check-strictly
+              filterable
+              clearable
+              style="width: 100%"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -38,7 +42,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="显示顺序" prop="orderNum">
-            <el-input v-model="dialogProps.row!.orderNum" placeholder="显示顺序" clearable />
+            <el-input-number v-model="dialogProps.row!.orderNum" :min="1" style="width: 100%"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -58,7 +62,9 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="是否停用" prop="status">
-            <el-input v-model="dialogProps.row!.status" placeholder="是否停用" clearable />
+            <el-radio-group v-model="dialogProps.row!.status">
+              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-col>
       </el-row>
@@ -76,17 +82,31 @@
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
 import { Dept } from "@/api/interface/system/dept/dept";
+import { getDeptList } from "@/api/modules/system/dept/dept";
 import { useI18n } from "vue-i18n";
+import { whether } from "@/utils/dict/globalDict";
 
 const $I18n = useI18n();
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
 
+//获取所属部门下拉数据
+const deptDataList = ref();
+const initDeptDataList = () => {
+  const param = {
+    isGetRoot: true
+  };
+  getDeptList(param).then(res => {
+    deptDataList.value = res.data;
+  });
+};
+initDeptDataList();
+
 //表单字段规则
 const rules = reactive<FormRules>({
-  parentId: [{ required: false, message: "不能为空", trigger: "blur" }],
+  parentId: [{ required: true, message: "不能为空", trigger: "blur" }],
   ancestors: [{ required: false, message: "不能为空", trigger: "blur" }],
-  deptName: [{ required: false, message: "不能为空", trigger: "blur" }],
+  deptName: [{ required: true, message: "不能为空", trigger: "blur" }],
   orderNum: [{ required: false, message: "不能为空", trigger: "blur" }],
   leader: [{ required: false, message: "不能为空", trigger: "blur" }],
   phone: [{ required: false, message: "不能为空", trigger: "blur" }],

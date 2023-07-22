@@ -60,6 +60,7 @@
               :data="deptDataList"
               placeholder="请选择"
               :render-after-expand="false"
+              check-strictly
               filterable
               clearable
               style="width: 100%"
@@ -113,7 +114,8 @@ import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
 import { ref, reactive } from "vue";
 import { User } from "@/api/interface/system/user/user";
-import { getRoleList, getDeptList, getPostList } from "@/api/modules/system/role/role";
+import { getRoleList, getPostList } from "@/api/modules/system/role/role";
+import { getDeptList } from "@/api/modules/system/dept/dept";
 import { sex, whether } from "@/utils/dict/globalDict";
 
 const $I18n = useI18n();

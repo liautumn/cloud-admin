@@ -13,11 +13,6 @@ export const getRoleList = (params: any) => {
   return http.post(SYSTEM + `/role/getRoleList`, params, { noLoading: true });
 };
 
-// 获取所属部门下拉数据
-export const getDeptList = (params: any) => {
-  return http.post(SYSTEM + `/dept/getDeptList`, params, { noLoading: true });
-};
-
 // 获取所属岗位下拉数据
 export const getPostList = (params: any) => {
   return http.post(SYSTEM + `/post/getPostList`, params, { noLoading: true });
