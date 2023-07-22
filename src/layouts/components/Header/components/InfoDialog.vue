@@ -29,13 +29,6 @@
                 </UploadImg>
               </el-form-item>
             </el-col>
-
-            <el-col :span="24">
-              <el-form-item label="图片预览" prop="view">
-                <ImgView v-model:file-id="formData!.avatar" />
-              </el-form-item>
-            </el-col>
-
             <el-col :span="12">
               <el-form-item :label="$t('loginUser.userNameLabel')" prop="userName">
                 <el-input v-model="formData!.userName" :placeholder="$t('loginUser.userNameLabel')" disabled />
@@ -151,7 +144,6 @@ import { useI18n } from "vue-i18n";
 import { useUserStore } from "@/stores/modules/user";
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import UploadImg from "@/components/Upload/Img.vue";
-import ImgView from "@/components/Upload/imgView.vue";
 import { Login } from "@/api/interface/auth/login";
 import { updateUser, getOneUser, updatePassword } from "@/api/modules/auth/loginUser";
 import { UserState } from "@/stores/interface/index";

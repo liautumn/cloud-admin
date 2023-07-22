@@ -22,21 +22,21 @@
                 <div class="traffic-img">
                   <img src="./images/add_person.png" alt="" />
                 </div>
-                <span class="item-value">2222</span>
+                <span class="item-value">1234</span>
                 <span class="traffic-name sle">Gitee 访问量</span>
               </div>
               <div class="gitHub-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/add_team.png" alt="" />
                 </div>
-                <span class="item-value">2222</span>
+                <span class="item-value">1234</span>
                 <span class="traffic-name sle">GitHub 访问量</span>
               </div>
               <div class="today-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/today.png" alt="" />
                 </div>
-                <span class="item-value">4567</span>
+                <span class="item-value">1234</span>
                 <span class="traffic-name sle">今日访问量</span>
               </div>
               <div class="yesterday-traffic traffic-box">
@@ -96,19 +96,15 @@ const tab = [
   { label: "近一年", name: 6 }
 ];
 const pieData = [
-  { value: 5000, name: "Gitee 访问量" },
-  { value: 5000, name: "GitHub 访问量" }
+  { value: 6000, name: "GitHub 访问量" },
+  { value: 4000, name: "Gitee 访问量" }
 ];
 const curveData = [
-  { value: 30, spotName: "掘金" },
-  { value: 90, spotName: "CSDN" },
-  { value: 10, spotName: "Gitee" },
-  { value: 70, spotName: "GitHub" },
-  { value: 20, spotName: "知乎" },
-  { value: 60, spotName: "MyBlog" },
-  { value: 55, spotName: "简书" },
-  { value: 80, spotName: "StackOverFlow" },
-  { value: 50, spotName: "博客园" }
+  { value: 1000, spotName: "GitHub" },
+  { value: 500, spotName: "Gitee" },
+  { value: 400, spotName: "CSDN" },
+  { value: 300, spotName: "博客园" },
+  { value: 200, spotName: "掘金" }
 ];
 </script>
 
