@@ -13,6 +13,7 @@ export namespace Login {
     password: string;
     loginIp: string;
     isRemember: boolean;
+    captchaVO: any;
   }
 
   export type ResLogin = UserState;

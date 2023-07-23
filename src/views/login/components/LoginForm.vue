@@ -30,6 +30,13 @@
       {{ $t("loginUser.loginBtn") }}
     </el-button>
   </div>
+  <Verify
+    @success="success"
+    mode="pop"
+    :captchaType="captchaType"
+    :imgSize="{ width: '400px', height: '200px' }"
+    ref="verify"
+  ></Verify>
 </template>
 
 <script setup lang="ts">
@@ -47,6 +54,7 @@ import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 import { CircleClose, UserFilled } from "@element-plus/icons-vue";
 import type { ElForm } from "element-plus";
+import Verify from "@/components/Verifition/Verify.vue";
 
 const $I18n = useI18n();
 const router = useRouter();
@@ -69,37 +77,53 @@ const loginForm = reactive<Login.ReqLoginForm>({
   isRemember: false
 });
 
+//行为验证码
+const verify = ref();
+const captchaType = ref("");
+const success = async (data: any) => {
+  let captchaVerification = data.captchaVerification;
+  //登录
+  loading.value = true;
+  try {
+    // 1.执行登录接口
+    const param = { ...loginForm, ...{ loginIp: "127.0.0.1", captchaVerification: captchaVerification } };
+    const { data } = await loginApi(param);
+    userStore.setToken(data.token);
+    userStore.setUserInfo(data.userInfo);
+
+    // 2.添加动态路由
+    await initDynamicRouter();
+
+    // 3.清空 tabs、keepAlive 数据
+    tabsStore.closeMultipleTab();
+    keepAliveStore.setKeepAliveName();
+
+    // 4.跳转到首页
+    router.push(HOME_URL);
+    ElNotification({
+      title: getTimeState(),
+      message: $I18n.t("loginUser.text3") + userStore.userInfo.nickName,
+      type: "success",
+      duration: 2000
+    });
+  } finally {
+    loading.value = false;
+  }
+};
+
 // login
 const login = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate(async valid => {
+  formEl.validate(valid => {
     if (!valid) return;
-    loading.value = true;
-    try {
-      // 1.执行登录接口
-      const param = { ...loginForm, ...{ loginIp: "127.0.0.1" } };
-      const { data } = await loginApi(param);
-      userStore.setToken(data.token);
-      userStore.setUserInfo(data.userInfo);
-
-      // 2.添加动态路由
-      await initDynamicRouter();
-
-      // 3.清空 tabs、keepAlive 数据
-      tabsStore.closeMultipleTab();
-      keepAliveStore.setKeepAliveName();
-
-      // 4.跳转到首页
-      router.push(HOME_URL);
-      ElNotification({
-        title: getTimeState(),
-        message: $I18n.t("loginUser.text3") + userStore.userInfo.nickName,
-        type: "success",
-        duration: 2000
-      });
-    } finally {
-      loading.value = false;
+    //执行行为验证码
+    let number = Math.round(Math.random() * 10);
+    if (number >= 5) {
+      captchaType.value = "blockPuzzle";
+    } else {
+      captchaType.value = "clickWord";
     }
+    verify.value.show();
   });
 };
 
