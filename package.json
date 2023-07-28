@@ -20,7 +20,6 @@
   },
   "scripts": {
     "dev": "vite --mode development",
-    "test": "vite --mode test",
     "build:dev": "vite build --mode development",
     "build:test": "vite build --mode test",
     "build:prod": "vite build --mode production",
