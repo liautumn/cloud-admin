@@ -1,4 +1,8 @@
 <template>
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px">
+    <img style="width: 20%; height: 20%; border-radius: 5px" :src="img1" />
+    <img style="width: 20%; height: 20%; border-radius: 5px" :src="img2" />
+  </div>
   <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="large">
     <el-form-item prop="userName">
       <el-input v-model="loginForm.userName" :placeholder="$t('loginUser.userNamePlaceholder')">
@@ -14,6 +18,9 @@
         :placeholder="$t('loginUser.passwordPlaceholder')"
         show-password
         autocomplete="new-password"
+        @click="passInput"
+        @blur="passBlur"
+        @input="passInput"
       >
         <template #prefix>
           <el-icon class="el-input__icon"><lock /></el-icon>
@@ -74,8 +81,25 @@ const loginForm = reactive<Login.ReqLoginForm>({
   userName: "admin",
   password: "123456",
   loginIp: "",
-  isRemember: false
+  isRemember: false,
+  captchaVerification: {}
 });
+
+//密码框触发事件
+let img_1 = "https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/22_open.4ea5f239.png";
+let img_2 = "https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/33_open.f7d7f655.png";
+let img_3 = "https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/22_close.9382a5a8.png";
+let img_4 = "https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/33_close.a8c18fc8.png";
+const img1 = ref(img_1);
+const img2 = ref(img_2);
+const passInput = () => {
+  img1.value = img_3;
+  img2.value = img_4;
+};
+const passBlur = () => {
+  img1.value = img_1;
+  img2.value = img_2;
+};
 
 //行为验证码
 const verify = ref();
