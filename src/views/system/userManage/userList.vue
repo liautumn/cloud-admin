@@ -195,17 +195,10 @@ const openDialog = (type: string, row: Partial<User.ResList> = {}) => {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 .content-box {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  .descriptions-box {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-  }
 }
 </style>
