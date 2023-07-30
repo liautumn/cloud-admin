@@ -57,8 +57,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('loginUser.deptIdLabel')" prop="deptId">
-                <el-input v-model="formData!.deptId" :placeholder="$t('loginUser.deptIdLabel')" disabled />
+              <el-form-item :label="$t('loginUser.deptNameLabel')" prop="deptName">
+                <el-input v-model="formData!.deptName" :placeholder="$t('loginUser.deptNameLabel')" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -157,7 +157,7 @@ const passFormRef = ref<FormInstance>();
 const dialogFlag = ref(false);
 const formData = ref<UserState["userInfo"]>({
   id: "",
-  deptId: "",
+  deptName: "",
   userName: "",
   nickName: "",
   userType: "",

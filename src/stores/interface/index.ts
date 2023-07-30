@@ -28,7 +28,7 @@ export interface UserState {
   token: string;
   userInfo: {
     id: string;
-    deptId: string;
+    deptName: string;
     userName: string;
     nickName: string;
     userType: string;

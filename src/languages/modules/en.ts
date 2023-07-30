@@ -37,7 +37,7 @@ export default {
     emailLabel: "Mailbox",
     phonenumberLabel: "Phone",
     sexLabel: "Sex",
-    deptIdLabel: "Department",
+    deptNameLabel: "Department",
     loginDateLabel: "Regist time",
     loginIpLabel: "Login IP",
     remarkLabel: "Remarks",

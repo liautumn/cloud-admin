@@ -24,8 +24,3 @@ export const getAuthButtonListApi = () => {
 export const logoutApi = () => {
   return http.post(AUTH + `/logout`);
 };
-
-// 获取IP
-export const getIp = () => {
-  return "";
-};

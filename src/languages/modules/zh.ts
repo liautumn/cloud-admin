@@ -37,7 +37,7 @@ export default {
     emailLabel: "邮箱",
     phonenumberLabel: "手机号码",
     sexLabel: "性别",
-    deptIdLabel: "所属部门",
+    deptNameLabel: "所属部门",
     loginDateLabel: "注册时间",
     loginIpLabel: "登录IP",
     remarkLabel: "备注",

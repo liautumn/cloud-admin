@@ -47,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
 import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
@@ -78,12 +79,30 @@ const loginRules = reactive({
 
 const loading = ref(false);
 const loginForm = reactive<Login.ReqLoginForm>({
-  userName: "admin",
-  password: "123456",
+  userName: "",
+  password: "",
   loginIp: "",
   isRemember: false,
   captchaVerification: {}
 });
+
+//获取客户端ip
+const ip = ref("");
+const getIp = async () => {
+  await axios
+    .get("http://ip-api.com/json")
+    .then(response => {
+      if (response.data.status === "success") {
+        ip.value = response.data.query;
+      } else {
+        ip.value = "获取失败";
+      }
+    })
+    .catch(error => {
+      console.log("getIp============>", error);
+    });
+};
+getIp();
 
 //密码框触发事件
 let img_1 = "https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/22_open.4ea5f239.png";
@@ -110,7 +129,7 @@ const success = async (data: any) => {
   loading.value = true;
   try {
     // 1.执行登录接口
-    const param = { ...loginForm, ...{ loginIp: "127.0.0.1", captchaVerification: captchaVerification } };
+    const param = { ...loginForm, ...{ loginIp: ip.value, captchaVerification: captchaVerification } };
     const { data } = await loginApi(param);
     userStore.setToken(data.token);
     userStore.setUserInfo(data.userInfo);
