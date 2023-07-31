@@ -17,6 +17,11 @@
               </div>
             </div>
           </div>
+          <div>
+            <el-input v-model="msg" type="text" />
+            <el-button type="primary" @click="sendMessage">发送</el-button>
+            <el-button type="primary" @click="closeWebSocket">关闭</el-button>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="消息(0)" name="second">
           <div class="message-empty">
@@ -37,7 +42,36 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useUserStore } from "@/stores/modules/user";
+
 const activeName = ref("first");
+let userStore = useUserStore();
+
+let webSocket = new WebSocket("ws://127.0.0.1:8088/system/websocket/" + userStore.userInfo.id);
+//连通之后的回调事件
+webSocket.onopen = function () {
+  console.log("已经连通了websocket");
+};
+
+//接收后台服务端的消息
+webSocket.onmessage = function (evt) {
+  console.log("数据已接收:", evt.data);
+};
+
+//连接关闭的回调事件
+webSocket.onclose = function () {
+  console.log("连接已关闭...");
+};
+
+const closeWebSocket = () => {
+  //直接关闭websocket的连接
+  webSocket.close();
+};
+
+const msg = ref("");
+const sendMessage = () => {
+  webSocket.send(msg.value);
+};
 </script>
 
 <style scoped lang="scss">
