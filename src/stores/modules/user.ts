@@ -8,7 +8,7 @@ export const useUserStore = defineStore({
     token: "",
     userInfo: {
       id: "",
-      deptId: "",
+      deptName: "",
       userName: "",
       nickName: "",
       userType: "",

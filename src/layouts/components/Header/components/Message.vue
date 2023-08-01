@@ -36,11 +36,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { selectMessage } from "@/api/modules/system/message/message";
 import { Message } from "@/api/interface/system/message/message";
+import { ElMessage } from "element-plus";
+import Stomp from "stompjs";
+import { useUserStore } from "@/stores/modules/user";
 
 const activeName = ref("first");
+let userStore = useUserStore();
+const MQTT_SERVICE = "ws://10.144.100.1:15674/ws"; // mq服务地址
+const MQTT_USERNAME = "admin"; // mq连接用户名
+const MQTT_PASSWORD = "zhuang2001"; // mq连接密码
+const VIRTUAL_HOST = "/"; //  侦听器端口
 
 //获取消息数据
 const list = ref<Message.ResList[]>();
@@ -52,6 +60,40 @@ const getMessage = () => {
   });
 };
 getMessage();
+
+let client = Stomp.client(MQTT_SERVICE);
+const connectMQ = () => {
+  //进行连接
+  client.connect(MQTT_USERNAME, MQTT_PASSWORD, onConnected, onFailed, VIRTUAL_HOST);
+};
+const onConnected = () => {
+  //订阅频道
+  client.subscribe("message.direct.queue." + userStore.userInfo.id, responseCallback, onFailed);
+};
+const onFailed = (frame: any) => {
+  console.log("MQ Failed: " + frame);
+  ElMessage.error("mqtt连接失败");
+};
+// 回传消息
+const responseCallback = (frame: any) => {
+  console.log("MQ msg=>" + frame.body);
+  ElMessage.success(frame.body);
+  //接收消息处理
+};
+// 断开相应的连接
+const close = () => {
+  client.disconnect(function () {
+    console.log("已退出连接");
+  });
+};
+
+onMounted(() => {
+  connectMQ();
+});
+
+defineExpose({
+  close
+});
 </script>
 
 <style scoped lang="scss">
