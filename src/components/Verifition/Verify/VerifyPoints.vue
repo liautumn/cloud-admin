@@ -130,6 +130,8 @@ export default {
       fontPos.splice(0, fontPos.length);
       checkPosArr.splice(0, checkPosArr.length);
       num.value = 1;
+      barAreaColor.value = "#000";
+      barAreaBorderColor.value = "#ddd";
       getPictrue();
       nextTick(() => {
         let { imgHeight, imgWidth, barHeight, barWidth } = resetSize(proxy);
