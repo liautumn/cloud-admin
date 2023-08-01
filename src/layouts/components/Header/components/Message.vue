@@ -2,25 +2,20 @@
   <div class="message">
     <el-popover placement="bottom" :width="310" trigger="click">
       <template #reference>
-        <el-badge :value="1" class="item">
-          <i :class="'iconfont icon-xiaoxi'" class="toolBar-icon"></i>
+        <el-badge :value="num" class="item">
+          <i :class="'iconfont icon-xiaoxi'" @click="getMessage" class="toolBar-icon" />
         </el-badge>
       </template>
       <el-tabs v-model="activeName">
         <el-tab-pane label="通知(1)" name="first">
-          <div class="message-list">
+          <div class="message-list" v-for="(item, index) in list" :key="index">
             <div class="message-item">
               <img src="@/assets/images/msg01.png" alt="" class="message-icon" />
               <div class="message-content">
-                <span class="message-title">一键三连 autumn-cloud 🧡</span>
-                <span class="message-date">一分钟前</span>
+                <span class="message-title">{{ item.title }}</span>
+                <span class="message-date">{{ item.createTime }}</span>
               </div>
             </div>
-          </div>
-          <div>
-            <el-input v-model="msg" type="text" />
-            <el-button type="primary" @click="sendMessage">发送</el-button>
-            <el-button type="primary" @click="closeWebSocket">关闭</el-button>
           </div>
         </el-tab-pane>
         <el-tab-pane label="消息(0)" name="second">
@@ -42,36 +37,21 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useUserStore } from "@/stores/modules/user";
+import { selectMessage } from "@/api/modules/system/message/message";
+import { Message } from "@/api/interface/system/message/message";
 
 const activeName = ref("first");
-let userStore = useUserStore();
 
-let webSocket = new WebSocket("ws://127.0.0.1:8088/system/websocket/" + userStore.userInfo.id);
-//连通之后的回调事件
-webSocket.onopen = function () {
-  console.log("已经连通了websocket");
+//获取消息数据
+const list = ref<Message.ResList[]>();
+const num = ref<number>(0);
+const getMessage = () => {
+  selectMessage().then(res => {
+    list.value = res.data.list;
+    num.value = res.data.num;
+  });
 };
-
-//接收后台服务端的消息
-webSocket.onmessage = function (evt) {
-  console.log("数据已接收:", evt.data);
-};
-
-//连接关闭的回调事件
-webSocket.onclose = function () {
-  console.log("连接已关闭...");
-};
-
-const closeWebSocket = () => {
-  //直接关闭websocket的连接
-  webSocket.close();
-};
-
-const msg = ref("");
-const sendMessage = () => {
-  webSocket.send(msg.value);
-};
+getMessage();
 </script>
 
 <style scoped lang="scss">
