@@ -1,5 +1,6 @@
 ### 介绍 📖
-"build:dev": "vue-tsc && vite build --mode development",
+保留打包校验代码配置：
+"build:prod": "vue-tsc && vite build --mode production"
 
 非常感谢 Geeker-Admin， 一款基于 Vue3.3、TypeScript、Vite4、Pinia、Element-Plus 开源的后台管理框架，使用目前最新技术栈开发。项目提供强大的 [ProTable](https://juejin.cn/post/7166068828202336263) 组件，在一定程度上节省您的开发效率。另外本项目还封装了一些常用组件、Hooks、指令、动态路由、按钮级别权限控制等功能。
 
@@ -23,9 +24,8 @@
 - 使用 Prettier 统一格式化代码，集成 ESLint、Stylelint 代码校验规范
 - 使用 husky、lint-staged、commitlint、czg、cz-git 规范提交信息
 
-### 安装使用步骤 📔
 
-- **Clone：**
+- **原代码地址：**
 
 ```text
 # Gitee
@@ -33,7 +33,7 @@ git clone https://gitee.com/HalseySpicy/Geeker-Admin.git
 # GitHub
 git clone https://github.com/HalseySpicy/Geeker-Admin.git
 ```
-
+### 安装使用步骤 📔
 - **Install：**
 
 ```text
@@ -81,36 +81,22 @@ pnpm commit
 
 ### 项目截图 📷
 
-- 登录页：
-
-![login_light](https://i.imgtg.com/2023/04/13/8tknp.png)
-
-![login_dark](https://i.imgtg.com/2023/04/13/8tmpP.png)
-
-- 首页：
-
-![home_light](https://i.imgtg.com/2023/04/13/8tl1j.png)
-
-![home_dark](https://i.imgtg.com/2023/04/13/8tpfb.png)
-
-- 表格页：
-
-![table_light](https://i.imgtg.com/2023/04/13/8tfMx.png)
-
-![table_dark](https://i.imgtg.com/2023/04/13/8tv8F.png)
-
-- 数据可视化
-
-![dashboard](https://i.imgtg.com/2023/04/14/82Grx.png)
-
-- 数据大屏：
-
+![image-20230802211417939](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802211417939.png)
+![image-20230802211709070](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802211709070.png)
+![image-20230802211727096](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802211727096.png)
 ![dataScreen](https://i.imgtg.com/2023/01/16/QP8HF.png)
+![image-20230802211742591](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802211742591.png)
+![image-20230802211754927](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802211754927.png)
+![image-20230802212007556](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802212007556.png)
+![image-20230802211802251](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802211802251.png)
+![image-20230802211904394](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802211904394.png)
+![image-20230802212054424](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802212054424.png)
+![image-20230802211946194](https://gitee.com/liautumn/typora-files/raw/master/images/image-20230802211946194.png)
 
 ### 文件资源目录 📚
 
 ```text
-Geeker-Admin
+根目录
 ├─ .husky                 # husky 配置文件
 ├─ .vscode                # VSCode 推荐配置
 ├─ build                  # Vite 配置项
