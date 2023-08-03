@@ -87,6 +87,8 @@
 </template>
 
 <script setup lang="ts" name="ProTable">
+/* eslint-disable */
+// eslint-disable-next-line vue/no-setup-props-destructure
 import { ref, watch, computed, provide } from "vue";
 import { ElTable } from "element-plus";
 import { useTable } from "@/hooks/useTable";

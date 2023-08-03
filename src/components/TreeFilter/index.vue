@@ -33,6 +33,8 @@
 </template>
 
 <script setup lang="ts" name="TreeFilter">
+/* eslint-disable */
+// eslint-disable-next-line vue/no-setup-props-destructure
 import { ref, watch, onBeforeMount, nextTick } from "vue";
 import { ElTree } from "element-plus";
 

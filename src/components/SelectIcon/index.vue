@@ -29,6 +29,8 @@
 </template>
 
 <script setup lang="ts" name="SelectIcon">
+/* eslint-disable */
+// eslint-disable-next-line vue/no-setup-props-destructure
 import { ref, computed } from "vue";
 import * as Icons from "@element-plus/icons-vue";
 

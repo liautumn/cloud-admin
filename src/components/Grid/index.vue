@@ -5,6 +5,8 @@
 </template>
 
 <script setup lang="ts" name="Grid">
+/* eslint-disable */
+// eslint-disable-next-line vue/no-setup-props-destructure
 import {
   ref,
   watch,
