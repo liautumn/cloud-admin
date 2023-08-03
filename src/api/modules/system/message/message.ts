@@ -8,12 +8,12 @@ export const selectMessage = () => {
 };
 
 // 添加
-export const insertMessage = (params: FormData) => {
+export const insertMessage = (params: any) => {
   return http.post(SYSTEM + `/message/insert`, params, { noLoading: true });
 };
 
 // 修改
-export const updateMessage = (params: FormData) => {
+export const updateMessage = (params: any) => {
   return http.post(SYSTEM + `/message/update`, params, { noLoading: true });
 };
 
@@ -23,7 +23,7 @@ export const deleteMessage = (params: string) => {
 };
 
 // 导入
-export const importMessage = (params: FormData) => {
+export const importMessage = (params: any) => {
   return http.post(SYSTEM + `/message/import`, params, { noLoading: true });
 };
 

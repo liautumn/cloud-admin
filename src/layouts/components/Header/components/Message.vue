@@ -15,6 +15,10 @@
                 <span class="message-title">{{ item.title }}</span>
                 <span class="message-date">{{ item.createTime }}</span>
               </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; margin-left: 65px">
+                <span v-if="item.status === '1'" style="color: green" @click="yd(item, index)">已读</span>
+                <span style="color: red" @click="qc(item, index)">清除</span>
+              </div>
             </div>
           </div>
         </el-tab-pane>
@@ -37,7 +41,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { selectMessage } from "@/api/modules/system/message/message";
+import { selectMessage, updateMessage, deleteMessage } from "@/api/modules/system/message/message";
 import { Message } from "@/api/interface/system/message/message";
 import { ElMessage } from "element-plus";
 import Stomp from "stompjs";
@@ -59,6 +63,25 @@ const getMessage = () => {
   });
 };
 getMessage();
+
+const yd = (item: Message.ResList, index: number) => {
+  console.log(item, index);
+  item.status = "2";
+  updateMessage(item).then(() => {
+    getMessage();
+  });
+};
+
+const qc = (item: Message.ResList, index: number) => {
+  console.log(item, index);
+  item.status = "2";
+  updateMessage(item).then(() => {
+    deleteMessage(item.id).then(() => {
+      getMessage();
+    });
+  });
+  list.value.splice(index, 1);
+};
 
 let client = Stomp.client(MQTT_SERVICE);
 const connectMQ = () => {
@@ -114,7 +137,7 @@ defineExpose({
   .message-item {
     display: flex;
     align-items: center;
-    padding: 20px 0;
+    padding: 15px 0 0 0;
     border-bottom: 1px solid var(--el-border-color-light);
     &:last-child {
       border: none;
