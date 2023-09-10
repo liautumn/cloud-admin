@@ -3,10 +3,11 @@ export default {
     welcome: "Welcome"
   },
   tabs: {
-    more: "More",
     refresh: "Refresh",
     maximize: "Maximize",
     closeCurrent: "Close current",
+    closeLeft: "Close Left",
+    closeRight: "Close Right",
     closeOther: "Close other",
     closeAll: "Close All"
   },
@@ -22,6 +23,7 @@ export default {
     fullScreen: "Full Screen",
     exitFullScreen: "Exit Full Screen",
     personalData: "Personal Data",
+    changePassword: "Change Password",
     logout: "Logout"
   },
   loginUser: {
@@ -38,7 +40,7 @@ export default {
     phonenumberLabel: "Phone",
     sexLabel: "Sex",
     deptNameLabel: "Department",
-    loginDateLabel: "Regist time",
+    createTimeLabel: "Regist time",
     loginIpLabel: "Login IP",
     remarkLabel: "Remarks",
     oldPasswordLabel: "Old password",

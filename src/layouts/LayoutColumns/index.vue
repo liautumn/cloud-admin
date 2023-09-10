@@ -3,15 +3,15 @@
   <el-container class="layout">
     <div class="aside-split">
       <div class="logo flx-center">
-        <img class="logo-img" src="@/assets/images/logo.png" alt="logo" />
+        <img class="logo-img" src="@/assets/images/logo.svg" alt="logo" />
       </div>
       <el-scrollbar>
         <div class="split-list">
           <div
-            class="split-item"
-            :class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
             v-for="item in menuList"
             :key="item.path"
+            class="split-item"
+            :class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
             @click="changeSubMenu(item)"
           >
             <el-icon>
@@ -24,17 +24,17 @@
     </div>
     <el-aside :class="{ 'not-aside': !subMenuList.length }" :style="{ width: isCollapse ? '65px' : '210px' }">
       <div class="logo flx-center">
-        <span class="logo-text" v-show="subMenuList.length">{{ isCollapse ? "T" : "autumn-cloud" }}</span>
+        <span v-show="subMenuList.length" class="logo-text">{{ isCollapse ? "G" : title }}</span>
       </div>
       <el-scrollbar>
         <el-menu
-          :default-active="activeMenu"
           :router="false"
+          :default-active="activeMenu"
           :collapse="isCollapse"
+          :unique-opened="accordion"
           :collapse-transition="false"
-          :unique-opened="true"
         >
-          <SubMenu :menuList="subMenuList" />
+          <SubMenu :menu-list="subMenuList" />
         </el-menu>
       </el-scrollbar>
     </el-aside>
@@ -58,10 +58,13 @@ import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
 import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
 
+const title = import.meta.env.VITE_GLOB_APP_TITLE;
+
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const globalStore = useGlobalStore();
+const accordion = computed(() => globalStore.accordion);
 const isCollapse = computed(() => globalStore.isCollapse);
 const menuList = computed(() => authStore.showMenuListGet);
 const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string);

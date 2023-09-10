@@ -62,8 +62,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('loginUser.loginDateLabel')" prop="createTime">
-                <el-input v-model="formData!.loginDate" :placeholder="$t('loginUser.loginDateLabel')" disabled />
+              <el-form-item :label="$t('loginUser.createTimeLabel')" prop="createTime">
+                <el-input v-model="formData!.createTime" :placeholder="$t('loginUser.createTimeLabel')" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="12">

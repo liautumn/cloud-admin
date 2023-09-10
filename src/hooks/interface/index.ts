@@ -4,7 +4,7 @@ export namespace Table {
     pageSize: number;
     total: number;
   }
-  export interface TableStateProps {
+  export interface StateProps {
     tableData: any[];
     pageable: Pageable;
     searchParam: {
@@ -27,5 +27,6 @@ export namespace HandleData {
 }
 
 export namespace Theme {
+  export type ThemeType = "light" | "inverted" | "dark";
   export type GreyOrWeakType = "grey" | "weak";
 }

@@ -3,10 +3,11 @@ export default {
     welcome: "欢迎使用"
   },
   tabs: {
-    more: "更多",
     refresh: "刷新",
     maximize: "最大化",
     closeCurrent: "关闭当前",
+    closeLeft: "关闭左侧",
+    closeRight: "关闭右侧",
     closeOther: "关闭其它",
     closeAll: "关闭所有"
   },
@@ -22,6 +23,7 @@ export default {
     fullScreen: "全屏",
     exitFullScreen: "退出全屏",
     personalData: "个人信息",
+    changePassword: "修改密码",
     logout: "退出登录"
   },
   loginUser: {
@@ -38,7 +40,7 @@ export default {
     phonenumberLabel: "手机号码",
     sexLabel: "性别",
     deptNameLabel: "所属部门",
-    loginDateLabel: "注册时间",
+    createTimeLabel: "注册时间",
     loginIpLabel: "登录IP",
     remarkLabel: "备注",
     oldPasswordLabel: "旧密码",
