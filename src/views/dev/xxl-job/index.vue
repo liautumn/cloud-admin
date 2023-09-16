@@ -1,5 +1,5 @@
 <template>
-  <iframe src="http://10.144.100.1:8086/xxl-job" class="full-iframe"></iframe>
+  <iframe src="http://localhost:8086/xxl-job" class="full-iframe"></iframe>
 </template>
 
 <script setup lang="ts" name="xxl-job"></script>

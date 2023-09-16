@@ -1,9 +1,9 @@
 {
-  "name": "autumn-cloud",
+  "name": "autumn-admin",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "autumn-cloud open source management system",
+  "description": "autumn-admin open source management system",
   "author": {
     "name": "autumn",
     "email": "liautumns@outlook.com",

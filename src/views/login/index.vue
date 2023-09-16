@@ -8,7 +8,7 @@
       <div class="login-form">
         <div class="login-logo">
           <img class="login-icon" src="@/assets/images/logo.png" alt="" />
-          <h2 class="logo-text">autumn-cloud</h2>
+          <h2 class="logo-text">autumn-admin</h2>
         </div>
         <LoginForm />
       </div>
