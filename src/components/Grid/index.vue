@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="ts" name="Grid">
-/* eslint-disable */
-// eslint-disable-next-line vue/no-setup-props-destructure
 import {
   ref,
   watch,
@@ -132,7 +130,7 @@ const findIndex = () => {
   }
 };
 
-// 断点变化时 执行 findIndex
+// 断点变化时执行 findIndex
 watch(
   () => breakPoint.value,
   () => {

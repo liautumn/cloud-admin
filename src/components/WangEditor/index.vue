@@ -1,11 +1,11 @@
 <template>
   <div :class="['editor-box', self_disabled ? 'editor-disabled' : '']">
-    <Toolbar class="editor-toolbar" :editor="editorRef" :default-config="toolbarConfig" :mode="mode" v-if="!hideToolBar" />
+    <Toolbar v-if="!hideToolBar" class="editor-toolbar" :editor="editorRef" :default-config="toolbarConfig" :mode="mode" />
     <Editor
-      class="editor-content'"
+      v-model="valueHtml"
+      class="editor-content"
       :style="{ height }"
       :mode="mode"
-      v-model="valueHtml"
       :default-config="editorConfig"
       @on-created="handleCreated"
       @on-blur="handleBlur"
@@ -39,6 +39,7 @@ interface RichEditorProps {
   hideToolBar?: boolean; // 是否隐藏工具栏 ==> 非必传（默认为false）
   disabled?: boolean; // 是否禁用编辑器 ==> 非必传（默认为false）
 }
+
 const props = withDefaults(defineProps<RichEditorProps>(), {
   toolbarConfig: () => {
     return {
@@ -70,11 +71,10 @@ const self_disabled = computed(() => {
 if (self_disabled.value) nextTick(() => editorRef.value.disable());
 
 // 富文本的内容监听，触发父组件改变，实现双向数据绑定
-type EmitProps = {
-  (e: "update:value", val: string): void;
-  (e: "check-validate"): void;
-};
-const emit = defineEmits<EmitProps>();
+const emit = defineEmits<{
+  "update:value": [value: string];
+  "check-validate": [];
+}>();
 const valueHtml = computed({
   get() {
     return props.value;

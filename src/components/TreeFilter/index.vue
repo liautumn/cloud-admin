@@ -1,6 +1,8 @@
 <template>
   <div class="card filter">
-    <h4 class="title sle" v-if="title">{{ title }}</h4>
+    <h4 v-if="title" class="title sle">
+      {{ title }}
+    </h4>
     <el-input v-model="filterText" placeholder="输入关键字进行过滤" clearable />
     <el-scrollbar :style="{ height: title ? `calc(100% - 95px)` : `calc(100% - 56px)` }">
       <el-tree
@@ -33,8 +35,6 @@
 </template>
 
 <script setup lang="ts" name="TreeFilter">
-/* eslint-disable */
-// eslint-disable-next-line vue/no-setup-props-destructure
 import { ref, watch, onBeforeMount, nextTick } from "vue";
 import { ElTree } from "element-plus";
 
@@ -49,6 +49,7 @@ interface TreeFilterProps {
   multiple?: boolean; // 是否为多选 ==> 非必传，默认为 false
   defaultValue?: any; // 默认选中的值 ==> 非必传
 }
+
 const props = withDefaults(defineProps<TreeFilterProps>(), {
   id: "id",
   label: "label",
@@ -117,10 +118,10 @@ const filterNode = (value: string, data: { [key: string]: any }, node: any) => {
   return labels.some(label => label.indexOf(value) !== -1);
 };
 
-interface FilterEmits {
-  (e: "change", value: any): void;
-}
-const emit = defineEmits<FilterEmits>();
+// emit
+const emit = defineEmits<{
+  change: [value: any];
+}>();
 
 // 单选
 const handleNodeClick = (data: { [key: string]: any }) => {

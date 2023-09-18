@@ -34,6 +34,6 @@ export const exportDept = (params: Dept.ReqParams) => {
 };
 
 // 获取所属部门下拉数据
-export const getDeptList = (params: any) => {
+export const getDeptList = (params: FormData) => {
   return http.post(SYSTEM + `/dept/getDeptList`, params, { noLoading: true });
 };

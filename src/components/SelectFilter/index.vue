@@ -18,7 +18,9 @@
             @click="select(item, option)"
           >
             <slot :row="option">
-              <el-icon v-if="option.icon"><component :is="option.icon" /></el-icon>
+              <el-icon v-if="option.icon">
+                <component :is="option.icon" />
+              </el-icon>
               <span>{{ option.label }}</span>
             </slot>
           </li>
@@ -67,10 +69,10 @@ watch(
   { deep: true, immediate: true }
 );
 
-interface FilterEmits {
-  (e: "change", value: any): void;
-}
-const emit = defineEmits<FilterEmits>();
+// emit
+const emit = defineEmits<{
+  change: [value: any];
+}>();
 
 /**
  * @description 选择筛选项

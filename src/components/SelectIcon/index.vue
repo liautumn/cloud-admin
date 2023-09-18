@@ -23,14 +23,12 @@
           </div>
         </div>
       </el-scrollbar>
-      <el-empty description="未搜索到您要找的图标~" v-else />
+      <el-empty v-else description="未搜索到您要找的图标~" />
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts" name="SelectIcon">
-/* eslint-disable */
-// eslint-disable-next-line vue/no-setup-props-destructure
 import { ref, computed } from "vue";
 import * as Icons from "@element-plus/icons-vue";
 
@@ -47,6 +45,7 @@ const props = withDefaults(defineProps<SelectIconProps>(), {
   clearable: true,
   placeholder: "请选择图标"
 });
+
 // 重新接收一下，防止打包后 clearable 报错
 const valueIcon = ref(props.iconValue);
 
@@ -55,7 +54,9 @@ const dialogVisible = ref(false);
 const openDialog = () => (dialogVisible.value = true);
 
 // 选择图标(触发更新父组件数据)
-const emit = defineEmits(["update:iconValue"]);
+const emit = defineEmits<{
+  "update:iconValue": [value: string];
+}>();
 const selectIcon = (item: any) => {
   dialogVisible.value = false;
   valueIcon.value = item.name;
@@ -82,10 +83,6 @@ const iconsList = computed((): { [key: string]: any } => {
   }
   return result;
 });
-const resFileList = () => {
-  valueIcon.value = "";
-};
-defineExpose({ resFileList }); //子组件必须将方法抛出去
 </script>
 
 <style scoped lang="scss">
