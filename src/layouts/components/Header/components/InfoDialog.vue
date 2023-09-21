@@ -7,7 +7,7 @@
     @open="initData"
     :title="$t('loginUser.title')"
     width="50%"
-    top="1vh"
+    top="10vh"
     draggable
     :modal="true"
     style="border-radius: 8px"

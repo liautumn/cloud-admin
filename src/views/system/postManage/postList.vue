@@ -8,22 +8,21 @@
       :columns="columns"
       :request-api="selectPost"
       :pagination="true"
-      :data-callback="dataCallback"
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">{{
-          $t("crud.insert")
-        }}</el-button>
-        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">{{
-          $t("crud.delete")
-        }}</el-button>
-        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">{{
-          $t("crud.import")
-        }}</el-button>
-        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">{{
-          $t("crud.export")
-        }}</el-button>
+        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', {})" :icon="CirclePlus"
+          >{{ $t("crud.insert") }}
+        </el-button>
+        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete"
+          >{{ $t("crud.delete") }}
+        </el-button>
+        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload"
+          >{{ $t("crud.import") }}
+        </el-button>
+        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download"
+          >{{ $t("crud.export") }}
+        </el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -33,12 +32,12 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" v-if="BUTTONS.view" link @click="openDialog('view', scope.row)" :icon="EditPen">{{
-          $t("crud.view")
-        }}</el-button>
-        <el-button type="primary" v-if="BUTTONS.update" link @click="openDialog('update', scope.row)" :icon="EditPen">{{
-          $t("crud.update")
-        }}</el-button>
+        <el-button type="primary" v-if="BUTTONS.view" link @click="openDialog('view', scope.row)" :icon="EditPen"
+          >{{ $t("crud.view") }}
+        </el-button>
+        <el-button type="primary" v-if="BUTTONS.update" link @click="openDialog('update', scope.row)" :icon="EditPen"
+          >{{ $t("crud.update") }}
+        </el-button>
         <el-popconfirm v-if="BUTTONS.delete" :title="$t('crud.deleteConfirm')" @confirm="deleteClick(scope.row)">
           <template #reference>
             <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
@@ -52,35 +51,27 @@
   </div>
 </template>
 
-<script setup lang="ts" name="postList">
+<script setup lang="ts" name="post">
 import { ref } from "vue";
-import ProTable from "@/components/ProTable/index.vue";
-import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { Delete, EditPen, CirclePlus, Download, Upload } from "@element-plus/icons-vue";
-import { useDownload } from "@/hooks/useDownload";
-import ImportExcel from "@/components/ImportExcel/index.vue";
+import { useI18n } from "vue-i18n";
 import { ElMessage, ElMessageBox } from "element-plus";
+import { Delete, EditPen, CirclePlus, Download, Upload } from "@element-plus/icons-vue";
+import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
+import { useDownload } from "@/hooks/useDownload";
 import { Post } from "@/api/interface/system/post/post";
-import PostForm from "./postForm.vue";
 import { dictParse } from "@/api/modules/system/dict/dict";
 import { selectPost, insertPost, updatePost, deletePost, exportPost, importPost } from "@/api/modules/system/post/post";
-import { useI18n } from "vue-i18n";
+import ImportExcel from "@/components/ImportExcel/index.vue";
+import ProTable from "@/components/ProTable/index.vue";
+import PostForm from "./postForm.vue";
 
 const $I18n = useI18n();
-const { BUTTONS } = useAuthButtons();
 const proTable = ref<ProTableInstance>();
-const dataCallback = (data: any) => {
-  return {
-    list: data.list,
-    total: data.total,
-    pageNum: data.pageNum,
-    pageSize: data.pageSize
-  };
-};
+const { BUTTONS } = useAuthButtons();
 
 // 表格配置项
-const columns: ColumnProps<Post.ResList>[] = [
+const columns: ColumnProps<Post.ResObject>[] = [
   { type: "selection", fixed: "left", width: 60 },
   { type: "index", width: 60, label: "序号" },
   { prop: "postName", label: "岗位名称", search: { el: "input" } },
@@ -96,18 +87,8 @@ const columns: ColumnProps<Post.ResList>[] = [
   { prop: "operation", label: "操作", width: 300 }
 ];
 
-//声明参数
-const formDefaultData = ref({
-  id: "",
-  postCode: "",
-  postName: "",
-  postSort: 1,
-  remark: "",
-  status: "1"
-});
-
 //删除按钮
-const deleteClick = async (row: Post.ResList) => {
+const deleteClick = async (row: Post.ResObject) => {
   await deletePost(row.id);
   proTable.value?.getTableList();
   ElMessage.success($I18n.t("crud.deleteMsg"));
@@ -146,7 +127,7 @@ const exportClick = async () => {
 
 // 打开 dialog(新增、查看、编辑)
 const dialogRef = ref<InstanceType<typeof PostForm> | null>(null);
-const openDialog = (type: string, row: Partial<Post.ResList> = {}) => {
+const openDialog = (type: string, row: Partial<Post.ResObject> = {}) => {
   const params = {
     type,
     row,
@@ -164,6 +145,6 @@ const openDialog = (type: string, row: Partial<Post.ResList> = {}) => {
     api: type === "insert" ? insertPost : type === "update" ? updatePost : undefined,
     getTableList: proTable.value?.getTableList
   };
-  dialogRef.value?.open(params);
+  dialogRef.value?.openDialog(params);
 };
 </script>

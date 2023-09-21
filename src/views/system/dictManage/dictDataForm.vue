@@ -6,7 +6,7 @@
     @close="close"
     :title="dialogProps.title"
     width="50%"
-    top="7vh"
+    top="15vh"
     draggable
     :modal="true"
     style="border-radius: 8px"
@@ -83,7 +83,7 @@
   </el-dialog>
 </template>
 
-<script setup lang="ts" name="menuForm">
+<script setup lang="ts" name="dictDataForm">
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
 import { dictStore } from "@/stores/modules/dict";

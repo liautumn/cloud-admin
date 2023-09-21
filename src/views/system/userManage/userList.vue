@@ -56,7 +56,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="userList">
+<script setup lang="ts" name="user">
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import ProTable from "@/components/ProTable/index.vue";
@@ -68,7 +68,6 @@ import ImportExcel from "@/components/ImportExcel/index.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { User } from "@/api/interface/system/user/user";
 import UserForm from "./userForm.vue";
-// import { USERTYPE } from "@/utils/dict/staticCode";
 import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
 import { getDeptList } from "@/api/modules/system/dept/dept";
 import { dictParse } from "@/api/modules/system/dict/dict";

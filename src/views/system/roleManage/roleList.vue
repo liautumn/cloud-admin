@@ -52,7 +52,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="roleList">
+<script setup lang="ts" name="role">
 import { ref } from "vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";

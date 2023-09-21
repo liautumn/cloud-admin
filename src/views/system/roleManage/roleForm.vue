@@ -6,7 +6,7 @@
     @close="close"
     :title="dialogProps.title"
     width="50%"
-    top="7vh"
+    top="15vh"
     draggable
     :modal="true"
     style="border-radius: 8px"

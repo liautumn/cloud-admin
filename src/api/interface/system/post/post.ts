@@ -1,6 +1,5 @@
 import { ReqPage } from "@/api/interface";
 
-// 菜单管理模块
 export namespace Post {
   export interface ReqParams extends ReqPage {
     postCode: string;
@@ -9,7 +8,7 @@ export namespace Post {
     status: string;
   }
 
-  export interface ResList {
+  export interface ResObject {
     id: string;
     postCode: string;
     postName: string;

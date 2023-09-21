@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="menuMange">
+<script setup lang="ts" name="menu">
 import { ref } from "vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";

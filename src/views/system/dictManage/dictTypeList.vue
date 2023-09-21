@@ -52,7 +52,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="dictMange">
+<script setup lang="ts" name="dictType">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
@@ -67,7 +67,7 @@ import {
   importDictType,
   dictParse
 } from "@/api/modules/system/dict/dict";
-import DictForm from "./dictForm.vue";
+import DictForm from "./dictTypeForm.vue";
 import { useDownload } from "@/hooks/useDownload";
 import { ElMessage, ElMessageBox } from "element-plus";
 import ImportExcel from "@/components/ImportExcel/index.vue";
@@ -172,6 +172,6 @@ const openDialog = (type: string, row: any) => {
 const toDictDataList = (row: any) => {
   //存入字典状态
   dictStore().set(row);
-  router.push(`/system/dictDataManage?id=${row.id}&dictName=${row.dictName}`);
+  router.push(`/system/dictData?id=${row.id}&dictName=${row.dictName}`);
 };
 </script>

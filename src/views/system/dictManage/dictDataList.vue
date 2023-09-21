@@ -52,7 +52,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="dictMange">
+<script setup lang="ts" name="dictData">
 import { ref } from "vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { Delete, EditPen, CirclePlus, Upload, Download } from "@element-plus/icons-vue";

@@ -1,23 +1,24 @@
 <template>
   <el-dialog
     v-model="dialogFlag"
-    :close-on-click-modal="true"
-    :destroy-on-close="true"
-    @close="close"
     :title="dialogProps.title"
-    width="50%"
-    top="7vh"
+    modal
     draggable
-    :modal="true"
+    close-on-click-modal
+    destroy-on-close
+    @open="open"
+    @close="close"
+    top="15vh"
+    width="50%"
     style="border-radius: 8px"
   >
     <el-form
       ref="formRef"
-      label-width="100px"
       label-suffix=" :"
-      :model="dialogProps.row"
-      :rules="rules"
+      label-width="100px"
       label-position="right"
+      :rules="rules"
+      :model="dialogProps.row"
       :disabled="dialogProps.disabled"
     >
       <el-row>
@@ -65,11 +66,11 @@
 </template>
 
 <script setup lang="ts" name="postForm">
-import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
+import { useI18n } from "vue-i18n";
+import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { Post } from "@/api/interface/system/post/post";
 import { whether } from "@/utils/dict/globalDict";
-import { useI18n } from "vue-i18n";
 
 const $I18n = useI18n();
 const formRef = ref<FormInstance>();
@@ -83,10 +84,10 @@ const rules = reactive<FormRules>({
 
 //定义表单需要的参数
 interface DialogProps {
-  type: string;
-  title: string;
-  disabled: boolean;
-  row: Partial<Post.ResList>;
+  type?: string;
+  title?: string;
+  disabled?: boolean;
+  row?: Partial<Post.ResObject>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }
@@ -99,13 +100,28 @@ const dialogProps = ref<DialogProps>({
   row: {}
 });
 
+//声明参数
+const formDefaultData = {
+  id: "",
+  postCode: "",
+  postName: "",
+  postSort: 1,
+  remark: "",
+  status: "1"
+};
+
 //打开dialog并传入表单数据等参数
-const open = (params: DialogProps) => {
+const openDialog = (params: DialogProps) => {
   dialogProps.value = params;
+  if (params.type === "insert") {
+    dialogProps.value.row = formDefaultData;
+  }
   dialogFlag.value = true;
 };
 
-//关闭dialog
+//开启时触发
+const open = () => {};
+//关闭时触发
 const close = () => {
   formRef.value?.resetFields();
   dialogFlag.value = false;
@@ -128,6 +144,6 @@ const submit = () => {
 };
 
 defineExpose({
-  open
+  openDialog
 });
 </script>

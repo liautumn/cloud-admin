@@ -61,7 +61,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="deptList">
+<script setup lang="ts" name="dept">
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import ProTable from "@/components/ProTable/index.vue";
@@ -96,7 +96,7 @@ const columns: ColumnProps<Dept.ResList>[] = [
   { prop: "phone", label: "联系电话" },
   { prop: "email", label: "邮箱" },
   { prop: "status", label: "是否停用" },
-  { prop: "operation", label: "操作", width: 300 }
+  { prop: "operation", label: "操作", width: 320 }
 ];
 
 //声明参数
