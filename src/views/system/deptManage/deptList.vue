@@ -89,7 +89,7 @@ const dataCallback = (data: any) => {
 };
 
 // 表格配置项
-const columns: ColumnProps<Dept.ResList>[] = [
+const columns: ColumnProps<Dept.ResObject>[] = [
   { type: "selection", fixed: "left", width: 60 },
   { prop: "deptName", label: "部门名称" },
   { prop: "leader", label: "负责人" },
@@ -112,7 +112,7 @@ const formDefaultData = ref({
 });
 
 //删除按钮
-const deleteClick = async (row: Dept.ResList) => {
+const deleteClick = async (row: Dept.ResObject) => {
   await deleteDept(row.id);
   proTable.value?.getTableList();
   ElMessage.success($I18n.t("crud.deleteMsg"));
@@ -150,7 +150,7 @@ const exportClick = async () => {
 
 // 打开 dialog(新增、查看、编辑)
 const dialogRef = ref<InstanceType<typeof DeptForm> | null>(null);
-const openDialog = (type: string, row: Partial<Dept.ResList> = {}) => {
+const openDialog = (type: string, row: Partial<Dept.ResObject> = {}) => {
   const params = {
     type,
     row,

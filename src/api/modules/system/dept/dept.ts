@@ -5,16 +5,16 @@ import { Dept } from "@/api/interface/system/dept/dept";
 
 // 列表
 export const selectDept = (params: Dept.ReqParams) => {
-  return http.post<ResPage<Dept.ResList>>(SYSTEM + `/dept/select`, params, { noLoading: true });
+  return http.post<ResPage<Dept.ResObject>>(SYSTEM + `/dept/select`, params, { noLoading: true });
 };
 
 // 添加
-export const insertDept = (params: FormData) => {
+export const insertDept = (params: any) => {
   return http.post(SYSTEM + `/dept/insert`, params, { noLoading: true });
 };
 
 // 修改
-export const updateDept = (params: FormData) => {
+export const updateDept = (params: any) => {
   return http.post(SYSTEM + `/dept/update`, params, { noLoading: true });
 };
 
@@ -24,7 +24,7 @@ export const deleteDept = (params: string) => {
 };
 
 // 导入
-export const importDept = (params: FormData) => {
+export const importDept = (params: any) => {
   return http.post(SYSTEM + `/dept/import`, params, { noLoading: true });
 };
 
@@ -34,6 +34,6 @@ export const exportDept = (params: Dept.ReqParams) => {
 };
 
 // 获取所属部门下拉数据
-export const getDeptList = (params: FormData) => {
+export const getDeptList = (params: any) => {
   return http.post(SYSTEM + `/dept/getDeptList`, params, { noLoading: true });
 };

@@ -1,4 +1,3 @@
-// 菜单管理模块
 export namespace Menu {
   export interface ReqParams {
     title: string;
@@ -10,7 +9,7 @@ export namespace Menu {
     status: string;
   }
 
-  export interface ResList {
+  export interface ResObject {
     id: string;
     title: string;
     name: string;
@@ -31,6 +30,6 @@ export namespace Menu {
     menuType: string;
     status: string;
     remark: string;
-    children?: ResList[];
+    children?: ResObject[];
   }
 }

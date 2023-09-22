@@ -5,16 +5,16 @@ import { User } from "@/api/interface/system/user/user";
 
 // 列表
 export const selectUser = (params: User.ReqParams) => {
-  return http.post<ResPage<User.ResList>>(SYSTEM + `/user/select`, params, { noLoading: true });
+  return http.post<ResPage<User.ResObject>>(SYSTEM + `/user/select`, params, { noLoading: true });
 };
 
 // 添加
-export const insertUser = (params: FormData) => {
+export const insertUser = (params: any) => {
   return http.post(SYSTEM + `/user/insert`, params, { noLoading: true });
 };
 
 // 修改
-export const updateUser = (params: FormData) => {
+export const updateUser = (params: any) => {
   return http.post(SYSTEM + `/user/update`, params, { noLoading: true });
 };
 
@@ -24,7 +24,7 @@ export const deleteUser = (params: string) => {
 };
 
 // 导入
-export const importUser = (params: FormData) => {
+export const importUser = (params: any) => {
   return http.post(SYSTEM + `/user/import`, params, { noLoading: true });
 };
 

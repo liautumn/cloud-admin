@@ -4,7 +4,7 @@ import { Message } from "@/api/interface/system/message/message";
 
 // 列表
 export const selectMessage = () => {
-  return http.post<{ list: Message.ResList[]; num: number }>(SYSTEM + `/message/select`, {}, { noLoading: true });
+  return http.post<{ list: Message.ResObject[]; num: number }>(SYSTEM + `/message/select`, {}, { noLoading: true });
 };
 
 // 添加

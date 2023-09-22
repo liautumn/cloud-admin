@@ -1,14 +1,15 @@
 <template>
   <el-dialog
     v-model="dialogFlag"
-    :close-on-click-modal="true"
-    :destroy-on-close="true"
-    @close="close"
     :title="dialogProps.title"
-    width="50%"
-    top="15vh"
+    modal
     draggable
-    :modal="true"
+    close-on-click-modal
+    destroy-on-close
+    @open="open"
+    @close="close"
+    top="15vh"
+    width="50%"
     style="border-radius: 8px"
   >
     <el-form
@@ -110,15 +111,18 @@
 </template>
 
 <script setup lang="ts" name="userForm">
-import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
 import { ref, reactive } from "vue";
-import { User } from "@/api/interface/system/user/user";
-import { getRoleList, getPostList } from "@/api/modules/system/role/role";
-import { getDeptList } from "@/api/modules/system/dept/dept";
 import { sex, whether } from "@/utils/dict/globalDict";
+import { FormInstance, FormRules, ElMessage } from "element-plus";
+import { User } from "@/api/interface/system/user/user";
+import { getDeptList } from "@/api/modules/system/dept/dept";
+import { getRoleList, getPostList } from "@/api/modules/system/role/role";
 
 const $I18n = useI18n();
+const formRef = ref<FormInstance>();
+const dialogFlag = ref(false);
+
 //获取所属部门下拉数据
 const deptDataList = ref();
 const initDeptDataList = () => {
@@ -146,9 +150,6 @@ const initPostDataList = () => {
 };
 initPostDataList();
 
-const formRef = ref<FormInstance>();
-const dialogFlag = ref(false);
-
 //表单字段规则
 const rules = reactive<FormRules>({
   deptId: [{ required: false, message: "不能为空", trigger: "blur" }],
@@ -168,12 +169,28 @@ const rules = reactive<FormRules>({
   loginDate: [{ required: false, message: "不能为空", trigger: "blur" }]
 });
 
+const formDefaultData = {
+  deptId: "",
+  userName: "",
+  nickName: "",
+  userType: "",
+  email: "",
+  phonenumber: "",
+  sex: "2",
+  avatar: "",
+  password: "123456",
+  remark: "",
+  status: "1",
+  loginIp: "",
+  loginDate: ""
+};
+
 //定义表单需要的参数
 interface DialogProps {
-  type: string;
-  title: string;
-  disabled: boolean;
-  row: Partial<User.ResList>;
+  type?: string;
+  title?: string;
+  disabled?: boolean;
+  row?: Partial<User.ResObject>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }
@@ -187,12 +204,17 @@ const dialogProps = ref<DialogProps>({
 });
 
 //打开dialog并传入表单数据等参数
-const open = (params: DialogProps) => {
+const openDialog = (params: DialogProps) => {
   dialogProps.value = params;
+  if (params.type === "insert") {
+    dialogProps.value.row = formDefaultData;
+  }
   dialogFlag.value = true;
 };
 
-//关闭dialog
+//开启时触发
+const open = () => {};
+//关闭时触发
 const close = () => {
   formRef.value?.resetFields();
   dialogFlag.value = false;
@@ -215,6 +237,6 @@ const submit = () => {
 };
 
 defineExpose({
-  open
+  openDialog
 });
 </script>

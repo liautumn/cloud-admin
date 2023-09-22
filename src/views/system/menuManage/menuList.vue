@@ -119,7 +119,7 @@ const formDefaultData = ref({
 });
 
 //删除按钮
-const deleteClick = async (row: Menu.ResList) => {
+const deleteClick = async (row: Menu.ResObject) => {
   await deleteMenu(row.id);
   proTable.value?.getTableList();
   ElMessage.success($I18n.t("crud.deleteMsg"));
@@ -158,7 +158,7 @@ const exportClick = async () => {
 
 // 打开 dialog(新增、查看、编辑)
 const dialogRef = ref<InstanceType<typeof MenuForm> | null>(null);
-const openDialog = (type: string, row: Partial<Menu.ResList> = {}) => {
+const openDialog = (type: string, row: Partial<Menu.ResObject> = {}) => {
   const params = {
     type,
     row,

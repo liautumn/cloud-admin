@@ -5,12 +5,11 @@
       ref="proTable"
       title="用户信息"
       row-key="id"
-      highlight-current-row
       :columns="columns"
       :request-api="selectUser"
-      :pagination="true"
-      :data-callback="dataCallback"
       :initParam="initParam"
+      highlight-current-row
+      pagination
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
@@ -35,7 +34,6 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <!--        <div v-if="scope.row.userType !== USERTYPE">-->
         <el-button type="primary" link v-if="BUTTONS.view" @click="openDialog('view', scope.row)" :icon="View">{{
           $t("crud.view")
         }}</el-button>
@@ -47,7 +45,6 @@
             <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
           </template>
         </el-popconfirm>
-        <!--        </div>-->
       </template>
     </ProTable>
 
@@ -57,33 +54,25 @@
 </template>
 
 <script setup lang="ts" name="user">
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import ProTable from "@/components/ProTable/index.vue";
-import TreeFilter from "@/components/TreeFilter/index.vue";
-import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { Delete, EditPen, CirclePlus, Download, Upload, View } from "@element-plus/icons-vue";
 import { useDownload } from "@/hooks/useDownload";
-import ImportExcel from "@/components/ImportExcel/index.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { User } from "@/api/interface/system/user/user";
-import UserForm from "./userForm.vue";
-import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
-import { getDeptList } from "@/api/modules/system/dept/dept";
-import { dictParse } from "@/api/modules/system/dict/dict";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
+import { dictParse } from "@/api/modules/system/dict/dict";
+import { getDeptList } from "@/api/modules/system/dept/dept";
+import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
+import { Delete, EditPen, CirclePlus, Download, Upload, View } from "@element-plus/icons-vue";
+import { selectUser, insertUser, updateUser, deleteUser, exportUser, importUser } from "@/api/modules/system/user/user";
+import UserForm from "./userForm.vue";
+import ProTable from "@/components/ProTable/index.vue";
+import TreeFilter from "@/components/TreeFilter/index.vue";
+import ImportExcel from "@/components/ImportExcel/index.vue";
 
 const $I18n = useI18n();
-const { BUTTONS } = useAuthButtons();
 const proTable = ref<ProTableInstance>();
-const dataCallback = (data: any) => {
-  return {
-    list: data.list,
-    total: data.total,
-    pageNum: data.pageNum,
-    pageSize: data.pageSize
-  };
-};
+const { BUTTONS } = useAuthButtons();
 
 const initParam = ref({
   deptId: ""
@@ -95,7 +84,7 @@ const changeTreeFilter = (val: string) => {
 };
 
 // 表格配置项
-const columns: ColumnProps<User.ResList>[] = [
+const columns = reactive<ColumnProps<User.ResList>[]>([
   { type: "selection", fixed: "left", width: 60 },
   { type: "index", label: "序号", width: 60 },
   { prop: "userName", label: "账号", width: 150 },
@@ -113,24 +102,7 @@ const columns: ColumnProps<User.ResList>[] = [
   { prop: "loginIp", label: "登录IP", width: 150 },
   { prop: "loginDate", label: "登录时间", width: 180 },
   { prop: "operation", label: "操作", fixed: "right", width: 250 }
-];
-
-//声明参数
-const formDefaultData = ref({
-  deptId: "",
-  userName: "",
-  nickName: "",
-  userType: "",
-  email: "",
-  phonenumber: "",
-  sex: "2",
-  avatar: "",
-  password: "123456",
-  remark: "",
-  status: "1",
-  loginIp: "",
-  loginDate: ""
-});
+]);
 
 //删除按钮
 const deleteClick = async (row: User.ResList) => {
@@ -190,10 +162,9 @@ const openDialog = (type: string, row: Partial<User.ResList> = {}) => {
     api: type === "insert" ? insertUser : type === "update" ? updateUser : undefined,
     getTableList: proTable.value?.getTableList
   };
-  dialogRef.value?.open(params);
+  dialogRef.value?.openDialog(params);
 };
 </script>
-
 <style scoped lang="scss">
 .content-box {
   display: flex;

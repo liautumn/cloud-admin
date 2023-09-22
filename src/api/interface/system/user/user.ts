@@ -1,6 +1,5 @@
 import { ReqPage } from "@/api/interface";
 
-// 用户信息实体类
 export namespace User {
   export interface ReqParams extends ReqPage {
     deptId: string;
@@ -18,7 +17,7 @@ export namespace User {
     loginDate: string;
   }
 
-  export interface ResList {
+  export interface ResObject {
     id: string;
     deptId: string;
     roleList: [];

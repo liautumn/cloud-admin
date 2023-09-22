@@ -6,8 +6,9 @@
       row-key="id"
       highlight-current-row
       :columns="columns"
+      :init-param="initParam"
       :request-api="selectPost"
-      :pagination="true"
+      pagination
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
@@ -52,7 +53,7 @@
 </template>
 
 <script setup lang="ts" name="post">
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { useI18n } from "vue-i18n";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { Delete, EditPen, CirclePlus, Download, Upload } from "@element-plus/icons-vue";
@@ -70,8 +71,10 @@ const $I18n = useI18n();
 const proTable = ref<ProTableInstance>();
 const { BUTTONS } = useAuthButtons();
 
+const initParam = ref({});
+
 // 表格配置项
-const columns: ColumnProps<Post.ResObject>[] = [
+const columns = reactive<ColumnProps<Post.ResObject>[]>([
   { type: "selection", fixed: "left", width: 60 },
   { type: "index", width: 60, label: "序号" },
   { prop: "postName", label: "岗位名称", search: { el: "input" } },
@@ -85,7 +88,7 @@ const columns: ColumnProps<Post.ResObject>[] = [
     fieldNames: { label: "label", value: "value" }
   },
   { prop: "operation", label: "操作", width: 300 }
-];
+]);
 
 //删除按钮
 const deleteClick = async (row: Post.ResObject) => {

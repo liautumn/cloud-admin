@@ -1,6 +1,5 @@
 import { ReqPage } from "@/api/interface";
 
-// 部门信息实体类
 export namespace Dept {
   export interface ReqParams extends ReqPage {
     parentId: string;
@@ -13,7 +12,7 @@ export namespace Dept {
     status: string;
   }
 
-  export interface ResList {
+  export interface ResObject {
     id: string;
     parentId: string;
     ancestors: string;

@@ -5,7 +5,7 @@ import { Menu } from "@/api/interface/system/menu/menu";
 
 // 获取菜单列表
 export const selectMenu = (params: Menu.ReqParams) => {
-  return http.post<ResPage<Menu.ResList>>(SYSTEM + `/menu/select`, params, { noLoading: true });
+  return http.post<ResPage<Menu.ResObject>>(SYSTEM + `/menu/select`, params, { noLoading: true });
 };
 
 // 获取菜单树下拉列表
@@ -14,12 +14,12 @@ export const getMenuTree = (params: any) => {
 };
 
 // 添加菜单
-export const insertMenu = (params: FormData) => {
+export const insertMenu = (params: any) => {
   return http.post(SYSTEM + `/menu/insert`, params, { noLoading: true });
 };
 
 // 修改菜单
-export const updateMenu = (params: FormData) => {
+export const updateMenu = (params: any) => {
   return http.post(SYSTEM + `/menu/update`, params, { noLoading: true });
 };
 
@@ -29,7 +29,7 @@ export const deleteMenu = (params: string) => {
 };
 
 // 导入
-export const importMenu = (params: FormData) => {
+export const importMenu = (params: any) => {
   return http.post(SYSTEM + `/menu/import`, params, { noLoading: true });
 };
 

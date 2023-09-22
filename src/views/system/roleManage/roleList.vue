@@ -80,7 +80,7 @@ const dataCallback = (data: any) => {
 };
 
 // 表格配置项
-const columns: ColumnProps<Role.ResList>[] = [
+const columns: ColumnProps<Role.ResObject>[] = [
   { type: "selection", fixed: "left", width: 60 },
   { type: "index", width: 60, label: "序号" },
   { prop: "roleName", label: "角色名称", search: { el: "input" } },
@@ -109,7 +109,7 @@ const formDefaultData = ref({
 });
 
 //删除按钮
-const deleteClick = async (row: Role.ResList) => {
+const deleteClick = async (row: Role.ResObject) => {
   await deleteRole(row.id);
   proTable.value?.getTableList();
   ElMessage.success($I18n.t("crud.deleteMsg"));
@@ -148,7 +148,7 @@ const exportClick = async () => {
 
 // 打开 dialog(新增、查看、编辑)
 const dialogRef = ref<InstanceType<typeof RoleForm> | null>(null);
-const openDialog = (type: string, row: Partial<Role.ResList> = {}) => {
+const openDialog = (type: string, row: Partial<Role.ResObject> = {}) => {
   const params = {
     type,
     row,

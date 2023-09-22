@@ -185,7 +185,7 @@ interface DialogProps {
   type: string;
   title: string;
   disabled: boolean;
-  row: Partial<Menu.ResList>;
+  row: Partial<Menu.ResObject>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }

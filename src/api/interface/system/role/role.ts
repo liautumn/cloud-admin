@@ -1,6 +1,5 @@
 import { ReqPage } from "@/api/interface";
 
-// 角色信息实体类
 export namespace Role {
   export interface ReqParams extends ReqPage {
     roleName: string;
@@ -13,7 +12,7 @@ export namespace Role {
     status: string;
   }
 
-  export interface ResList {
+  export interface ResObject {
     id: string;
     menuTreeList: [];
     roleName: string;

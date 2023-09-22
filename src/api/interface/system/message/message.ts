@@ -1,4 +1,3 @@
-// 消息记录表实体类
 export namespace Message {
   export interface ReqParams {
     title: string;
@@ -8,7 +7,7 @@ export namespace Message {
     status: string;
   }
 
-  export interface ResList {
+  export interface ResObject {
     id: string;
     title: string;
     content: string;

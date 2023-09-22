@@ -5,16 +5,16 @@ import { Post } from "@/api/interface/system/post/post";
 
 // 列表
 export const selectPost = (params: Post.ReqParams) => {
-  return http.post<ResPage<Post.ResList>>(SYSTEM + `/post/select`, params, { noLoading: true });
+  return http.post<ResPage<Post.ResObject>>(SYSTEM + `/post/select`, params, { noLoading: true });
 };
 
 // 添加
-export const insertPost = (params: FormData) => {
+export const insertPost = (params: any) => {
   return http.post(SYSTEM + `/post/insert`, params, { noLoading: true });
 };
 
 // 修改
-export const updatePost = (params: FormData) => {
+export const updatePost = (params: any) => {
   return http.post(SYSTEM + `/post/update`, params, { noLoading: true });
 };
 
@@ -24,7 +24,7 @@ export const deletePost = (params: string) => {
 };
 
 // 导入
-export const importPost = (params: FormData) => {
+export const importPost = (params: any) => {
   return http.post(SYSTEM + `/post/import`, params, { noLoading: true });
 };
 
