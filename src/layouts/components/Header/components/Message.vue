@@ -54,7 +54,7 @@ const VIRTUAL_HOST = "/"; //  侦听器端口
 const QUEUE_NAME = "message.direct.queue." + userStore.userInfo.id; //  侦听队列
 
 //获取消息数据
-const list = ref<Message.ResList[]>([]);
+const list = ref<Message.ResObject[]>([]);
 const num = ref<number>(0);
 const getMessage = () => {
   selectMessage().then(res => {
@@ -64,7 +64,7 @@ const getMessage = () => {
 };
 getMessage();
 
-const yd = (item: Message.ResList, index: number) => {
+const yd = (item: Message.ResObject, index: number) => {
   console.log(item, index);
   item.status = "2";
   updateMessage(item).then(() => {
@@ -72,7 +72,7 @@ const yd = (item: Message.ResList, index: number) => {
   });
 };
 
-const qc = (item: Message.ResList, index: number) => {
+const qc = (item: Message.ResObject, index: number) => {
   console.log(item, index);
   item.status = "2";
   updateMessage(item).then(() => {
@@ -100,7 +100,7 @@ const onFailed = (frame: any) => {
 const responseCallback = (frame: any) => {
   console.log("MQ msg=>" + frame.body);
   //接收消息处理
-  let data: Message.ResList = JSON.parse(frame.body);
+  let data: Message.ResObject = JSON.parse(frame.body);
   list.value.unshift(data);
   num.value = num.value + 1;
   //通知用户

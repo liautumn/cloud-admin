@@ -119,7 +119,7 @@ interface DialogProps {
   type: string;
   title: string;
   disabled: boolean;
-  row: Partial<Dept.ResList>;
+  row: Partial<Dept.ResObject>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }

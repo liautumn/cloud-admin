@@ -79,7 +79,7 @@ const { BUTTONS } = useAuthButtons();
 const proTable = ref<ProTableInstance>();
 
 // 表格配置项
-const columns: ColumnProps<Menu.ResList>[] = [
+const columns: ColumnProps<Menu.ResObject>[] = [
   { type: "selection", fixed: "left", width: 60 },
   { prop: "title", label: "菜单名称", search: { el: "input" } },
   { prop: "icon", label: "菜单图标" },

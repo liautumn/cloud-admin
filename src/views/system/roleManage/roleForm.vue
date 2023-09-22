@@ -131,7 +131,7 @@ interface DialogProps {
   type: string;
   title: string;
   disabled: boolean;
-  row: Partial<Role.ResList>;
+  row: Partial<Role.ResObject>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }

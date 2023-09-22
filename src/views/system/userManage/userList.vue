@@ -13,7 +13,7 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">{{
+        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', {})" :icon="CirclePlus">{{
           $t("crud.insert")
         }}</el-button>
         <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">{{
@@ -84,7 +84,7 @@ const changeTreeFilter = (val: string) => {
 };
 
 // 表格配置项
-const columns = reactive<ColumnProps<User.ResList>[]>([
+const columns = reactive<ColumnProps<User.ResObject>[]>([
   { type: "selection", fixed: "left", width: 60 },
   { type: "index", label: "序号", width: 60 },
   { prop: "userName", label: "账号", width: 150 },
@@ -105,7 +105,7 @@ const columns = reactive<ColumnProps<User.ResList>[]>([
 ]);
 
 //删除按钮
-const deleteClick = async (row: User.ResList) => {
+const deleteClick = async (row: User.ResObject) => {
   await deleteUser(row.id);
   proTable.value?.getTableList();
   ElMessage.success($I18n.t("crud.deleteMsg"));
@@ -144,7 +144,7 @@ const exportClick = async () => {
 
 // 打开 dialog(新增、查看、编辑)
 const dialogRef = ref<InstanceType<typeof UserForm> | null>(null);
-const openDialog = (type: string, row: Partial<User.ResList> = {}) => {
+const openDialog = (type: string, row: Partial<User.ResObject> = {}) => {
   const params = {
     type,
     row,
