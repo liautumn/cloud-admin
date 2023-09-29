@@ -1,10 +1,11 @@
 import { SYSTEM } from "@/api/config/servicePort";
 import http from "@/api";
 import { Message } from "@/api/interface/system/message/message";
+import { ResPage } from "@/api/interface";
 
 // 列表
-export const selectMessage = () => {
-  return http.post<{ list: Message.ResObject[]; num: number }>(SYSTEM + `/message/select`, {}, { noLoading: true });
+export const selectMessage = (params: Message.ReqParams) => {
+  return http.post<ResPage<Message.ResObject>>(SYSTEM + `/message/select`, params, { noLoading: true });
 };
 
 // 添加
@@ -30,4 +31,9 @@ export const importMessage = (params: any) => {
 // 导出
 export const exportMessage = (params: Message.ReqParams) => {
   return http.download(SYSTEM + `/message/export`, params, { noLoading: true });
+};
+
+//获取未读数量
+export const getUnreadNum = () => {
+  return http.get<number>(SYSTEM + `/message/getUnreadNum`, {}, { noLoading: true });
 };

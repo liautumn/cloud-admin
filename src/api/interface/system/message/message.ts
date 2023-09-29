@@ -1,5 +1,7 @@
+import { ReqPage } from "@/api/interface";
+
 export namespace Message {
-  export interface ReqParams {
+  export interface ReqParams extends ReqPage {
     title: string;
     content: string;
     path: string;

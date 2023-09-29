@@ -1,11 +1,11 @@
 <template>
   <div class="tool-bar-ri">
     <div class="header-icon">
+      <Message id="message" />
       <AssemblySize id="assemblySize" />
       <Language id="language" />
       <SearchMenu id="searchMenu" />
       <ThemeSetting id="themeSetting" />
-      <Message id="message" />
       <Fullscreen id="fullscreen" />
     </div>
     <span class="nickName">{{ nickName }}</span>
