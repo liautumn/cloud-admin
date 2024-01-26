@@ -1,10 +1,14 @@
 <template>
-  <div :class="['breadcrumb-box', !globalStore.breadcrumbIcon && 'no-icon']">
+  <div :class="['breadcrumb-box mask-image', !globalStore.breadcrumbIcon && 'no-icon']">
     <el-breadcrumb :separator-icon="ArrowRight">
       <transition-group name="breadcrumb">
         <el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="item.path">
-          <div class="el-breadcrumb__inner is-link" @click="onBreadcrumbClick(item, index)">
-            <el-icon class="breadcrumb-icon" v-show="item.meta.icon && globalStore.breadcrumbIcon">
+          <div
+            class="el-breadcrumb__inner is-link"
+            :class="{ 'item-no-icon': !item.meta.icon }"
+            @click="onBreadcrumbClick(item, index)"
+          >
+            <el-icon v-if="item.meta.icon && globalStore.breadcrumbIcon" class="breadcrumb-icon">
               <component :is="item.meta.icon"></component>
             </el-icon>
             <span class="breadcrumb-title">{{ item.meta.title }}</span>
@@ -47,29 +51,39 @@ const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
 .breadcrumb-box {
   display: flex;
   align-items: center;
-  padding-right: 50px;
   overflow: hidden;
-  mask-image: linear-gradient(90deg, #000000 0%, #000000 calc(100% - 50px), transparent);
   .el-breadcrumb {
     white-space: nowrap;
     .el-breadcrumb__item {
       position: relative;
       display: inline-block;
       float: none;
+      .item-no-icon {
+        transform: translateY(-3px);
+      }
       .el-breadcrumb__inner {
         display: inline-flex;
+        &.is-link {
+          color: var(--el-header-text-color);
+          &:hover {
+            color: var(--el-color-primary);
+          }
+        }
         .breadcrumb-icon {
-          margin-top: 2px;
+          margin-top: 1px;
           margin-right: 6px;
           font-size: 16px;
         }
         .breadcrumb-title {
-          margin-top: 3px;
+          margin-top: 2px;
         }
       }
+      &:last-child .el-breadcrumb__inner,
+      &:last-child .el-breadcrumb__inner:hover {
+        color: var(--el-header-text-color-regular);
+      }
       :deep(.el-breadcrumb__separator) {
-        position: relative;
-        top: -1px;
+        transform: translateY(-1px);
       }
     }
   }
@@ -79,7 +93,10 @@ const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
     .el-breadcrumb__item {
       top: -2px;
       :deep(.el-breadcrumb__separator) {
-        top: 2px;
+        top: 4px;
+      }
+      .item-no-icon {
+        transform: translateY(0);
       }
     }
   }
