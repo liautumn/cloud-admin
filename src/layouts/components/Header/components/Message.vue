@@ -25,12 +25,13 @@
           <el-table-column fixed="right" label="操作" width="120" align="center">
             <template #default="scope">
               <el-button link type="primary" v-if="scope.row.status !== '2'" size="small" @click="yd(scope.$index, scope.row)"
-                >已读</el-button
-              >
+                >已读
+              </el-button>
               <el-button link type="danger" size="small" @click="qc(scope.$index, scope.row)">清除</el-button>
             </template>
           </el-table-column>
         </el-table>
+
         <el-pagination
           v-model:current-page="queryParams.pageNum"
           v-model:page-size="queryParams.pageSize"
