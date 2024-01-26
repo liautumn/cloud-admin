@@ -24,7 +24,6 @@ export const useDownload = async (
     });
   }
   try {
-    console.log(params);
     const res = await api(params);
     const blob = new Blob([res]);
     // 兼容 edge 不支持 createObjectURL 方法
