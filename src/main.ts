@@ -13,7 +13,7 @@ import "element-plus/dist/index.css";
 // element dark css
 import "element-plus/theme-chalk/dark/css-vars.css";
 // custom element dark css
-import "@/styles/theme/element-dark.scss";
+import "@/styles/element-dark.scss";
 // custom element css
 import "@/styles/element.scss";
 // svg icons
@@ -32,8 +32,6 @@ import I18n from "@/languages/index";
 import pinia from "@/stores";
 // errorHandler
 import errorHandler from "@/utils/errorHandler";
-
-import "vue3-lottie/dist/style.css";
 
 const app = createApp(App);
 
