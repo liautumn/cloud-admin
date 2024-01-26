@@ -12,17 +12,17 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', {})" :icon="CirclePlus"
-          >{{ $t("crud.insert") }}
+        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', {})" :icon="CirclePlus">
+          {{ $t("crud.insert") }}
         </el-button>
-        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete"
-          >{{ $t("crud.delete") }}
+        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">
+          {{ $t("crud.delete") }}
         </el-button>
-        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload"
-          >{{ $t("crud.import") }}
+        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">
+          {{ $t("crud.import") }}
         </el-button>
-        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download"
-          >{{ $t("crud.export") }}
+        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">
+          {{ $t("crud.export") }}
         </el-button>
       </template>
       <!-- 菜单图标 -->
@@ -33,11 +33,11 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" v-if="BUTTONS.view" link @click="openDialog('view', scope.row)" :icon="EditPen"
-          >{{ $t("crud.view") }}
+        <el-button type="primary" v-if="BUTTONS.view" link @click="openDialog('view', scope.row)" :icon="EditPen">
+          {{ $t("crud.view") }}
         </el-button>
-        <el-button type="primary" v-if="BUTTONS.update" link @click="openDialog('update', scope.row)" :icon="EditPen"
-          >{{ $t("crud.update") }}
+        <el-button type="primary" v-if="BUTTONS.update" link @click="openDialog('update', scope.row)" :icon="EditPen">
+          {{ $t("crud.update") }}
         </el-button>
         <el-popconfirm v-if="BUTTONS.delete" :title="$t('crud.deleteConfirm')" @confirm="deleteClick(scope.row)">
           <template #reference>

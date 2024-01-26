@@ -43,8 +43,9 @@
           v-if="BUTTONS.insert"
           @click="openDialog('insertRow', { ...formDefaultData, ...{ parentId: scope.row.id } })"
           :icon="CirclePlus"
-          >{{ $t("crud.insert") }}</el-button
         >
+          {{ $t("crud.insert") }}
+        </el-button>
         <el-button type="primary" link v-if="BUTTONS.update" @click="openDialog('update', scope.row)" :icon="EditPen">{{
           $t("crud.update")
         }}</el-button>

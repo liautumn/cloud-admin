@@ -6,7 +6,6 @@
     draggable
     close-on-click-modal
     destroy-on-close
-    @open="open"
     @close="close"
     top="15vh"
     width="50%"
@@ -119,8 +118,6 @@ const openDialog = (params: DialogProps) => {
   dialogFlag.value = true;
 };
 
-//开启时触发
-const open = () => {};
 //关闭时触发
 const close = () => {
   formRef.value?.resetFields();
