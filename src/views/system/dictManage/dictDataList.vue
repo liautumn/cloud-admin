@@ -12,18 +12,18 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', null)" :icon="CirclePlus">{{
-          $t("crud.insert")
-        }}</el-button>
-        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">{{
-          $t("crud.delete")
-        }}</el-button>
-        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">{{
-          $t("crud.import")
-        }}</el-button>
-        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">{{
-          $t("crud.export")
-        }}</el-button>
+        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', insertRow)" :icon="CirclePlus">
+          {{ $t("crud.insert") }}
+        </el-button>
+        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">
+          {{ $t("crud.delete") }}
+        </el-button>
+        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">
+          {{ $t("crud.import") }}
+        </el-button>
+        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">
+          {{ $t("crud.export") }}
+        </el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -33,12 +33,12 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link v-if="BUTTONS.view" @click="openDialog('view', scope.row)" :icon="EditPen">{{
-          $t("crud.view")
-        }}</el-button>
-        <el-button type="primary" link v-if="BUTTONS.update" @click="openDialog('update', scope.row)" :icon="EditPen">{{
-          $t("crud.update")
-        }}</el-button>
+        <el-button type="primary" link v-if="BUTTONS.view" @click="openDialog('view', scope.row)" :icon="EditPen">
+          {{ $t("crud.view") }}
+        </el-button>
+        <el-button type="primary" link v-if="BUTTONS.update" @click="openDialog('update', scope.row)" :icon="EditPen">
+          {{ $t("crud.update") }}
+        </el-button>
         <el-popconfirm :title="$t('crud.deleteConfirm')" v-if="BUTTONS.delete" @confirm="deleteClick(scope.row)">
           <template #reference>
             <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
@@ -63,8 +63,7 @@ import {
   updateDictData,
   deleteDictData,
   exportDictData,
-  importDictData,
-  dictParse
+  importDictData
 } from "@/api/modules/system/dict/dict";
 import DictDataForm from "./dictDataForm.vue";
 import { useDownload } from "@/hooks/useDownload";
@@ -73,6 +72,7 @@ import ImportExcel from "@/components/ImportExcel/index.vue";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
+import { dictParse } from "@/api/modules/system/dict/dict";
 
 const $I18n = useI18n();
 const { BUTTONS } = useAuthButtons();
@@ -111,6 +111,11 @@ const columns: ColumnProps[] = [
   },
   { prop: "operation", label: "操作", width: 300 }
 ];
+
+const insertRow = {
+  dictTypeId: route.query!.id,
+  dictType: route.query!.dictType
+};
 
 //删除按钮
 const deleteClick = async (row: any) => {
@@ -159,12 +164,12 @@ const openDialog = (type: string, row: any) => {
       type === "insert"
         ? $I18n.t("crud.insert")
         : type === "delete"
-        ? $I18n.t("crud.delete")
-        : type === "update"
-        ? $I18n.t("crud.update")
-        : type === "view"
-        ? $I18n.t("crud.view")
-        : "",
+          ? $I18n.t("crud.delete")
+          : type === "update"
+            ? $I18n.t("crud.update")
+            : type === "view"
+              ? $I18n.t("crud.view")
+              : "",
     row: { ...row },
     isView: type === "view",
     disabled: type === "view",
@@ -174,6 +179,7 @@ const openDialog = (type: string, row: any) => {
   dialogRef.value?.open(params);
 };
 
+// eslint-disable-next-line vue/no-expose-after-await
 defineExpose({
   open
 });

@@ -71,7 +71,6 @@ import DictForm from "./dictTypeForm.vue";
 import { useDownload } from "@/hooks/useDownload";
 import { ElMessage, ElMessageBox } from "element-plus";
 import ImportExcel from "@/components/ImportExcel/index.vue";
-import { dictStore } from "@/stores/modules/dict";
 import { useI18n } from "vue-i18n";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 
@@ -170,8 +169,6 @@ const openDialog = (type: string, row: any) => {
 
 // 跳转详情页
 const toDictDataList = (row: any) => {
-  //存入字典状态
-  dictStore().set(row);
-  router.push(`/system/dictData?id=${row.id}&dictName=${row.dictName}`);
+  router.push(`/system/dictData?id=${row.id}&dictType=${row.dictType}`);
 };
 </script>

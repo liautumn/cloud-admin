@@ -39,7 +39,7 @@
         <el-col :span="12">
           <el-form-item label="是否停用" prop="status">
             <el-radio-group v-model="dialogProps.row!.status">
-              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in dicts.whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -69,8 +69,9 @@ import { ref, reactive } from "vue";
 import { useI18n } from "vue-i18n";
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { Post } from "@/api/interface/system/post/post";
-import { whether } from "@/utils/dict/globalDict";
+import { parseDicts } from "@/stores/helper/dicts";
 
+const { dicts } = parseDicts("whether");
 const $I18n = useI18n();
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);

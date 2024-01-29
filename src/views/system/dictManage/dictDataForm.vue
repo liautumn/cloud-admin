@@ -44,7 +44,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="数据类型" prop="dictType">
-            <el-input v-model="dictStoreData.row!.dictType" :disabled="true" placeholder="数据类型" clearable />
+            <el-input v-model="dialogProps.row!.dictType" :disabled="true" placeholder="数据类型" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -86,12 +86,9 @@
 <script setup lang="ts" name="dictDataForm">
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { ref, reactive } from "vue";
-import { dictStore } from "@/stores/modules/dict";
 import { useI18n } from "vue-i18n";
 
 const $I18n = useI18n();
-const dictStoreData = dictStore();
-
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);
 
@@ -141,11 +138,7 @@ const reset = () => {
 const submit = () => {
   formRef.value!.validate(async valid => {
     if (!valid) return;
-    const row = {
-      ...dialogProps.value.row,
-      ...{ dictTypeId: dictStoreData.row.id, dictType: dictStoreData.row.dictType }
-    };
-    await dialogProps.value.api!(row);
+    await dialogProps.value.api!(dialogProps.value.row);
     ElMessage.success({ message: `${dialogProps.value.title}` + $I18n.t("crud.success") });
     dialogProps.value.getTableList!();
     close();

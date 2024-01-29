@@ -52,7 +52,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('loginUser.sexLabel')" prop="sex">
                 <el-radio-group v-model="formData!.sex">
-                  <el-radio v-for="item in sex" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+                  <el-radio v-for="item in dicts.sex" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -147,8 +147,9 @@ import UploadImg from "@/components/Upload/Img.vue";
 import { Login } from "@/api/interface/auth/login";
 import { updateUser, getOneUser, updatePassword } from "@/api/modules/auth/loginUser";
 import { UserState } from "@/stores/interface/index";
-import { sex } from "@/utils/dict/globalDict";
+import { parseDicts } from "@/stores/helper/dicts";
 
+const { dicts } = parseDicts("sex");
 const $I18n = useI18n();
 const activeName = ref("0");
 const userStore = useUserStore();

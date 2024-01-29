@@ -24,14 +24,14 @@
         <el-col :span="dialogProps.row!.menuType === MENUTYPE.button ? 24 : 12">
           <el-form-item label="菜单类型" prop="menuType">
             <el-radio-group v-model="dialogProps.row!.menuType">
-              <el-radio v-for="item in menuType" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in dicts.menuType" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button && dialogProps.row!.isFull != WHETHER.yes">
           <el-form-item label="是否为外链" prop="isLink">
             <el-radio-group v-model="dialogProps.row!.isLink">
-              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in dicts.whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -92,35 +92,35 @@
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button">
           <el-form-item label="是否隐藏" prop="isHide">
             <el-radio-group v-model="dialogProps.row!.isHide">
-              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in dicts.whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button">
           <el-form-item label="是否缓存" prop="isKeepAlive">
             <el-radio-group v-model="dialogProps.row!.isKeepAlive">
-              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in dicts.whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="是否停用" prop="status">
             <el-radio-group v-model="dialogProps.row!.status">
-              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in dicts.whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button && dialogProps.row!.isLink != WHETHER.yes">
           <el-form-item label="是否固定页" prop="isAffix">
             <el-radio-group v-model="dialogProps.row!.isAffix">
-              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in dicts.whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType === MENUTYPE.menu && dialogProps.row!.isLink != WHETHER.yes">
           <el-form-item label="是否全屏" prop="isFull">
             <el-radio-group v-model="dialogProps.row!.isFull">
-              <el-radio v-for="item in whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+              <el-radio v-for="item in dicts.whether" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -152,9 +152,10 @@ import { ref, reactive } from "vue";
 import { MENUTYPE, WHETHER } from "@/utils/dict/staticCode";
 import { Menu } from "@/api/interface/system/menu/menu";
 import { getMenuTree } from "@/api/modules/system/menu/menu";
-import { menuType, whether } from "@/utils/dict/globalDict";
 import { useI18n } from "vue-i18n";
+import { parseDicts } from "@/stores/helper/dicts";
 
+const { dicts } = parseDicts("whether,menuType");
 const $I18n = useI18n();
 const formRef = ref<FormInstance>();
 const dialogFlag = ref(false);

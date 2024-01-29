@@ -68,5 +68,5 @@ export const exportDictData = (params: any) => {
 // ===================================字典通用解析接口=============================================
 
 export const dictParse = (params: string) => {
-  return http.get(SYSTEM + `/dictType/parse?dictType=` + params, {}, { noLoading: true });
+  return http.get(SYSTEM + `/dictType/parseOne`, { dictType: params }, { noLoading: true });
 };
