@@ -74,7 +74,6 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import { Dept } from "@/api/interface/system/dept/dept";
 import DeptForm from "./deptForm.vue";
 import { selectDept, insertDept, updateDept, deleteDept, exportDept, importDept } from "@/api/modules/system/dept/dept";
-import { useHandleData } from "@/hooks/useHandleData";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 
 const $I18n = useI18n();
@@ -120,12 +119,12 @@ const deleteClick = async (row: Dept.ResObject) => {
 };
 
 // 批量删除信息
-const batchDelete = (ids: string[]) => {
+const batchDelete = async (ids: string[]) => {
   if (ids.length === 0) {
     ElMessage.warning($I18n.t("crud.beforeSelect"));
     return;
   }
-  useHandleData(deleteDept, ids.toString());
+  await deleteDept(ids.toString());
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
 };
@@ -159,14 +158,14 @@ const openDialog = (type: string, row: Partial<Dept.ResObject> = {}) => {
       type === "insert"
         ? $I18n.t("crud.insert")
         : type === "insertRow"
-        ? $I18n.t("crud.insert")
-        : type === "delete"
-        ? $I18n.t("crud.delete")
-        : type === "update"
-        ? $I18n.t("crud.update")
-        : type === "view"
-        ? $I18n.t("crud.view")
-        : "",
+          ? $I18n.t("crud.insert")
+          : type === "delete"
+            ? $I18n.t("crud.delete")
+            : type === "update"
+              ? $I18n.t("crud.update")
+              : type === "view"
+                ? $I18n.t("crud.view")
+                : "",
     disabled: type === "view",
     api: type === "insert" ? insertDept : type === "insertRow" ? insertDept : type === "update" ? updateDept : undefined,
     getTableList: proTable.value?.getTableList

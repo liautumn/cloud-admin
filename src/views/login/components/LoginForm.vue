@@ -40,8 +40,8 @@
   <Verify
     @success="success"
     mode="pop"
-    :captchaType="captchaType"
-    :imgSize="{ width: '400px', height: '200px' }"
+    :captcha-type="captchaType"
+    :img-size="{ width: '400px', height: '200px' }"
     ref="verify"
   ></Verify>
 </template>

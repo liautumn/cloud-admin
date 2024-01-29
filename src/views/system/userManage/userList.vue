@@ -7,7 +7,7 @@
       row-key="id"
       :columns="columns"
       :request-api="selectUser"
-      :initParam="initParam"
+      :init-param="initParam"
       highlight-current-row
       pagination
     >
@@ -152,12 +152,12 @@ const openDialog = (type: string, row: Partial<User.ResObject> = {}) => {
       type === "insert"
         ? $I18n.t("crud.insert")
         : type === "delete"
-        ? $I18n.t("crud.delete")
-        : type === "update"
-        ? $I18n.t("crud.update")
-        : type === "view"
-        ? $I18n.t("crud.view")
-        : "",
+          ? $I18n.t("crud.delete")
+          : type === "update"
+            ? $I18n.t("crud.update")
+            : type === "view"
+              ? $I18n.t("crud.view")
+              : "",
     disabled: type === "view",
     api: type === "insert" ? insertUser : type === "update" ? updateUser : undefined,
     getTableList: proTable.value?.getTableList

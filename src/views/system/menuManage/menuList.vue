@@ -11,18 +11,18 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">{{
-          $t("crud.insert")
-        }}</el-button>
-        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">{{
-          $t("crud.delete")
-        }}</el-button>
-        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">{{
-          $t("crud.import")
-        }}</el-button>
-        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">{{
-          $t("crud.export")
-        }}</el-button>
+        <el-button type="primary" v-if="BUTTONS.insert" @click="openDialog('insert', formDefaultData)" :icon="CirclePlus">
+          {{ $t("crud.insert") }}
+        </el-button>
+        <el-button type="danger" v-if="BUTTONS.delete" @click="batchDelete(scope.selectedListIds)" :icon="Delete">
+          {{ $t("crud.delete") }}
+        </el-button>
+        <el-button type="primary" v-if="BUTTONS.import" @click="importClick" plain :icon="Upload">
+          {{ $t("crud.import") }}
+        </el-button>
+        <el-button type="primary" v-if="BUTTONS.export" @click="exportClick" plain :icon="Download">
+          {{ $t("crud.export") }}
+        </el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
@@ -32,20 +32,21 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link v-if="BUTTONS.view" @click="openDialog('view', scope.row)" :icon="EditPen">{{
-          $t("crud.view")
-        }}</el-button>
+        <el-button type="primary" link v-if="BUTTONS.view" @click="openDialog('view', scope.row)" :icon="EditPen">
+          {{ $t("crud.view") }}
+        </el-button>
         <el-button
           type="primary"
           link
           v-if="BUTTONS.insert"
           @click="openDialog('insertRow', { ...formDefaultData, ...{ parentId: scope.row.id } })"
           :icon="CirclePlus"
-          >{{ $t("crud.insert") }}</el-button
         >
-        <el-button type="primary" link v-if="BUTTONS.update" @click="openDialog('update', scope.row)" :icon="EditPen">{{
-          $t("crud.update")
-        }}</el-button>
+          {{ $t("crud.insert") }}
+        </el-button>
+        <el-button type="primary" link v-if="BUTTONS.update" @click="openDialog('update', scope.row)" :icon="EditPen">
+          {{ $t("crud.update") }}
+        </el-button>
         <el-popconfirm :title="$t('crud.deleteConfirm')" v-if="BUTTONS.delete" @confirm="deleteClick(scope.row)">
           <template #reference>
             <el-button type="danger" link :icon="Delete">{{ $t("crud.delete") }}</el-button>
@@ -166,12 +167,12 @@ const openDialog = (type: string, row: Partial<Menu.ResObject> = {}) => {
       type === "insert"
         ? $I18n.t("crud.insert")
         : type === "delete"
-        ? row.title + " " + $I18n.t("crud.delete")
-        : type === "update"
-        ? $I18n.t("crud.update")
-        : type === "view"
-        ? $I18n.t("crud.view")
-        : "",
+          ? row.title + " " + $I18n.t("crud.delete")
+          : type === "update"
+            ? $I18n.t("crud.update")
+            : type === "view"
+              ? $I18n.t("crud.view")
+              : "",
     disabled: type === "view",
     api: type === "insert" ? insertMenu : type === "insertRow" ? insertMenu : type === "update" ? updateMenu : undefined,
     getTableList: proTable.value?.getTableList

@@ -12,16 +12,16 @@
         <component
           v-if="componentType"
           :is="componentType"
-          :captchaType="captchaType"
+          :captcha-type="captchaType"
           :type="verifyType"
           :figure="figure"
           :arith="arith"
           :mode="mode"
-          :vSpace="vSpace"
+          :v-space="vSpace"
           :explain="explain"
-          :imgSize="imgSize"
-          :blockSize="blockSize"
-          :barSize="barSize"
+          :img-size="imgSize"
+          :block-size="blockSize"
+          :bar-size="barSize"
           ref="instance"
         ></component>
       </div>

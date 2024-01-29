@@ -138,12 +138,12 @@ const openDialog = (type: string, row: Partial<Post.ResObject> = {}) => {
       type === "insert"
         ? $I18n.t("crud.insert")
         : type === "delete"
-        ? $I18n.t("crud.delete")
-        : type === "update"
-        ? $I18n.t("crud.update")
-        : type === "view"
-        ? $I18n.t("crud.view")
-        : "",
+          ? $I18n.t("crud.delete")
+          : type === "update"
+            ? $I18n.t("crud.update")
+            : type === "view"
+              ? $I18n.t("crud.view")
+              : "",
     disabled: type === "view",
     api: type === "insert" ? insertPost : type === "update" ? updatePost : undefined,
     getTableList: proTable.value?.getTableList
