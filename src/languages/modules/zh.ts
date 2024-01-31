@@ -9,7 +9,8 @@ export default {
     closeLeft: "关闭左侧",
     closeRight: "关闭右侧",
     closeOther: "关闭其它",
-    closeAll: "关闭所有"
+    closeAll: "关闭所有",
+    index: "首页"
   },
   header: {
     componentSize: "组件大小",

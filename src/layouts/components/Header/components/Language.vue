@@ -21,7 +21,10 @@ import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 import { useGlobalStore } from "@/stores/modules/global";
 import { LanguageType } from "@/stores/interface";
+//刷新菜单
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
+import { useTabsStore } from "@/stores/modules/tabs";
+import { selectNoTree } from "@/api/modules/system/menu/menu";
 
 const i18n = useI18n();
 const globalStore = useGlobalStore();
@@ -37,5 +40,28 @@ const changeLanguage = async (lang: string) => {
   globalStore.setGlobalState("language", lang as LanguageType);
   //刷新菜单
   await initDynamicRouter();
+  //刷新导航栏
+  //刷新tabs
+  const menuList: any = (
+    await selectNoTree({
+      component: "",
+      menuType: "1",
+      parentId: "",
+      path: "",
+      perms: "",
+      status: "1",
+      title: ""
+    })
+  ).data;
+  const tabStore = useTabsStore();
+  let tabsMenuList = tabStore.tabsMenuList;
+  for (let i = 0; i < tabsMenuList.length; i++) {
+    for (let j = 0; j < menuList.length; j++) {
+      if (menuList[j].path == tabsMenuList[i].path) {
+        tabsMenuList[i].title = language.value == "zh" ? menuList[j].title : language.value == "en" ? menuList[j].enTitle : "";
+        break;
+      }
+    }
+  }
 };
 </script>

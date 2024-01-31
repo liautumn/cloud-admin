@@ -8,6 +8,10 @@ export const selectMenu = (params: Menu.ReqParams) => {
   return http.post<ResPage<Menu.ResObject>>(SYSTEM + `/menu/select`, params, { noLoading: true });
 };
 
+export const selectNoTree = (params: Menu.ReqParams) => {
+  return http.post(SYSTEM + `/menu/selectNoTree`, params, { noLoading: true });
+};
+
 // 获取菜单树下拉列表
 export const getMenuTree = (params: any) => {
   return http.post(SYSTEM + `/menu/getMenuTree`, params, { noLoading: true });

@@ -9,7 +9,8 @@ export default {
     closeLeft: "Close Left",
     closeRight: "Close Right",
     closeOther: "Close other",
-    closeAll: "Close All"
+    closeAll: "Close All",
+    index: "Index"
   },
   header: {
     componentSize: "Component size",
