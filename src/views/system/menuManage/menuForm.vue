@@ -55,6 +55,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button">
+          <el-form-item label="英文名称" prop="title">
+            <el-input v-model="dialogProps.row!.enTitle" placeholder="英文名称" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" v-if="dialogProps.row!.menuType != MENUTYPE.button">
           <el-form-item label="菜单图标" prop="icon">
             <SelectIcon title="菜单图标" placeholder="请选择图标" v-model:icon-value="dialogProps.row!.icon" />
           </el-form-item>

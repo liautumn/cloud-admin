@@ -21,6 +21,7 @@ import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 import { useGlobalStore } from "@/stores/modules/global";
 import { LanguageType } from "@/stores/interface";
+import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 
 const i18n = useI18n();
 const globalStore = useGlobalStore();
@@ -31,8 +32,10 @@ const languageList = [
   { label: "English", value: "en" }
 ];
 
-const changeLanguage = (lang: string) => {
+const changeLanguage = async (lang: string) => {
   i18n.locale.value = lang;
   globalStore.setGlobalState("language", lang as LanguageType);
+  //刷新菜单
+  await initDynamicRouter();
 };
 </script>

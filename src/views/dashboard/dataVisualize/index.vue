@@ -9,7 +9,7 @@
         <el-row :gutter="40">
           <el-col class="mb40" :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="item-left sle">
-              <span class="left-title">访问总数: 100w</span>
+              <span class="left-title">访问总数: 1</span>
               <!--              <div class="img-box">-->
               <!--                <img src="./images/book-sum.png" alt="" />-->
               <!--              </div>-->
@@ -22,28 +22,28 @@
                 <div class="traffic-img">
                   <img src="./images/add_person.png" alt="" />
                 </div>
-                <span class="item-value">1234</span>
+                <span class="item-value">1</span>
                 <span class="traffic-name sle">Gitee 访问量</span>
               </div>
               <div class="gitHub-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/add_team.png" alt="" />
                 </div>
-                <span class="item-value">1234</span>
+                <span class="item-value">1</span>
                 <span class="traffic-name sle">GitHub 访问量</span>
               </div>
               <div class="today-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/today.png" alt="" />
                 </div>
-                <span class="item-value">1234</span>
+                <span class="item-value">1</span>
                 <span class="traffic-name sle">今日访问量</span>
               </div>
               <div class="yesterday-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/book_sum.png" alt="" />
                 </div>
-                <span class="item-value">1234</span>
+                <span class="item-value">1</span>
                 <span class="traffic-name sle">昨日访问量</span>
               </div>
             </div>
@@ -96,15 +96,15 @@ const tab = [
   { label: "近一年", name: 6 }
 ];
 const pieData = [
-  { value: 6000, name: "GitHub 访问量" },
-  { value: 4000, name: "Gitee 访问量" }
+  { value: 1, name: "GitHub 访问量" },
+  { value: 1, name: "Gitee 访问量" }
 ];
 const curveData = [
-  { value: 1000, spotName: "GitHub" },
-  { value: 500, spotName: "Gitee" },
-  { value: 400, spotName: "CSDN" },
-  { value: 300, spotName: "博客园" },
-  { value: 200, spotName: "掘金" }
+  { value: 1, spotName: "GitHub" },
+  { value: 1, spotName: "Gitee" },
+  { value: 1, spotName: "CSDN" },
+  { value: 1, spotName: "博客园" },
+  { value: 1, spotName: "掘金" }
 ];
 </script>
 

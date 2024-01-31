@@ -16,33 +16,33 @@
       width="50%"
       style="border-radius: 8px"
     >
-      <div class="dialogDiv">
-        <el-table :data="messageList" style="width: 100%" @row-click="rowClick">
-          <el-table-column prop="title" label="标题" align="center" />
-          <el-table-column prop="content" label="内容" align="center" />
-          <el-table-column prop="createBy" label="发送者" align="center" />
-          <el-table-column prop="createTime" label="发送时间" align="center" />
-          <el-table-column fixed="right" label="操作" width="120" align="center">
-            <template #default="scope">
-              <el-button link type="primary" v-if="scope.row.status !== '2'" size="small" @click="yd(scope.$index, scope.row)">
-                已读
-              </el-button>
-              <el-button link type="danger" size="small" @click="qc(scope.$index, scope.row)">清除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+      <el-table :data="messageList" style="width: 100%" @row-click="rowClick">
+        <el-table-column prop="title" label="标题" align="center" />
+        <el-table-column prop="content" label="内容" align="center" />
+        <el-table-column prop="createBy" label="发送者" align="center" />
+        <el-table-column prop="createTime" label="发送时间" align="center" />
+        <el-table-column fixed="right" label="操作" width="120" align="center">
+          <template #default="scope">
+            <el-button link type="primary" v-if="scope.row.status !== '2'" size="small" @click="yd(scope.$index, scope.row)">
+              已读
+            </el-button>
+            <el-button link type="danger" size="small" @click="qc(scope.$index, scope.row)">清除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
-        <el-pagination
-          v-model:current-page="queryParams.pageNum"
-          v-model:page-size="queryParams.pageSize"
-          :page-sizes="[10, 20, 50, 100]"
-          :small="true"
-          :total="total"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          layout="total, sizes, prev, pager, next, jumper"
-        />
-      </div>
+      <el-pagination
+        class="el-pagination"
+        :hide-on-single-page="false"
+        v-model:current-page="queryParams.pageNum"
+        v-model:page-size="queryParams.pageSize"
+        :page-sizes="[10, 20, 50, 100]"
+        :small="true"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        layout="total, sizes, prev, pager, next, jumper"
+      />
     </el-dialog>
   </div>
 </template>
@@ -179,53 +179,10 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
-.message-empty {
+.el-pagination {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 260px;
-  line-height: 45px;
-}
-
-.message-list {
-  display: flex;
-  flex-direction: column;
-
-  .message-item {
-    display: flex;
-    align-items: center;
-    padding: 15px 0 0 0;
-    border-bottom: 1px solid var(--el-border-color-light);
-
-    &:last-child {
-      border: none;
-    }
-
-    .message-icon {
-      width: 40px;
-      height: 40px;
-      margin: 0 20px 0 5px;
-    }
-
-    .message-content {
-      display: flex;
-      flex-direction: column;
-
-      .message-title {
-        margin-bottom: 5px;
-      }
-
-      .message-date {
-        font-size: 12px;
-        color: var(--el-text-color-secondary);
-      }
-    }
-  }
-}
-
-.dialogDiv {
-  height: 500px;
-  overflow: auto;
+  align-items: center;
+  margin-top: 10px;
 }
 </style>

@@ -12,6 +12,7 @@ export namespace Menu {
   export interface ResObject {
     id: string;
     title: string;
+    enTitle: string;
     name: string;
     path: string;
     component: string;

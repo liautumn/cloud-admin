@@ -70,3 +70,7 @@ export const exportDictData = (params: any) => {
 export const dictParse = (params: string) => {
   return http.get(SYSTEM + `/dictType/parseOne`, { dictType: params }, { noLoading: true });
 };
+
+export const dictsParse = (params: string) => {
+  return http.get(SYSTEM + `/dictType/parse`, { dictType: params }, { noLoading: true });
+};

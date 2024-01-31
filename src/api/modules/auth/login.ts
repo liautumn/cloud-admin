@@ -11,8 +11,8 @@ export const loginApi = (params: Login.ReqLoginForm) => {
 };
 
 // 获取菜单列表
-export const getAuthMenuListApi = () => {
-  return http.get<Menu.MenuOptions[]>(SYSTEM + `/menu/list`, {}, { noLoading: true });
+export const getAuthMenuListApi = (params: any) => {
+  return http.get<Menu.MenuOptions[]>(SYSTEM + `/menu/list`, params, { noLoading: true });
 };
 
 // 获取按钮权限

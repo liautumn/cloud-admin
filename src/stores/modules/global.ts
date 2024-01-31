@@ -42,7 +42,9 @@ export const useGlobalStore = defineStore({
     // 页脚
     footer: true
   }),
-  getters: {},
+  getters: {
+    getGlobalState: state => state
+  },
   actions: {
     // Set GlobalState
     setGlobalState(...args: ObjToKeyValArray<GlobalState>) {

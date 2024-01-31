@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { AuthState } from "@/stores/interface";
 import { getAuthButtonListApi, getAuthMenuListApi } from "@/api/modules/auth/login";
+import { useGlobalStore } from "@/stores/modules/global";
 import { getFlatMenuList, getShowMenuList, getAllBreadcrumbList } from "@/utils";
 
 export const useAuthStore = defineStore({
@@ -33,7 +34,11 @@ export const useAuthStore = defineStore({
     },
     // Get AuthMenuList
     async getAuthMenuList() {
-      const { data } = await getAuthMenuListApi();
+      const globalStore = useGlobalStore();
+      const params = {
+        language: globalStore.getGlobalState.language
+      };
+      const { data } = await getAuthMenuListApi(params);
       this.authMenuList = data;
     },
     // Set RouteName

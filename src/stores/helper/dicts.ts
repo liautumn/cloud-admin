@@ -1,11 +1,11 @@
 // @/stores/helper/dicts.js
 import { ref } from "vue";
-import { dictParse } from "@/api/modules/system/dict/dict";
+import { dictsParse } from "@/api/modules/system/dict/dict";
 
 export function parseDicts(dictTypes) {
   const dicts: any = ref({});
   try {
-    dictParse(dictTypes).then(res => {
+    dictsParse(dictTypes).then(res => {
       dicts.value = res.data;
     });
   } catch (error) {
